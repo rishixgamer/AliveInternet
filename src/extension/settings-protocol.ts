@@ -13,6 +13,9 @@ export const BOOLEAN_SETTINGS = [
 /** Only changed preferences are sent; a stale popup cannot replace the blocklist. */
 export type SettingsPatch = Partial<Pick<Settings, typeof BOOLEAN_SETTINGS[number] | 'mode'>> & {
   platforms?: Partial<Settings['platforms']>;
+  mutedWords?: string[];
+  allowedAccounts?: string[];
+  scopeOverrides?: Settings['scopeOverrides'];
 };
 export type SettingsMutation =
   | { kind: 'preferences'; patch: SettingsPatch }
@@ -50,7 +53,7 @@ export function parseSettingsMutation(value: unknown): SettingsMutation {
   if (mutation.kind !== 'preferences') throw new Error('Unknown settings mutation');
   exactKeys(mutation, ['kind', 'patch']);
   const input = record(mutation.patch);
-  exactKeys(input, [...BOOLEAN_SETTINGS, 'mode', 'platforms']);
+  exactKeys(input, [...BOOLEAN_SETTINGS, 'mode', 'platforms', 'mutedWords', 'allowedAccounts', 'scopeOverrides']);
   const patch: SettingsPatch = {};
   for (const key of BOOLEAN_SETTINGS) {
     if (!Object.hasOwn(input, key)) continue;
@@ -72,6 +75,19 @@ export function parseSettingsMutation(value: unknown): SettingsMutation {
       if (typeof platforms[platform] !== 'boolean') throw new Error('Invalid platform preference');
       patch.platforms[platform] = platforms[platform];
     }
+  }
+  // List replacements are validated again in sanitizeSettings; reject wrong shapes here.
+  if (Object.hasOwn(input, 'mutedWords')) {
+    if (!Array.isArray(input.mutedWords)) throw new Error('Invalid mute list');
+    patch.mutedWords = input.mutedWords;
+  }
+  if (Object.hasOwn(input, 'allowedAccounts')) {
+    if (!Array.isArray(input.allowedAccounts)) throw new Error('Invalid allowlist');
+    patch.allowedAccounts = input.allowedAccounts;
+  }
+  if (Object.hasOwn(input, 'scopeOverrides')) {
+    if (!Array.isArray(input.scopeOverrides)) throw new Error('Invalid scope overrides');
+    patch.scopeOverrides = input.scopeOverrides;
   }
   if (Object.keys(patch).length === 0 ||
       (Object.keys(patch).length === 1 && patch.platforms && Object.keys(patch.platforms).length === 0)) {

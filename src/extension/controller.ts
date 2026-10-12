@@ -85,9 +85,13 @@ export function startPlatformController(platform: Platform): () => void {
     for (let i = 0; i < items.length; i++) {
       const item = items[i]!;
       const verdict = verdicts[i]!;
-      const actionResult = localAction(item, verdict, settings, accountCampaigns);
+      const actionResult = localAction(item, verdict, settings, accountCampaigns, {
+        trust: { trustCreatorContent: true, allowedAccounts: settings.allowedAccounts },
+        mute: { mutedWords: settings.mutedWords },
+      });
       const userBlocked = actionResult.reason === 'user-block';
       const campaignBlocked = actionResult.reason === 'page-campaign';
+      const mutedPreference = actionResult.reason === 'muted-preference';
       const kindEnabled = item.kind === 'comment' ? settings.filterComments : settings.filterPosts;
       // Duplicate collapsing is a *readability preference*, not bot detection.
       // Never hide the anchor copy or override a user's disabled content surface.
@@ -96,7 +100,9 @@ export function startPlatformController(platform: Platform): () => void {
       const shouldCollapse = actionResult.hide || Boolean(duplicate);
       const baseReason: Assessment = userBlocked
         ? { ...verdict, decision: 'collapse', reason: 'Account on your local blocklist' }
-        : campaignBlocked
+        : mutedPreference
+          ? { ...verdict, decision: 'collapse', reason: `Muted word (your preference): “${actionResult.detail}”` }
+          : campaignBlocked
           ? { ...verdict, decision: 'collapse', reason: 'Multiple distinct high-evidence spam posts from this account in the current processing batch (not proof of automation)' }
           : verdict;
       const reason: Assessment = duplicate

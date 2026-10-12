@@ -2,7 +2,14 @@
 
 These features have **groundwork only**: types, interfaces, inert stubs, docs, templates. None of them changes extension behavior, and the built manifest is unchanged. The machine-readable list is `src/core/features.ts`; `tests/scaffold.test.mjs` checks every entry stays off and its files exist.
 
-**Inert means:** analyzers return no evidence, `trustReason`/`mutedWordMatch` never match, obfuscation helpers return input unchanged, and everything else throws `NotImplementedError` and is not called anywhere.
+**Inert means:** not-yet-implemented analyzers return no evidence, and unimplemented
+entry points throw `NotImplementedError` and are not called anywhere.
+Implemented helpers (`obfuscation.ts`, `trust.ts`, `mute.ts`, `links.ts`,
+`scopes.ts`, `explain.ts`, `portability.ts`, `stats.ts`, `review-list.ts`,
+`rules/schema.ts`, `rules/export-automod.ts`, `intel/lookalike-domains.ts` and the
+seven detectors in `src/detectors/`) have true-positive *and* benign tests in
+`tests/features-implemented.test.mjs`. Detectors stay unwired from the controller
+until each has a benchmark result; the built manifest gains no permissions.
 
 **To implement one:** replace the stub, add true-positive *and* benign tests, wire it through `policy.ts` (never hide directly), update `docs/privacy.md` if it stores data, follow CLAUDE.md if it makes a network call, then set its status in `features.ts` and this file.
 

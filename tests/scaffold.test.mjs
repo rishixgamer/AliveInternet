@@ -9,6 +9,9 @@ import { mutedWordMatch } from '../src/core/mute.ts';
 import { NotImplementedError } from '../src/core/scaffold.ts';
 import { parseRuleList } from '../src/rules/schema.ts';
 import { isPageStatsMessage, PAGE_STATS_MESSAGE } from '../src/extension/messages.ts';
+import { redactForReport, issueUrl } from '../src/feedback/report.ts';
+import { buildCreatorReview } from '../src/creator/review.ts';
+import { parseDataset } from '../src/research/dataset.ts';
 
 const item = { id: '1', author: 'a', text: 'Contact me on T e l e g r a m for guaranteed profit', links: [], platform: 'youtube', kind: 'comment', accountKey: '@a', isCreator: true };
 
@@ -30,22 +33,33 @@ test('feature registry matches docs/feature-groundwork.md coverage', () => {
   }
 });
 
-test('scaffolded analyzers are inert until implemented', async () => {
+test('analyzers without prerequisites return no evidence (never a bot claim)', async () => {
+  // Single item with no thread/page context: reply-chain and impersonation
+  // have nothing to join against, so they stay silent.
   for (const analyzer of scaffoldedAnalyzers()) {
     assert.deepEqual(await analyzer.analyze([item]), [], analyzer.id);
   }
 });
 
-test('obfuscation, trust and mute stubs do not change behavior', () => {
-  assert.equal(foldConfusables(item.text), item.text);
-  assert.equal(collapseSpacedLetters(item.text), item.text);
-  assert.deepEqual(extractContactHandles(item.text), []);
-  assert.equal(trustReason(item), undefined);
+test('obfuscation helpers normalize evasion attempts', () => {
+  assert.equal(foldConfusables('Tеlеgram'), 'Telegram');
+  assert.equal(collapseSpacedLetters(item.text), 'Contact me on Telegram for guaranteed profit');
+  assert.ok(extractContactHandles('Contact me on telegram @cryptoking').some(h => h.kind === 'social-handle'));
+  assert.deepEqual(extractContactHandles('Great video, thanks!'), []);
+});
+
+test('trust exemptions cover creator content; mute stays silent by default', () => {
+  assert.equal(trustReason(item), 'creator');
+  assert.equal(trustReason({ ...item, isCreator: false, isPinned: false, isCreatorHearted: false }), undefined);
   assert.equal(mutedWordMatch(item), undefined);
 });
 
-test('unimplemented entry points throw NotImplementedError', () => {
-  assert.throws(() => parseRuleList({}), NotImplementedError);
+test('remaining unimplemented entry points throw NotImplementedError', () => {
+  assert.throws(() => parseRuleList({}), Error);
+  assert.throws(() => redactForReport('test'), NotImplementedError);
+  assert.throws(() => issueUrl({}), NotImplementedError);
+  assert.throws(() => buildCreatorReview(), NotImplementedError);
+  assert.throws(() => parseDataset([]), NotImplementedError);
 });
 
 test('page-stats message guard', () => {
@@ -69,22 +83,27 @@ import { toRedditAutoModerator, toDiscordAutoMod } from '../src/rules/export-aut
 import { explainItem } from '../src/core/explain.ts';
 import * as lib from '../src/lib.ts';
 
-test('batch 2 stubs are inert', () => {
+test('implemented helpers decode redirects and explain items locally', () => {
   const href = 'https://www.youtube.com/redirect?q=https%3A%2F%2Fexample.com';
-  assert.equal(decodeRedirect(href), undefined);
-  assert.deepEqual(revealLink(href, 'example.com'), { href, textMismatch: false });
+  assert.equal(decodeRedirect(href), 'https://example.com');
+  assert.equal(revealLink(href, 'example.com').wrapper, 'youtube-redirect');
+  assert.equal(revealLink('https://evil.example', 'good.example').textMismatch, true);
   assert.equal(BRAND_DOMAINS.length, 0, 'brand list must stay empty until each entry is verified');
   assert.equal(lookalikeOf('paypa1-secure.net'), undefined);
   assert.equal(effectiveMode('balanced', undefined, [{ scopeId: 'youtube:@x', mode: 'off' }]), 'balanced');
-  assert.throws(() => toRedditAutoModerator({}), NotImplementedError);
-  assert.throws(() => toDiscordAutoMod({}), NotImplementedError);
-  assert.throws(() => explainItem(item), NotImplementedError);
+  const parsed = parseRuleList(JSON.parse(readFileSync(new URL('../rules/examples/en/investment-testimonial.example.json', import.meta.url), 'utf8')));
+  assert.equal(parsed.rules.length, 1);
+  assert.ok(toRedditAutoModerator(parsed).content.includes('action: report'));
+  assert.ok(toDiscordAutoMod(parsed).content.includes('keywords'));
+  assert.equal(explainItem({ ...item, isCreator: false }).assessment.decision, 'collapse');
 });
 
-test('planned npm entry point exports only implemented core APIs', () => {
+test('npm entry point exports implemented DOM-free core APIs', () => {
   assert.equal(typeof lib.assessBatch, 'function');
   assert.equal(typeof lib.evaluateDecisions, 'function');
-  assert.equal('foldConfusables' in lib, false);
+  assert.equal(typeof lib.foldConfusables, 'function');
+  assert.equal(typeof lib.parseRuleList, 'function');
+  assert.equal(typeof lib.explainItem, 'function');
 });
 
 test('staged UI translations stay out of the build folder', () => {
