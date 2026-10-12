@@ -1,16 +1,23 @@
-# Privacy and threat model
+# Privacy and threat model (v0.2)
 
-## Data flow in v0.1
-The extension reads currently rendered YouTube comment text, author display names, and comment links in memory. It calculates indicators and renders annotations/collapses locally. It stores ONLY three preferences: enabled, mode, and annotateFlagged. It does not create user profiles, use a remote API, transmit comment bodies, log content, or persist comment histories.
+## Local data flow
 
-The opt-in Node research command `npm run embedding:poc` obtains public model files from Hugging Face; it embeds hardcoded synthetic examples, **not** a user's browsing history.
+ThreadSieve reads *currently rendered* post/comment text, author display names, profile link URLs, and content links in memory when a supported site is enabled. Rule assessments and short-lived page-local account campaign counts are ephemeral. No comment bodies, post texts, viewing histories, or classification histories are persisted or transmitted.
+
+`browser.storage.local` stores filtering preferences and **user-selected** local account block identifiers of the form `platform:profileKey`. It does not make server-side blocks. These IDs should be considered potentially sensitive browsing preferences; don't sync or publish them without consent. Clear site data or unhide individual entries via the popup.
+
+The opt-in Node `embedding:poc` downloads public model weights and runs on synthetic examples, not user feed data. The browser extension has no model downloads today.
 
 ## Attack surfaces
-- Malicious comment HTML, Unicode tricks, lookalike links, and URL redirects: use DOM textContent and avoid HTML injection; treat all links as suspect input, not arbitrary code.
-- Platform HTML changes: resilient selectors, manual regression checks, and conservative default behavior.
-- Model supply chain: pin and audit model revisions before bundling or distributing. Inspect model licenses and data provenance.
-- Model executable runtime: Chrome MV3 prohibits remotely hosted executable code. Package ONNX runtime WASM/JS locally; never use CDN-loaded scripts in production.
-- False positives, platform bias, and moderation abuse: collapse only on multiple indicators and always allow reveal.
 
-## Future semantic inference
-Browser ML should be opt-in at first. Ask the user before model downloads, explain size and resource usage, process data locally, offer clear model-deletion controls, and don't send raw comments to third parties. Audit browser network requests before claiming offline-only operation. No cross-site tracking.
+- **Untrusted text/markup:** Read `textContent`, construct DOM elements, never insert untrusted `innerHTML` or execute code from content.
+- **Profile confusion:** Accept keys only from platform profile URLs, not display names or off-site links. Handles can change.
+- **Selector churn:** Changes to social websites can cause missed items or misattribution. Default-disable experimental platforms, test with actual page fixtures, prefer failure to detect over aggressive hiding.
+- **False positives:** Multiple independent high-evidence spam signals are required for automatic collapses. Decisions are reversible and uncalibrated. Do not classify accounts as verified bots.
+- **Browser privileges:** The MV3 content-script declaration requests access to multiple named social host patterns (potential install warnings). Avoid broad wildcard all-site access, cookies, browsing-history APIs, external API calls, and remote executable scripts.
+- **Concurrent tabs/settings:** Existing settings storage uses read-modify-write and is not a transactional blocklist database; concurrent blocks from multiple tabs need conflict-resistant persistence before release.
+- **Performance:** MutationObserver work, large comment threads, and future embeddings must be throttled, bounded, and benchmarked.
+
+## Production expansion criteria
+
+Consent for any model weights and updates, model-license review, WebGPU CPU/GPU budgets, platform-policy review, inspectable source and dependency SBOM, user-visible data deletion controls, and real-browser regression tests.

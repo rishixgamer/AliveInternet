@@ -1,20 +1,36 @@
 # ThreadSieve
 
-**An open-source, privacy-first comment filter.** An ad blocker for obvious bot spam and coordinated promotional comments, starting with YouTube.
+**An open-source, privacy-first, client-side filter for social accounts, comments, and feed content.** Think of ad blocking, but for high-evidence spam and accounts you choose to hide.
 
-**Status: v0.1 prototype, not a validated bot detector.** The Chrome extension uses *local, deterministic rules* and exact normalized duplicate detection today. EmbeddingGemma 2 has a working example script in `scripts/embedding-poc.mjs`, but semantic inference is **not yet integrated into the extension**. Do not claim the extension is AI-powered until that work is complete and measured.
+**Status: v0.2 alpha / experimental cross-platform scaffold.** Only the original YouTube comment extractor has received initial implementation attention; **none of the adapters has passed real-browser smoke tests in this environment**, and other platforms' selectors are speculative. Expect missed items and layout changes. This is **not** a validated bot classifier.
 
-## What it does today
+## Capabilities
 
-- Observes YouTube comment renderers; works across dynamic page navigation.
-- Automatically collapses comments with multiple corroborating spam signals (for example, off-platform investment solicitations promising implausible returns).
-- Displays a reason and a **Show comment** button for every collapse.
-- Can optionally annotate less-certain comments without hiding them.
-- Supports Conservative, Balanced, and Aggressive modes.
-- Stores only extension preferences in Chrome's local storage. No analytics, server, API keys, or comment uploads.
-- Includes a separate **Node.js EmbeddingGemma 2 proof of concept** for semantic similarity experiments.
+- Nine website adapters: **YouTube, X/Twitter, Instagram, Reddit, TikTok, Facebook, Threads, Bluesky, LinkedIn**.
+- Distinct **comments/replies** and **posts/feed content** filtering controls. Some platforms expose only a subset in this prototype; X replies are treated as feed posts.
+- Local, cross-surface *within-site* account blocking: click **Hide @account locally** to collapse matching visible posts/comments by that profile on the same platform, without using a site's Block API. A popup blocklist provides **Unhide** controls.
+- High-evidence scam/promotional-content rules and exact normalized repetition detection. Rules are not calibrated bot probabilities; benign agreement/repetition cannot alone trigger automatic collapse.
+- Optional, **off by default**, page-local rule that temporarily hides other items by an account that has three or more distinct high-evidence spam items visible in a scan. This **does not verify that account is a bot** and never adds a permanent block.
+- Reversible collapses with explanations and **Show temporarily**, with opt-in warnings for uncertain items.
+- Defaults to **YouTube enabled**. Every other site's prototype adapter must be explicitly enabled in the popup, since selectors require validation.
+- Runs locally, with no backend, telemetry, comment uploads, platform API writes, or raw-text persistence. Settings and explicitly chosen account block identifiers are stored in extension local storage.
+- Standalone **Node-only EmbeddingGemma 2 POC** for semantic similarity: `npm run embedding:poc`. The extension does **not** yet perform on-device embeddings or ML bot identification.
 
-What it does **not** do: delete content on a platform, classify all accounts as bots, identify AI-authored text reliably, scan other websites, run EmbeddingGemma inside the extension, or guarantee detection accuracy.
+## Platform support matrix (v0.2)
+
+| Site | Post/feed adapter | Comment adapter | Account identity | Readiness |
+|---|---|---|---|---|
+| YouTube | Video cards, community posts | Yes | Profile URL when present | Initial prototype |
+| X / Twitter | Tweet/reply cards | Treated as cards | Handle from profile link | Experimental |
+| Instagram | Caption selector | Provisional selector | Profile link if present | Experimental |
+| Reddit | Post/custom elements | Comment/custom elements | Profile link if present | Experimental |
+| TikTok | Video descriptions | Provisional selector | Profile link if present | Experimental |
+| Facebook | Post text | Not yet | Profile link if present | Experimental |
+| Threads | Post text | Not separately | Profile link if present | Experimental |
+| Bluesky | Feed posts | Not separately | Profile link if present | Experimental |
+| LinkedIn | Feed updates | Comment elements | Profile link if present | Experimental |
+
+A row indicates code scaffolding, **not verified reliable blocking**. If a site has no matching element selectors, it does nothing instead of hiding arbitrary page content. Some mobile/native apps cannot be reached by a desktop browser extension.
 
 ## Quick start
 
@@ -22,75 +38,34 @@ Prerequisites: Node.js >= 22.16, npm, Chrome/Chromium.
 
 ```bash
 npm install
-npm run test
+npm test
 npm run typecheck
-npm run dev
-```
-
-`npm run dev` starts WXT's Chrome extension development workflow. To build for manual installation:
-
-```bash
 npm run build
 ```
 
-1. Visit `chrome://extensions`.
-2. Enable **Developer mode**.
-3. Select **Load unpacked** and select `.output/chrome-mv3`.
-4. Visit a YouTube video with comments. Open the extension popup to set a mode.
-5. Click **Show comment** on a collapsed item to reverse the action.
+1. Open `chrome://extensions`, enable Developer mode.
+2. Choose **Load unpacked** and select `.output/chrome-mv3`.
+3. Use the extension popup to enable specific websites and select comment, feed, or account filtering.
+4. Click an account's **Hide ... locally** button to collapse their visible content on that site. Use the popup blocklist to undo it.
+5. Every auto-collapsed item has a **Show temporarily** option. If an adapter causes errors, disable that site.
 
-We recommend reviewing collapsed content periodically for false positives. YouTube changes its DOM frequently, so selectors require real-browser smoke tests.
+`npm run dev` launches the WXT development workflow. A built extension is not included in the source ZIP.
 
-## EmbeddingGemma 2 research
+## Model research
 
-To download the text-only quantized model and compare four sample comments **locally in Node.js**:
+The core currently uses transparent rules. `scripts/embedding-poc.mjs` is an opt-in Node-only experiment with [EmbeddingGemma 2 ONNX](https://huggingface.co/onnx-community/embeddinggemma-2-ONNX); it does not participate in extension filtering. Read [docs/model-research.md](docs/model-research.md) for the browser WebGPU, model-consent, licensing, quantization, resource benchmarking, and evaluation requirements.
 
-```bash
-npm install
-npm run embedding:poc
-```
+## Design and contribution
 
-The model is retrieved from [onnx-community/embeddinggemma-2-ONNX](https://huggingface.co/onnx-community/embeddinggemma-2-ONNX) on first run, and the text encoder alone still requires a substantial download and memory allocation. This CLI POC is opt-in and never invoked during ordinary browsing. It is **not a bot classifier**.
+- [Architecture](docs/architecture.md) — platform adapters, account IDs, content classifications, risk gates.
+- [Privacy](docs/privacy.md) — in-memory processing, local-only blocklist and privacy threat model.
+- [Roadmap](docs/roadmap.md) — fixture/regression tests and model gating.
+- [Agent task queue](docs/agent-backlog.md) — prioritized tasks for Claude Code, Codex and local coding agents.
+- [Contribution guide](CONTRIBUTING.md).
+- [AGENTS.md](AGENTS.md) — shared guidelines for Codex, Claude Code, and local agents. [CLAUDE.md](CLAUDE.md) — Claude-specific setup.
 
-Read [docs/model-research.md](docs/model-research.md) before attempting browser integration. In Manifest V3, package any executable WebAssembly/JavaScript with the extension; remotely hosted executable code is not acceptable. Treat model weights as downloaded data, and review the Chrome Web Store policies and Hugging Face model license before distribution.
-
-## Architecture
-
-```text
-YouTube DOM (no site API)
-      |
-YouTube adapter: src/adapters/youtube.ts
-      |
-Batch assessment: src/core/filter.ts
-      |                \
-Rules (active)          normalized duplicate counts (active)
-      |
-allow / flag / collapse
-      |
-reversible in-page UI: src/extension/ui.ts
-
-Embeddings provider contract: src/core/embeddings.ts (research only)
-EmbeddingGemma 2: scripts/embedding-poc.mjs (Node CLI only)
-```
-
-See [architecture](docs/architecture.md), [privacy](docs/privacy.md), and [roadmap](docs/roadmap.md).
-
-## Contributing
-
-Issues and PRs welcome. Start with a failing test, add minimal changes, and report regression/failure cases. Sensitive platform-specific behavior should be verified on a real browser. No bulk scraping or unauthorized APIs. **Never add telemetry or upload comments by default.** See [CONTRIBUTING.md](CONTRIBUTING.md).
-
-### AI coding agents
-
-[AGENTS.md](AGENTS.md) is the shared contract for OpenAI Codex and compatible tools. [CLAUDE.md](CLAUDE.md) adds Claude Code setup. Local models (including prospective Qwen variants) can follow the same instructions; model capability and exact version should be checked in the user's chosen environment rather than assumed.
-
-## Roadmap summary
-
-1. Stabilize YouTube parsing/UI and collect consensually labeled evaluation fixtures.
-2. Establish false-positive-rate, precision, latency, and resource benchmarks for the rules-only system.
-3. Research EmbeddingGemma 2 similarity and clustering **offline**; validate whether it improves over simple repetition detection.
-4. Only then ship opt-in, on-device semantic inference, with bundled runtime, model-download consent, caching, and memory caps.
-5. Add platform adapters individually after legal/policy review.
+**Never claim to verify a human/bot identity from embeddings, text style, or account name.** Do not collect or scrape social graphs, perform unauthorized platform actions, or make irreversible moderation changes. Account actions are local browser hides, not server-side blocks.
 
 ## License
 
-Apache-2.0. See [LICENSE](LICENSE). Model weights are **not** included in this repository and retain their own model license.
+Apache-2.0 for repository source. Model weights are not bundled and retain their own distribution terms.

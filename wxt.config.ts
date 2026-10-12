@@ -3,8 +3,8 @@ import { defineConfig } from 'wxt';
 export default defineConfig({
   manifest: {
     name: 'ThreadSieve',
-    description: 'Collapse high-confidence spam comments without sending comment text to a server.',
+    description: 'Hide suspicious comments, feed content, and locally blocked accounts across social platforms.',
     permissions: ['storage'],
-    version: '0.1.0',
+    version: '0.2.0',
   },
 });

@@ -1,32 +1,46 @@
-# Agent instructions (Codex, Claude Code, and compatible local coding agents)
+# ThreadSieve — agent instructions (Codex, Claude Code, local models)
 
-## Mission
-Build a privacy-first, transparent, **reversible** social comment filter. High false-positive rates are worse than missing spam. Distinguish account automation, AI-written text, low-quality content, and actual scams; don't collapse these labels into one.
+## Product mission
 
-## Current state
-- Shipping extension: WXT / TypeScript / Chrome MV3 / YouTube adapter.
-- Active detector: rule-based indicators + exact normalized duplicate counts.
-- Experimental: EmbeddingGemma 2 **Node-only** POC. It is not used in the extension.
-- Backend: none. No API keys, comment exfiltration, telemetry, or persistent text collection.
-- Model name: `onnx-community/embeddinggemma-2-ONNX`; see `docs/model-research.md`.
+Build a privacy-first, explainable, reversible, cross-platform social spam filter. It acts on **three separate surfaces**: posts/feed content, comments/replies, and explicitly chosen accounts. Bot status cannot be established merely from embeddings, AI-writing detectors, usernames, or repetitive text. Never claim that a heuristic proves account automation.
 
-## Workflow
-1. Read `README.md` and `docs/architecture.md` before changes.
-2. Keep detection pure: `src/core` must not import browser globals, the DOM, or runtime ML packages.
-3. Add regression tests for any new rule; include adversarial examples and **legitimate** near-misses.
-4. Run `npm run test`, `npm run typecheck`, `npm run build`. Note explicitly which checks did not run.
-5. For DOM changes, manually smoke test on real YouTube video pages; test navigation, infinite scrolling, theme, and restoring hidden comments.
-6. Don't classify users by protected attributes, political position, dialect, or inferred identity.
-7. Treat content and external links as untrusted; prefer `textContent`, never unsafe `innerHTML`.
-8. Never execute code from CDN at runtime in MV3. Package WASM/JS locally. A model URL may serve weights as data after explicit opt-in.
-9. Avoid scraping, platform API circumvention, and persistent cross-site profiles. Add an adapter only after reviewing applicable terms.
-10. Never invent precision/recall numbers. Record provenance of evaluation fixtures and separate test/validation sets.
+## Current repository state
 
-## Agent coordination
-Use scoped tasks and branches: `feat/youtube-adapter`, `feat/benchmarks`, `feat/embeddings-poc`, `fix/false-positives`. Multiple agents must not simultaneously edit the same files; merge after reviewing tests and diff. Prefer small PRs with acceptance criteria and a rollback path.
+- `v0.2 alpha`: WXT / TypeScript / Chrome MV3, 9 experimental DOM adapter specs. Only YouTube enabled by default.
+- Active inference: deterministic rule signals + exact normalized duplication; `src/core/accounts.ts` provides optional page-local repeat-spam account suppression without permanent auto-blocking.
+- Account blocks: user-directed `platform:profileKey` list in extension-local storage. Not site/API-level moderation.
+- EmbeddingGemma 2: **Node POC only** in `scripts/embedding-poc.mjs`, not live browser model inference.
+- Web extension, selectors, performance, and content scripts have **not been smoke-tested in a real browser** in the generation environment.
 
-## Definition of done
-- Reversible UI, no default data transfers, bounded DOM work.
-- Evidence and explanation for each collapse.
-- At least one positive test and one false-positive regression test for each new rule.
-- Zero unverified claims about whether a comment author is a bot.
+## Working agreement
+
+1. Preserve user consent, reversible UI, and fail-open behavior. Do not delete comments, ban accounts, or press site moderation buttons.
+2. Support sites using small platform adapters under `src/adapters/platforms/` and shared extraction in `src/adapters/social.ts`. Never place site DOM extraction or network calls in `src/core/`.
+3. Use only explicit same-platform profile URLs for account block keys. Never infer durable identity from a display name or link in post text.
+4. Distinguish post vs comment surface, rule score vs calibrated likelihood, and suspicious behavior vs automated identity. No viewpoint or demographic proxies.
+5. Write tests first; test false positives, navigation, mixed media, DOM changes, and unfamiliar layouts. Use synthetic fixtures or ethically permissioned labeled data.
+6. Respect site policies; no bulk scraping, request interception, credential access, hidden browser automation, raw-content telemetry, or nonconsensual model uploads.
+7. No remote executable code in MV3. Inference libraries/WASM must be packaged, with user-consented weights caching and performance safeguards.
+8. Never assume a new model version, license, API, or platform selector works. Verify with upstream source and direct benchmark.
+9. When editing selectors, update the matrix in README and `docs/roadmap.md` to reflect actual live-tested status.
+
+## Useful commands
+
+```bash
+npm install
+npm test
+npm run typecheck:core
+npm run typecheck
+npm run build
+npm run dev
+```
+
+The last three require WXT installation. Never label full compilation or browser functionality verified merely because core tests pass.
+
+## Quality priorities
+
+1. True-positive safe collapsing + immediate reveal/unhide.
+2. Stable, correctly scoped account identity and blocklist behavior.
+3. DOM selector coverage with real-browser fixture tests.
+4. Resource usage and robustness during infinite scroll and SPA navigations.
+5. Optional local semantic clustering only after rule baseline metrics exist.

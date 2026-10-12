@@ -1,9 +1,9 @@
 {
   "name": "thread-sieve",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "type": "module",
-  "description": "Privacy-first, reversible bot and spam comment filtering for the web.",
+  "description": "Local, reversible spam and account filtering across social media websites.",
   "scripts": {
     "dev": "wxt dev -b chrome",
     "build": "wxt build -b chrome",

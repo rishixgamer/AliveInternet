@@ -1,22 +1,15 @@
-# Claude Code project guide
+# Claude Code entrypoint
 
-Read `AGENTS.md` first: it is the authoritative shared instruction file for all agents.
+Read [AGENTS.md](AGENTS.md), [docs/architecture.md](docs/architecture.md), and [docs/roadmap.md](docs/roadmap.md) before edits. These are normative architectural and safety constraints.
 
-## Commands
-- `npm install`: install runtime + WXT.
-- `npm run dev`: Chrome development extension.
-- `npm run test`: dependency-free Node 22 unit tests of the pure TypeScript filtering core.
-- `npm run typecheck`: WXT-generated TS types + strict typecheck.
-- `npm run build`: production extension bundle.
-- `npm run embedding:poc`: **large optional model download**, Node-only. Ask before running expensive downloads.
+Working directories:
+- Browser scripts: `entrypoints/social.content.ts` and `entrypoints/popup/`
+- Site DOM adapters: `src/adapters/social.ts`, `src/adapters/platforms/*.ts`, `src/adapters/youtube.ts`
+- Rules, profile IDs, actor evidence: `src/core/`
+- Runtime UI and preferences: `src/extension/`
+- Pure Node tests: `tests/`
+- EmbeddingGemma 2 research ONLY: `scripts/embedding-poc.mjs`
 
-## Useful files
-- `entrypoints/youtube.content.ts`: WXT YouTube content script.
-- `src/adapters/youtube.ts`: platform DOM extraction.
-- `src/core/filter.ts`: deterministic filtering rules.
-- `src/extension/controller.ts`: mutation observer and UI lifecycle.
-- `src/extension/ui.ts`: safe reversible UI.
-- `docs/model-research.md`: EmbeddingGemma 2 integration constraints.
+Keep platform-specific selectors in `src/adapters/platforms/<platform>.ts` independent, and treat missing reliable author profile links as **no account identity** rather than guessing. Make platform-specific feature capabilities explicit; do not imply nine sites are production supported merely because match patterns exist.
 
-## Review checklist
-Think adversarially: can an ordinary legitimate comment be collapsed? Are DOM selectors resilient to changes? Are annotations duplicated? Are UI changes reversible when preferences change? Is remote execution forbidden by MV3? Does a benchmark measure the actual thing claimed?
+Before proposing a PR, run `npm test`, `npm run typecheck`, `npm run build` and report which steps actually completed. Add DOM fixture + real-browser regression tests for each platform changed. Do not introduce model dependencies into the content script without separately reviewed licensing, downloaded weights opt-in, on-device latency benchmarks, and MV3 compliance.

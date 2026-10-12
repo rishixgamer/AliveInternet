@@ -59,3 +59,11 @@ test('flags financial links with promotions but does not overstate confidence', 
   assert.notEqual(verdict.decision, 'collapse');
   assert.ok(verdict.signals.some((signal) => signal.includes('External contact link')));
 });
+
+
+test('identical display names do not erase independent account IDs during repetition counts', () => {
+  const msg = 'A detailed and completely normal statement repeated by several different accounts here.';
+  const items = ['@a', '@b', '@c', '@d'].map((accountKey) => ({ ...make(msg, 'same display name'), accountKey }));
+  const results = assessBatch(items);
+  assert.ok(results.every(result => result.decision === 'flag'));
+});

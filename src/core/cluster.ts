@@ -8,7 +8,7 @@ export function repeatedCampaigns(comments: Comment[]): Map<string, number> {
     const key = duplicateKey(comment.text);
     if (key.length < 40) continue; // Ordinary short agreements are not useful evidence.
     const authors = byKey.get(key) ?? new Set<string>();
-    authors.add(comment.author.trim().toLocaleLowerCase('en') || `unknown:${comment.id}`);
+    authors.add(comment.accountKey ?? (comment.author.trim().toLocaleLowerCase('en') || `unknown:${comment.id}`));
     byKey.set(key, authors);
   }
   return new Map([...byKey].map(([key, authors]) => [key, authors.size]));

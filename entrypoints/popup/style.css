@@ -1,10 +1,16 @@
-:root { font: 13px/1.5 system-ui, sans-serif; color-scheme: light dark; }
-body { min-width: 295px; margin: 0; }
-main { padding: 16px; }
-h1 { font-size: 19px; margin: 0 0 6px; }
-p { margin: 8px 0 16px; }
-label { display: block; margin: 14px 0 6px; font-weight: 600; }
-label.toggle { display: flex; align-items: flex-start; gap: 8px; font-weight: 400; }
+:root { font: 13px/1.48 system-ui, sans-serif; color-scheme: light dark; }
+body { min-width: 340px; width: 340px; max-height: 580px; overflow-y: auto; margin: 0; }
+main { padding: 15px; }
+h1 { font-size: 20px; margin: 0 0 6px; }
+h1 small { font-size: 10px; font-weight: normal; opacity: .7; }
+.intro { margin: 7px 0 15px; }
+label { display: block; margin: 12px 0 6px; font-weight: 600; }
+label.toggle { display: flex; align-items: flex-start; gap: 8px; margin: 9px 0; font-weight: 400; cursor: pointer; }
+label.toggle input { margin-top: 2px; }
+fieldset { margin: 14px 0; border: 1px solid #8887; border-radius: 5px; padding: 8px 12px; }
+legend { font-weight: 650; padding: 0 5px; }
 select { width: 100%; padding: 7px; }
-.foot { font-size: 11px; opacity: .7; }
+.hint, .foot { font-size: 11px; opacity: .75; margin: 5px 0 9px; }
+.block-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin: 8px 0; overflow-wrap: anywhere; }
+.block-row button { font: inherit; cursor: pointer; white-space: nowrap; }
 #status { min-height: 1em; font-size: 11px; }

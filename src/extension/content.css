@@ -1,25 +1,31 @@
 .threadsieve-collapsed {
-  color: var(--yt-spec-text-secondary, #666);
-  border: 1px solid var(--yt-spec-10-percent-layer, #aaa);
+  color: inherit !important;
+  background: color-mix(in srgb, Canvas 93%, transparent);
+  border: 1px solid #8889;
   border-radius: 8px;
-  padding: 12px;
+  padding: 10px;
   margin: 8px 0;
-  font: 12px/1.5 Arial, sans-serif;
+  font: 12px/1.5 system-ui, Arial, sans-serif;
 }
-.threadsieve-collapsed button {
+.threadsieve-collapsed button,
+.threadsieve-account-action {
   cursor: pointer;
-  font: inherit;
-  font-weight: 600;
+  font: 11px/1.4 system-ui, Arial, sans-serif;
+  border: 1px solid #8889;
   border-radius: 4px;
-  padding: 4px 8px;
-  border: 1px solid currentColor;
-  background: transparent;
-  color: var(--yt-spec-text-primary, inherit);
+  padding: 3px 6px;
+  margin: 4px 4px 2px 0;
+  background: color-mix(in srgb, Canvas 90%, transparent);
+  color: CanvasText;
 }
+.threadsieve-collapsed button:focus-visible,
+.threadsieve-account-action:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; }
+.threadsieve-account-action { opacity: .7; display: inline-block; }
+.threadsieve-account-action:hover { opacity: 1; }
 .threadsieve-flag {
   padding: 4px 8px;
   margin-bottom: 6px;
   border-left: 3px solid #888;
-  font: 11px/1.4 Arial, sans-serif;
-  color: var(--yt-spec-text-secondary, #666);
+  font: 11px/1.4 system-ui, Arial, sans-serif;
+  color: inherit;
 }

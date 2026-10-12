@@ -1,26 +1,36 @@
-# Roadmap
+# Roadmap (v0.2)
 
-## Milestone 0: repository scaffold — current
-- WXT content script + popup, pure filtering core, reversible collapse, YouTube DOM adapter.
-- Baseline unit tests, TypeScript checks, GitHub Actions CI, agent instructions.
-- Experimental EmbeddingGemma 2 Node research script.
+## Implemented scaffold (not production-ready)
 
-## Milestone 1: YouTube hardening
-- Manual Chrome smoke testing on old/new YouTube comment renderers, reply threads, SPA navigation, infinite scroll, themes, and disabled state.
-- Add fixture-based DOM tests with synthetically generated markup.
-- Add compact optional diagnostics with no raw text retention.
-- Build and publish unpacked alpha on a release branch after QA.
+- Shared content primitives: posts, comments, local account keys, platform namespacing, per-surface toggles.
+- Nine DOM adapter specs, YouTube comment extractor, shared MutationObserver controller, reversible hide UI.
+- User-selected local account blocklist with popup unhide, site toggles, filtering strength and warnings.
+- Optional *page-only* account campaign heuristic (off by default; not proof of bot activity).
+- Core tests, TypeScript core checks, WXT / Chrome MV3 configuration, agent instructions, Node-only EmbeddingGemma 2 POC.
 
-## Milestone 2: trustworthy evaluation
-- Obtain permissioned, de-identified, representative labels.
-- Evaluate baseline against benign, scam, spam, multilingual, and coordinated corpora.
-- Set explicit precision / false-positive budgets; audit false positive examples.
+## M1 — Live browser functionality (next)
 
-## Milestone 3: semantic alpha
-- Benchmark EmbeddingGemma 2 text-only q4 locally and in MV3.
-- Bundle ONNX runtime executable assets; add opt-in weights download/caching.
-- Compare semantic clustering to rule/duplicate baselines; don't enable automatic collapse on embedding similarity alone.
+1. Install WXT dependencies and complete `npm run typecheck && npm run build` in an internet-enabled environment.
+2. End-to-end Chrome tests for each selector (YouTube first, then X, Reddit, Instagram, TikTok, Facebook, Threads, Bluesky, LinkedIn). Build fixture and Playwright smoke tests.
+3. Test comment replies, infinite scroll, navigation, dark mode, accessible DOM, localization, channel cards, and content overlays.
+4. Replace provisional selectors with stable, minimal candidates confirmed on each platform; fail open if uncertain.
+5. Replace read-modify-write blocklist storage with atomic/conflict-tolerant updates and build opt-in host-permission controls.
 
-## Milestone 4: expansion
-- Add Reddit adapter only after verifying applicable terms and appropriate permission scope.
-- Explore optional user-configured filters and community-contributed rules with safe review.
+## M2 — Evaluation and robustness
+
+- Obtain permissioned, de-identified, representative human labels (including multilingual posts and discussion contexts).
+- Establish precision, false-positive-rate, latency, and memory budgets vs keyword-only and duplicate baselines.
+- Assess account-level campaigns without profiling protected characteristics or political content.
+- Performance profiling and durable undo UX on SPA refreshes.
+
+## M3 — Model integration (conditional)
+
+- Benchmark text-only quantized EmbeddingGemma 2 in browser (bundled inference runtime / consented weight download).
+- Test embeddings for semantic clustering against rules and duplication on held-out examples. No embedding-based automatic bot claims.
+- Introduce a separate calibrated classifier only if label quality and measurement show meaningful improvement.
+
+## M4 — Community ecosystem
+
+- Versioned reviewed filter lists with provenance and opt-in subscriptions.
+- Explainable metrics reported locally, user-authored per-platform account lists, reproducible false-positive evaluation.
+- Publication after legal/policy/extension-store review and audited dependencies.
