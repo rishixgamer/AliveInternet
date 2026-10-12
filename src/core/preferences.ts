@@ -28,7 +28,7 @@ export const DEFAULT_SETTINGS: Settings = {
   dedupeComments: false, inspectAccounts: true, intelAdvisories: false,
   showBlockControls: true, autoCampaignAccounts: false,
   platforms: { youtube: true, x: false, instagram: false, reddit: false,
-    tiktok: false, facebook: false, threads: false, bluesky: false, linkedin: false },
+    tiktok: false, facebook: false, threads: false, bluesky: false, linkedin: false, twitch: false },
   blockedAccounts: [],
 };
 

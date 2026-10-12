@@ -39,3 +39,13 @@ test('does not conflate identically named accounts across networks', () => {
   spam[0].platform = 'reddit';
   assert.equal(suspiciousAccounts(spam,[result('collapse'),result('collapse'),result('collapse')]).size,0);
 });
+
+test('twitch profile keys and hostnames', () => {
+  assert.equal(platformFromHostname('www.twitch.tv'), 'twitch');
+  assert.equal(platformFromHostname('twitch.tv'), 'twitch');
+  assert.equal(profileKey('twitch', '/Some_Streamer', 'https://www.twitch.tv/'), '@some_streamer');
+  assert.equal(profileKey('twitch', '/directory', 'https://www.twitch.tv/'), undefined);
+  assert.equal(profileKey('twitch', '/videos/12345', 'https://www.twitch.tv/'), undefined);
+  assert.equal(profileKey('twitch', '/abc', 'https://www.twitch.tv/'), undefined, 'logins are at least 4 characters');
+  assert.equal(profileKey('twitch', 'https://evil.tv/streamer', 'https://www.twitch.tv/'), undefined);
+});

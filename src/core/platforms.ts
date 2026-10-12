@@ -1,13 +1,13 @@
 /** Supported websites, not a claim that every DOM adapter has passed live validation. */
 export const PLATFORMS = [
   'youtube', 'x', 'instagram', 'reddit', 'tiktok',
-  'facebook', 'threads', 'bluesky', 'linkedin',
+  'facebook', 'threads', 'bluesky', 'linkedin', 'twitch',
 ] as const;
 export type Platform = typeof PLATFORMS[number];
 export const PLATFORM_LABELS: Record<Platform, string> = {
   youtube: 'YouTube', x: 'X / Twitter', instagram: 'Instagram',
   reddit: 'Reddit', tiktok: 'TikTok', facebook: 'Facebook',
-  threads: 'Threads', bluesky: 'Bluesky', linkedin: 'LinkedIn',
+  threads: 'Threads', bluesky: 'Bluesky', linkedin: 'LinkedIn', twitch: 'Twitch',
 };
 
 export function platformFromHostname(hostname: string): Platform | undefined {
@@ -21,6 +21,7 @@ export function platformFromHostname(hostname: string): Platform | undefined {
   if (['threads.net', 'www.threads.net', 'threads.com', 'www.threads.com'].includes(host)) return 'threads';
   if (host === 'bsky.app') return 'bluesky';
   if (['linkedin.com', 'www.linkedin.com'].includes(host)) return 'linkedin';
+  if (['twitch.tv', 'www.twitch.tv', 'm.twitch.tv'].includes(host)) return 'twitch';
   return undefined;
 }
 
@@ -58,6 +59,13 @@ export function profileKey(platform: Platform, href: string, base: string): stri
     case 'x': {
       const reserved = new Set(['home', 'explore', 'search', 'notifications', 'messages', 'i', 'settings', 'compose', 'intent', 'share', 'login', 'signup', 'tos', 'privacy']);
       return segments.length === 1 && !reserved.has(first) && /^[a-z\d_]{1,15}$/i.test(first) ? `@${first}` : undefined;
+    }
+    case 'twitch': {
+      // Channel/user pages are twitch.tv/<login>; logins are 4-25 letters, digits or underscores.
+      const reserved = new Set(['directory', 'videos', 'settings', 'subscriptions', 'inventory', 'wallet', 'drops',
+        'downloads', 'jobs', 'turbo', 'search', 'login', 'signup', 'prime', 'store', 'following', 'friends',
+        'messages', 'moderator', 'popout', 'embed', 'p', 'privacy', 'legal', 'bits', 'creatorcamp']);
+      return segments.length === 1 && !reserved.has(first) && /^[a-z\d_]{4,25}$/i.test(first) ? `@${first}` : undefined;
     }
     case 'instagram': {
       const reserved = new Set(['p', 'reel', 'reels', 'stories', 'explore', 'direct', 'accounts', 'about', 'developer', 'privacy', 'legal', 'challenge']);

@@ -9,6 +9,7 @@ import { facebookSpecs } from './platforms/facebook.ts';
 import { threadsSpecs } from './platforms/threads.ts';
 import { blueskySpecs } from './platforms/bluesky.ts';
 import { linkedinSpecs } from './platforms/linkedin.ts';
+import { twitchSpecs } from './platforms/twitch.ts';
 
 export interface DOMSpec {
   kind: ContentKind;
@@ -28,4 +29,5 @@ export const DOM_SPECS: Record<Platform, DOMSpec[]> = {
   threads: threadsSpecs,
   bluesky: blueskySpecs,
   linkedin: linkedinSpecs,
+  twitch: twitchSpecs,
 };

@@ -6,12 +6,14 @@ Build a privacy-first open-source browser extension that **locally** reduces spa
 
 ## Current product status
 
-- **v0.3 alpha source**: WXT/TypeScript/Chrome MV3. Nine experimental platform adapters, only YouTube enabled by default; real Chrome smoke testing still required.
+- **v0.3 alpha source**: WXT/TypeScript/Chrome MV3. Ten experimental platform adapters (YouTube, X, Instagram, Reddit, TikTok, Facebook, Threads, Bluesky, LinkedIn, Twitch), only YouTube enabled by default; real Chrome smoke testing still required.
 - Live rule path: `src/core/filter.ts` deterministic spam indicators, `src/core/dedupe.ts` optional long-comment near-duplicate collapse, `src/core/behavior.ts` ephemeral account evidence, `src/core/policy.ts` manually chosen account hides.
 - Imported intelligence: `src/intel/indicators.ts` exact-domain/profile matching for manually imported JSON packs. **Advisory only** and explicitly opt-in; no automatic server fetch or account block.
 - Offline research: `src/network/campaigns.ts` shared-domain hypothesis graphs; `scripts/analyze-fixture.mjs` sample local analysis; `tools/network-viewer.html` local visualization; `scripts/rdap-domain.mjs` opt-in CLI.
 - ML: EmbeddingGemma 2 **Node proof of concept only**; browser integration remains research. See `docs/architecture-v0.3.md` and `docs/roadmap.md`.
 - Browser WXT compilation and live website selectors have NOT been verified in the generation environment.
+
+- **Scaffolded features** (v0.4 planning): 34 features have groundwork only, listed in `src/core/features.ts` and `docs/feature-groundwork.md`. Stubs must stay inert and default-off until implemented with tests; never wire a stub into the controller.
 
 ## Non-negotiable product and security rules
 

@@ -13,6 +13,7 @@ export default defineContentScript({
     'https://www.threads.net/*', 'https://threads.net/*',
     'https://www.threads.com/*', 'https://threads.com/*',
     'https://bsky.app/*', 'https://www.linkedin.com/*', 'https://linkedin.com/*',
+    'https://www.twitch.tv/*', 'https://twitch.tv/*', 'https://m.twitch.tv/*',
   ],
   runAt: 'document_idle',
   main(ctx) {

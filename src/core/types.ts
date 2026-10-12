@@ -12,6 +12,22 @@ export interface ContentItem {
   accountKey?: string;
   platform?: Platform;
   kind?: ContentKind;
+  /*
+   * GROUNDWORK (unset by every adapter today). Adapters may populate these only
+   * after live-browser verification; see docs/feature-groundwork.md.
+   */
+  /** Stable per-page thread identifier, for reply-chain analysis. */
+  threadId?: string;
+  /** `id` of the parent item when this item is a reply. */
+  parentId?: string;
+  /** Position in page order at scan time; used to find the earliest copy of a comment. */
+  observedOrder?: number;
+  /** The platform marks this author as the page/channel owner. */
+  isCreator?: boolean;
+  /** The platform shows this item as pinned by the page owner. */
+  isPinned?: boolean;
+  /** The platform shows a creator heart/like badge on this item. */
+  isCreatorHearted?: boolean;
 }
 /** Compatibility alias for the existing rule engine. */
 export type Comment = ContentItem;

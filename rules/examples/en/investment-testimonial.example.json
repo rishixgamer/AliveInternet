@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "id": "example-en",
+  "title": "Example list (format reference, not shipped)",
+  "maintainer": "AliveInternet contributors",
+  "homepage": "https://github.com/OWNER/AliveInternet",
+  "version": "2026.10.12",
+  "expires": "2027-01-12",
+  "license": "CC0-1.0",
+  "rules": [
+    {
+      "id": "en.testimonial.named-advisor",
+      "description": "Testimonial naming a person who 'earned me' money",
+      "category": "spam",
+      "locale": "en",
+      "allOf": [
+        {"anyOf": ["mrs", "mr", "dr", "miss"]},
+        {"anyOf": ["earned me", "made me", "helped me make", "changed my life"]},
+        {"anyOf": ["strategy", "trading", "investment", "bitcoin", "crypto"]}
+      ],
+      "noneOf": [{"anyOf": ["scam", "beware", "fake"]}],
+      "weight": 4,
+      "action": "collapse-candidate",
+      "examples": {
+        "positive": ["I met Mrs. Jane Example, her trading strategy earned me $40k in a month"],
+        "benign": ["Beware of comments saying Mrs. X earned me money, it's a scam"]
+      }
+    }
+  ]
+}

@@ -2,7 +2,7 @@
 
 ## Product boundary
 
-- **Browser extension** (Chrome MV3, WXT, TypeScript): local comment, post, user-selected account filtering. Small adapters per site, shared bounded scan and explainable UI. Nine experimental platform configurations; only YouTube on by default.
+- **Browser extension** (Chrome MV3, WXT, TypeScript): local comment, post, user-selected account filtering. Small adapters per site, shared bounded scan and explainable UI. Ten experimental platform configurations (Twitch added 2026-10-12); only YouTube on by default.
 - **Local evidence layer**: `src/core/behavior.ts` summarizes observed content (not account history); `src/core/dedupe.ts` groups long lexical near-duplicates (opt-in, not bot evidence); existing `filter.ts` spam heuristics remain conservative.
 - **OSINT / threat intelligence**: `src/intel/indicators.ts` validates a manually imported, provenance-attributed JSON indicator list; it matches only exact visible profile identifiers and exact hostnames. Advisory UI only, opt-in, no automatic blocking. `src/intel/ports.ts` defines a consented network enrichment boundary. `scripts/rdap-domain.mjs` is a **manual** domain-record lookup.
 - **Network analysis**: `src/network/campaigns.ts` generates **candidates** from shared linked domains, with explicit uncertainty. `scripts/analyze-fixture.mjs` analyzes a local JSON fixture and emits bounded graph JSON. No background graph scraping or cross-platform identity claims.

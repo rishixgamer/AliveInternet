@@ -25,6 +25,21 @@
 - Manifest presently declares multiple named content-script host patterns. Before public release, implement opt-in site permissions and browser store policy compliance.
 - Storage update races across tabs and browser E2E regressions remain unaddressed release blockers.
 
+## Planned features with privacy impact (scaffolded, not active)
+
+See [feature-groundwork.md](feature-groundwork.md). None of these store or transmit anything today.
+
+- **Stats card / badge:** would store monthly *counts* only, never text, account ids or URLs; needs a reset control.
+- **Report a miss / wrongly hidden:** user-reviewed, redacted GitHub issue draft opened only on explicit click; no usernames, profile links or page URLs.
+- **Community rule list subscriptions:** would fetch a list URL; require pinned publisher keys, expiry, opt-in, and a CLAUDE.md network review.
+- **Allowlist and mute words:** would store user-entered accounts/words locally, like the blocklist.
+- **On-device classifier:** optional weight download with consent, hash pinning and licence review.
+- **Link destination reveal / look-alike domains:** decoded and compared locally; shorteners are never expanded over the network.
+- **Hidden-items review list:** ephemeral, current page only, never stored.
+- **Right-click check:** would add the `contextMenus` permission; no data leaves the browser.
+- **Per-channel strictness:** would store channel override ids locally.
+- **Live chat:** would add a content-script match for the YouTube live-chat frame and Twitch; same local-only processing.
+
 ## Prior to release
 
 Dependency audit/SBOM, browser-specific selector fixture tests, consent and deletion UX, accessibility, platform terms review, better account allowlist, exact model licensing verification, reproducible evaluation on permissioned labels, geographic bias audit without geography-based classifier signals, signed community-list validation and code review.

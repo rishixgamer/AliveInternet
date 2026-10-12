@@ -6,17 +6,26 @@
   "description": "Privacy-first, cross-platform filtering and explainable public-indicator analysis.",
   "scripts": {
     "dev": "wxt dev -b chrome",
+    "dev:firefox": "wxt dev -b firefox",
     "build": "wxt build -b chrome",
+    "build:firefox": "wxt build -b firefox",
+    "build:edge": "wxt build -b edge",
+    "build:all": "npm run build && npm run build:firefox && npm run build:edge",
     "zip:extension": "wxt zip -b chrome",
+    "zip:firefox": "wxt zip -b firefox",
+    "zip:edge": "wxt zip -b edge",
     "prepare": "wxt prepare",
     "typecheck": "wxt prepare && tsc --noEmit",
     "typecheck:core": "tsc -p tsconfig.core.json",
     "test": "node --experimental-strip-types --test tests/*.test.mjs",
     "embedding:poc": "node scripts/embedding-poc.mjs",
     "investigate:fixture": "node --experimental-strip-types scripts/analyze-fixture.mjs",
-    "intel:rdap": "node scripts/rdap-domain.mjs"
+    "intel:rdap": "node scripts/rdap-domain.mjs",
+    "benchmark": "node --experimental-strip-types scripts/benchmark.mjs"
   },
-  "engines": {"node": ">=22.16"},
+  "engines": {
+    "node": ">=22.16"
+  },
   "devDependencies": {
     "@types/node": "^22.15.0",
     "typescript": "^7.0.2",

@@ -4,6 +4,10 @@ Agent coding tasks should be self-contained branches, with tests, reproducible m
 
 ## P0: build and user reliability (Codex)
 
+- **Bug:** YouTube replies are never assessed: `collectYouTubeComments` skips every `ytd-comment-view-model` inside a thread. Most YouTube scams are replies. Also fill `threadId`/`parentId` (needed by reply-chain detection).
+- **Bug:** items past the first 350 in page order are never filtered (`collectPlatformItems` cap). Process only unseen elements instead of capping by position.
+- Verified 2026-10-12: `npm install`, `typecheck:core`, `typecheck`, `build` all pass with WXT 0.21.4 / TypeScript 7.0.2. Commit a `package-lock.json`.
+
 - Install pinned dependencies, get `npm run typecheck && npm run build` green, then test Chrome MV3 install.
 - Browser fixture tests for popup imported-pack flow, reversible reveals, account inspector, long-comment deduplication, and changing settings across SPA transitions.
 - Stabilize YouTube DOM selectors first, then X, Reddit; keep other sites opt-in until verified. No full-text unrelated element capture.
@@ -30,6 +34,12 @@ Agent coding tasks should be self-contained branches, with tests, reproducible m
 - Implement opt-in quantized EmbeddingGemma 2 browser inference with packaged runtime, integrity-checked user-consented weights, device budget and graceful fallback.
 - Experiment with optional image/text/video features for preferences against manipulative/repetitive content, not unsupported AI authorship claims.
 - Document calibration and failure modes; do not permit model alone to auto-ban accounts.
+
+## Scaffolded feature groundwork (v0.4 planning)
+
+All listed in `src/core/features.ts` and [feature-groundwork.md](feature-groundwork.md). Codex: badge/background entrypoint, Firefox/Edge smoke tests, settings export-import, adapter fields (`threadId`, `parentId`, `observedOrder`, `isCreator`, `isPinned`, `isCreatorHearted`, `PageContext`). Claude: detectors, rule lists, report flow, benchmark, trust/mute, creator mode, local classifier. Qwen: language rule-pack fixtures and benign counterexample tests.
+
+Batch 2: Codex — live chat iframe + verify the provisional Twitch adapter (chat + stream cards) in a real browser, hidden-items popup list, npm package build, UI i18n wiring. Claude — link reveal, look-alike domains, fake badges, giveaway streams, AutoMod export, check-this-comment, per-channel strictness. Maintainer — lockfile/Scorecard/releases, scam-pattern changelog.
 
 ## Exclusions
 

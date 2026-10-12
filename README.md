@@ -2,6 +2,8 @@
 
 **An open-source, privacy-first browser extension for reducing social spam, suspicious promotions and unwanted artificial engagement.** Think of content blocking with explainable evidence, transparent user controls, and modular OSINT research tools.
 
+<!-- demo: replace with docs/media/before-after.gif once recorded (see docs/media/README.md) -->
+
 > **Status: v0.3 alpha.** A real Chrome/WXT build and live social-platform adapter smoke tests have **not** yet been completed in this environment. This is **not** a verified bot detector. The source contains working, tested pure functions and experimental browser adapters; deployment reliability is not established.
 
 ## What works in the source
@@ -16,9 +18,13 @@
 | Exact public domain matching, no unverified domain-to-person attribution | Implemented, tests pass |
 | Local/offline shared-domain campaign candidate graph extraction | Implemented CLI and optional offline viewer |
 | Manual opt-in RDAP domain metadata lookup | Implemented CLI, requires internet |
-| Cross-platform adapters for YouTube, X, Instagram, Reddit, TikTok, Facebook, Threads, Bluesky, LinkedIn | Experimental (see below) |
+| Cross-platform adapters for YouTube, X, Instagram, Reddit, TikTok, Facebook, Threads, Bluesky, LinkedIn, Twitch | Experimental (see below) |
 | EmbeddingGemma 2 semantic similarity | Node proof of concept only; **not in browser filtering** |
 | Signed community threat feeds, semantic multilingual detection, multimodal slop filters, full coordination graph, real-time domain reputation | Research/design only; **not built** |
+
+### Planned (groundwork in the repo, not active)
+
+Store listings and Firefox/Edge builds · toolbar hidden-count badge · shareable monthly stats card · community rule lists and language packs · "report a miss / wrongly hidden" · public scam benchmark · scam reply-chain, creator-impersonation, copied-comment and profile-bait detection · look-alike character and spaced-letter handling · opt-in generic-comment filter · on-device classifier · never-hide-creator/pinned/allowlisted content · cross-site mute words · settings export/import · creator mode · real link destinations · look-alike brand domains · fake verification badges · YouTube live chat and Twitch chat-specific handling · fake giveaway livestreams · AutoModerator/Discord AutoMod export · npm core package · "hidden on this page" review list · right-click "check this comment" · per-channel strictness · translated interface · supply-chain hardening · scam-pattern-of-the-week changelog. See [feature groundwork](docs/feature-groundwork.md) and [good first issues](docs/good-first-issues.md).
 
 **The project never verifies that an individual account is a bot.** It identifies observable suspicious behavior, gives users reversible local filtering, and surfaces limited, cited investigative signals. Browser hiding does **not** delete posts, ban accounts, alter platform account settings or act as a server-side moderator.
 
@@ -35,6 +41,7 @@
 | Threads | Feed | Not separately | Public profile URL | Experimental, default off |
 | Bluesky | Feed | Not separately | Public profile URL | Experimental, default off |
 | LinkedIn | Feed | Provisional | Public profile URL | Experimental, default off |
+| Twitch | Stream cards | Live chat (provisional) | Public channel URL; chat usernames usually unlinked | Experimental, default off; selectors unverified |
 
 The extension works only in supported **browser** pages. A matched selector is not proof the site works with its current interface. **It does not filter native mobile apps.**
 
@@ -47,7 +54,7 @@ npm install
 npm test
 npm run typecheck:core
 npm run typecheck
-npm run build
+npm run build          # Chrome; also build:firefox, build:edge, build:all
 ```
 
 Then go to `chrome://extensions`, enable Developer mode, select **Load unpacked**, and choose `.output/chrome-mv3`. Use the popup to select websites, filtering strength, individual account hiding, opt-in duplicate hiding, and OSINT annotations. Every content collapse has a **Show temporarily** button. Use the popup blocklist to undo local account hides.
@@ -74,7 +81,13 @@ src/core/                   Spam rules, deduplication, account observations, pol
 src/extension/              Local settings, reversible DOM UI and event controller
 src/intel/                  Exact-match provenance-aware indicator packs and enrichment ports
 src/network/                Shared-domain campaign candidates and evidence-labelled graph DTO
-src/research/               Classification evaluation metrics
+src/research/               Classification evaluation metrics, benchmark dataset types
+src/detectors/              Scaffolded analyzers (reply chains, impersonation, ...); inert
+src/rules/                  Community rule-list schema (scaffolded)
+src/feedback/  src/creator/ src/ml/   Report drafts, creator mode, on-device classifier ports (scaffolded)
+rules/  benchmark/          Community rule lists and benchmark datasets (empty / examples)
+src/lib.ts                  Planned npm entry point for the detection core
+locales/                    Staged UI translations (not yet in the build)
 scripts/                    Offline fixture analysis, opt-in RDAP, EmbeddingGemma research
 fixtures/                   Synthetic content only
 tools/                      Offline network graph viewer
@@ -96,4 +109,4 @@ Shared invariants are in `AGENTS.md`; `CLAUDE.md` covers Claude workflows. Separ
 - No unauthorized scraping, private-message access, cookies, platform moderation API writes, or remote code execution.
 - Signed feeds, model weights, server analysis, threat-data updates and optional APIs require explicit review and opt-in.
 
-[Contributing](CONTRIBUTING.md) · [Threat model](docs/privacy.md) · Apache-2.0 source license (external model weights have separate terms).
+[Contributing](CONTRIBUTING.md) · [Security](SECURITY.md) · [Threat model](docs/privacy.md) · Apache-2.0 source license (external model weights have separate terms).
