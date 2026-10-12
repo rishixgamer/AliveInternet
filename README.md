@@ -4,15 +4,16 @@
 
 <!-- demo: replace with docs/media/before-after.gif once recorded (see docs/media/README.md) -->
 
-> **Status: v0.3 alpha.** A real Chrome/WXT build and live social-platform adapter smoke tests have **not** yet been completed in this environment. This is **not** a verified bot detector. The source contains working, tested pure functions and experimental browser adapters; deployment reliability is not established.
+> **Status: v0.3 alpha.** The real Chrome/WXT build and full TypeScript checks pass. YouTube extraction, reversible hiding and large-page controller behavior have synthetic DOM regression tests; live social-platform browser smoke tests remain outstanding. This is **not** a verified bot detector, and deployment reliability is not established. See the [development report](docs/development-status.md) for verified results and remaining blockers.
 
 ## What works in the source
 
 | Capability | State |
 |---|---|
-| Local manual account hiding (posts + comments) with reversible UI | Implemented, needs browser E2E |
+| Local manual account hiding (posts + comments) with reversible UI | Implemented; serialized settings mutations have synthetic concurrency tests; needs browser E2E |
 | Conservative spam/scam heuristics and optional evidence annotations | Implemented, not benchmark-calibrated |
 | Optional long lexical near-duplicate comment collapsing | Implemented, enabled **off** by default |
+| Large-page processing beyond 350 items | Implemented with synthetic controller tests; repetition/account context limited to each batch |
 | Visible-page account evidence inspector | Implemented, needs browser E2E |
 | Manual JSON public-indicator pack import and exact match advisory | Implemented, **off** by default |
 | Exact public domain matching, no unverified domain-to-person attribution | Implemented, tests pass |
@@ -32,7 +33,7 @@ Store listings and Firefox/Edge builds · toolbar hidden-count badge · shareabl
 
 | Site | Feed / posts | Comments | Account identity | Readiness |
 |---|---|---|---|---|
-| YouTube | Video cards, community posts | Initial extractor | Public profile URL | Initial experimental adapter; default on |
+| YouTube | Video cards, community posts | Parent comments and expanded replies | Public profile URL | Synthetic DOM tests; live browser unverified; default on |
 | X / Twitter | Tweets / replies | Part of tweet cards | Public profile URL | Experimental, default off |
 | Instagram | Caption selector | Provisional | Public profile URL | Experimental, default off |
 | Reddit | Posts | Comments | Public profile URL | Experimental, default off |
@@ -50,7 +51,7 @@ The extension works only in supported **browser** pages. A matched selector is n
 Requirements: Node.js >= 22.16, npm, Chrome/Chromium, and network access for dependencies.
 
 ```sh
-npm install
+npm ci
 npm test
 npm run typecheck:core
 npm run typecheck
@@ -75,7 +76,7 @@ Then go to `chrome://extensions`, enable Developer mode, select **Load unpacked*
 ## Project map
 
 ```text
-entrypoints/                 WXT content script and popup
+entrypoints/                 WXT content script, popup and local settings background writer
 src/adapters/platforms/     One DOM spec per social platform
 src/core/                   Spam rules, deduplication, account observations, policy, embedding ports
 src/extension/              Local settings, reversible DOM UI and event controller

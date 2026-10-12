@@ -72,7 +72,7 @@ export const FEATURES: readonly FeatureEntry[] = [
   { id: 'reply-chain-detection', title: 'Scam testimonial reply chains', group: 'detection',
     status: 'scaffolded', owner: 'claude', files: ['src/detectors/reply-chain.ts'], defaultEnabled: false,
     needsNetwork: false, changesStorage: false,
-    nextStep: 'Requires adapters to fill threadId/parentId (YouTube replies are skipped today).' },
+    nextStep: 'Requires live-verified threadId/parentId; YouTube reply extraction has synthetic DOM tests.' },
   { id: 'creator-impersonation', title: 'Creator impersonation in comments', group: 'detection',
     status: 'scaffolded', owner: 'claude', files: ['src/detectors/impersonation.ts', 'src/core/page-context.ts'], defaultEnabled: false,
     needsNetwork: false, changesStorage: false,

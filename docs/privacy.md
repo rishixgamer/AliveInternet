@@ -4,6 +4,7 @@
 
 - Parses **currently rendered** enabled-platform content and links in memory. No off-page private social graph collection, private messages, session token access, IP address extraction or location inference.
 - Persists `settings` (preferences + explicit per-platform user account hides) and a **user-uploaded** public-indicator JSON pack when explicitly imported. Does not persist raw posts, comments, observed account histories, browsing sessions, or network graphs. `browser.storage.local` is not encrypted; profile hides are potentially sensitive personal preference data.
+- Explicit settings actions pass through one local background writer, which validates and serializes account and preference mutations. It receives only changed preferences or a platform/profile identifier, never page text. No extra persistent key or network path is introduced.
 - No automatic external HTTP requests, analytics, telemetry, comment uploads, or AI weight downloads. Manual source code scripts that query internet services are separate and are never invoked by browser content scripts.
 - Imported indicator matches produce explainable *advisory labels* when the user opts in. They never trigger automatic collapse or account-level blocks. Publishers/URLs in imported packs are self-declared, not independently authenticated.
 - Local rule-based collapse is conservative; user can **Show temporarily**. User-selected account hides remain visible in a removable popup list. Optional deduplication preserves the first long comment; may still suppress legitimate repeated speech, so default is off.
@@ -22,8 +23,9 @@
 - Pack parser strictly restricts fields, indicator count, lengths, HTTPS evidence URLs, hostname format and recognized sites; packs remain **untrusted** and a malicious user-installed pack could still produce false warnings.
 - False positives and coordination misinterpretation can chill legitimate speech. Prefer missing ambiguous spam to hiding legitimate content.
 - Large DOM scans, quadratic local near-duplicate comparisons, and future on-device embeddings require performance limits and device testing.
+- Live extraction/evaluation runs in batches of at most 350 candidate roots, retaining earlier reversible UI. Repetition/account evidence is limited to that batch; groups across boundaries may be missed. Page-wide selector discovery and cleanup still require real-browser overhead measurements. No content is persisted by this scheduler.
 - Manifest presently declares multiple named content-script host patterns. Before public release, implement opt-in site permissions and browser store policy compliance.
-- Storage update races across tabs and browser E2E regressions remain unaddressed release blockers.
+- Settings mutation races among extension callers have synthetic regression coverage through one background writer. Real multi-tab delivery, MV3 worker lifecycle and browser E2E verification remain release blockers; pending operations are not a durable queue or crash-proof transaction.
 
 ## Planned features with privacy impact (scaffolded, not active)
 

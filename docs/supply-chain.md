@@ -4,7 +4,7 @@ Feature `supply-chain-hardening`. People are rightly wary of extensions that rea
 
 | Item | Status | Next step |
 |---|---|---|
-| `package-lock.json` | Missing | Run `npm install` and commit the lockfile; switch CI to `npm ci` |
+| `package-lock.json` | Added; CI uses `npm ci --ignore-scripts` | Keep lockfile changes reviewed alongside dependency changes |
 | Dependabot | Config added (`.github/dependabot.yml`) | Takes effect once the repo is on GitHub |
 | `SECURITY.md` | Added (placeholder contact) | Set the real private reporting channel |
 | OpenSSF Scorecard | Not added | Add the official `ossf/scorecard-action` workflow (pin by commit SHA) and the README badge |

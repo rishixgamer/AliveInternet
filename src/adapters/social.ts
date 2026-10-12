@@ -1,7 +1,7 @@
 import { profileKey, type Platform } from '../core/platforms.ts';
 import { normalizeText } from '../core/normalize.ts';
 import type { ContentItem, ContentKind } from '../core/types.ts';
-import { collectYouTubeComments } from './youtube.ts';
+import { iterateYouTubeComments } from './youtube.ts';
 import { DOM_SPECS } from './spec.ts';
 import type { DOMSpec } from './spec.ts';
 
@@ -22,14 +22,12 @@ function firstText(root: HTMLElement, selectors: string[]): { text: string; node
   return undefined;
 }
 
-function extract(root: ParentNode, platform: Platform, spec: DOMSpec, remaining: number): RenderableItem[] {
-  const items: RenderableItem[] = [];
+function* extract(root: ParentNode, platform: Platform, spec: DOMSpec): Generator<RenderableItem | undefined> {
   for (const element of root.querySelectorAll<HTMLElement>(spec.roots)) {
-    if (items.length >= remaining) break;
     // Avoid extracting duplicate nested items with the same spec.
-    if (element.parentElement?.closest(spec.roots)) continue;
+    if (element.parentElement?.closest(spec.roots)) { yield undefined; continue; }
     const content = firstText(element, spec.text);
-    if (!content) continue;
+    if (!content) { yield undefined; continue; }
     let author = 'Unknown';
     let accountKey: string | undefined;
     for (const selector of spec.authorLinks) {
@@ -46,24 +44,26 @@ function extract(root: ParentNode, platform: Platform, spec: DOMSpec, remaining:
     const links = [...content.node.querySelectorAll<HTMLAnchorElement>('a[href]')]
       .map(a => a.href).filter(href => /^https?:\/\//i.test(href)).slice(0, 20);
     const fingerprint = `${platform}\u001f${spec.kind}\u001f${accountKey ?? author}\u001f${content.text}`;
-    items.push({ id: fingerprint, fingerprint, platform, kind: spec.kind, accountKey, author, text: content.text, links, element });
+    yield { id: fingerprint, fingerprint, platform, kind: spec.kind, accountKey, author, text: content.text, links, element };
   }
-  return items;
 }
 
-export function collectPlatformItems(platform: Platform, root: ParentNode = document): RenderableItem[] {
-  const results: RenderableItem[] = [];
+/** Lazy extraction; undefined candidates also consume the controller's work budget. */
+export function* iteratePlatformItems(platform: Platform, root: ParentNode = document): Generator<RenderableItem | undefined> {
   if (platform === 'youtube') {
-    for (const item of collectYouTubeComments(root)) {
-      if (results.length >= 350) break;
+    for (const item of iterateYouTubeComments(root)) {
+      if (!item) { yield undefined; continue; }
       const anchor = item.element.querySelector<HTMLAnchorElement>('#author-text[href], a#author-text[href], #author-text a[href]');
       const accountKey = anchor ? profileKey('youtube', anchor.href, location.href) : undefined;
-      results.push({ ...item, platform, kind: 'comment', accountKey });
+      // A display name alone must not share a reveal decision across profiles.
+      const fingerprint = `${platform}\u001fcomment\u001f${accountKey ?? item.author}\u001f${item.text}`;
+      yield { ...item, id: fingerprint, fingerprint, platform, kind: 'comment', accountKey };
     }
   }
-  for (const spec of DOM_SPECS[platform]) {
-    if (results.length >= 350) break;
-    results.push(...extract(root, platform, spec, 350 - results.length));
-  }
-  return results;
+  for (const spec of DOM_SPECS[platform]) yield* extract(root, platform, spec);
+}
+
+/** Eager fixture helper. Live page processing must use iteratePlatformItems. */
+export function collectPlatformItems(platform: Platform, root: ParentNode = document): RenderableItem[] {
+  return [...iteratePlatformItems(platform, root)].filter((item): item is RenderableItem => item !== undefined);
 }

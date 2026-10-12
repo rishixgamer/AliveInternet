@@ -13,7 +13,7 @@ These features have **groundwork only**: types, interfaces, inert stubs, docs, t
 | Store listings (Chrome, Firefox, Edge) | `docs/store-listing.md` | Firefox add-on ID, opt-in host permissions, screenshots | maintainer |
 | Firefox and Edge builds | `build:firefox`, `build:edge`, `zip:*`, `dev:firefox` scripts; CI builds all three | Smoke-test Firefox desktop/Android and Edge | Codex |
 | Before/after demo GIF | `docs/media/README.md`, README placeholder | Record after the YouTube replies fix | maintainer |
-| Toolbar badge count | `src/core/stats.ts` (`PageTally`), `src/extension/messages.ts` | Background entrypoint + `action.setBadgeText` | Codex |
+| Toolbar badge count | `src/core/stats.ts` (`PageTally`), `src/extension/messages.ts` | Add stats handling to the settings-only background + `action.setBadgeText` | Codex |
 | Shareable stats card | `src/core/stats.ts` (`MonthlyStats`, `ShareCardData`) | Persist counts only, reset control, render card | Codex |
 | Hacktoberfest onboarding | `.github/ISSUE_TEMPLATE/*`, `PULL_REQUEST_TEMPLATE.md`, `docs/good-first-issues.md` | Push to GitHub, add topic, open issues | maintainer |
 
@@ -30,7 +30,7 @@ These features have **groundwork only**: types, interfaces, inert stubs, docs, t
 
 | Feature | Groundwork | Prerequisite | Owner |
 |---|---|---|---|
-| Scam reply chains | `reply-chain.ts`, `ContentItem.threadId/parentId` | Adapters must read YouTube replies and fill thread ids | Claude (+ Codex adapters) |
+| Scam reply chains | `reply-chain.ts`, `ContentItem.threadId/parentId` | Live-verify YouTube reply extraction (synthetic DOM tests pass) and fill thread ids | Claude (+ Codex adapters) |
 | Creator impersonation | `impersonation.ts`, `src/core/page-context.ts` | Adapters provide owner name/key; `foldConfusables` | Claude |
 | Copied comments | `copied-comment.ts`, `ContentItem.observedOrder` | Adapters fill `observedOrder` | Claude |
 | "Check my profile" bait | `profile-bait.ts` | Rules + benign "link in bio" cases | Claude |

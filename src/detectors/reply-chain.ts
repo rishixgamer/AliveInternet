@@ -13,8 +13,9 @@ import type { ContentItem } from '../core/types.ts';
  *  - the top-level item contains an earnings claim
  *  - contact handles extracted via src/core/obfuscation.ts
  *
- * Prerequisite: adapters must fill `threadId` / `parentId` (today YouTube
- * replies are skipped entirely — Codex P0 in docs/agent-backlog.md).
+ * Prerequisite: adapters must fill live-verified `threadId` / `parentId`.
+ * YouTube reply extraction has synthetic DOM tests; the relationship fields
+ * and live-browser verification are still pending in docs/agent-backlog.md.
  */
 export interface ReplyChainOptions {
   /** Distinct replying accounts that must endorse the same name/handle. */

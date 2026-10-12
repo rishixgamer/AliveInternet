@@ -1,7 +1,11 @@
 import type { Assessment, ContentKind } from '../core/types.ts';
 import type { AccountEvidence } from '../core/behavior.ts';
 
-export interface AppliedUi { teardown(): void; }
+export interface AppliedUi {
+  teardown(): void;
+  /** Site renderers may remove or move UI while recycling a content element. */
+  isCurrent(): boolean;
+}
 
 export function annotateContent(element: HTMLElement, verdict: Assessment): AppliedUi {
   const note = document.createElement('div');
@@ -9,7 +13,7 @@ export function annotateContent(element: HTMLElement, verdict: Assessment): Appl
   note.textContent = `AliveInternet: ${verdict.reason}`;
   note.title = 'Explainable, uncalibrated observations. Not proof that an author is a bot.';
   element.prepend(note);
-  return { teardown: () => note.remove() };
+  return { teardown: () => note.remove(), isCurrent: () => note.parentElement === element };
 }
 
 function evidencePanel(evidence: AccountEvidence): HTMLDivElement {
@@ -61,7 +65,7 @@ export function accountAction(
   }
   addInspectButton(controls, evidence);
   element.append(controls);
-  return { teardown: () => controls.remove() };
+  return { teardown: () => controls.remove(), isCurrent: () => controls.parentElement === element };
 }
 
 export function collapseContent(
@@ -85,5 +89,8 @@ export function collapseContent(
   addInspectButton(holder, evidence);
   element.before(holder);
   element.style.display = 'none';
-  return { teardown() { holder.remove(); element.style.display = previousDisplay; } };
+  return {
+    teardown() { holder.remove(); element.style.display = previousDisplay; },
+    isCurrent: () => holder.parentNode === element.parentNode && holder.nextSibling === element,
+  };
 }

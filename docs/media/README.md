@@ -7,7 +7,7 @@ Feature `demo-media`. The README needs one convincing visual at the top. Put fin
 
 ## Recording script
 
-1. Fix the YouTube replies bug first (most scams are replies), or the demo will undersell it.
+1. Live-verify the YouTube parent/reply fix before recording; it currently has synthetic DOM coverage only (see [development report](../development-status.md)).
 2. Open a crypto/finance YouTube video with visible scam replies. Expand replies.
 3. Record with the extension **off** (scroll through scams), toggle it **on**, record the same scroll.
 4. End on a "Show temporarily" click and the reason text, which is what differentiates the project.

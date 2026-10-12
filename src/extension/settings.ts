@@ -1,16 +1,26 @@
 import { browser } from 'wxt/browser';
 import { DEFAULT_SETTINGS, sanitizeSettings, withAccountBlock, type Settings } from '../core/preferences.ts';
 import type { Platform } from '../core/platforms.ts';
+import { SETTINGS_MUTATION_MESSAGE, type SettingsMutation, type SettingsPatch } from './settings-protocol.ts';
 export { DEFAULT_SETTINGS, sanitizeSettings, withAccountBlock, type Settings };
+export type { SettingsPatch };
 
 export async function loadSettings(): Promise<Settings> {
   const saved = await browser.storage.local.get('settings');
   return sanitizeSettings(saved.settings);
 }
-export async function saveSettings(settings: Settings): Promise<void> {
-  await browser.storage.local.set({ settings: sanitizeSettings(settings) });
+async function mutateSettings(mutation: SettingsMutation): Promise<Settings> {
+  const response: unknown = await browser.runtime.sendMessage({ type: SETTINGS_MUTATION_MESSAGE, mutation });
+  if (!response || typeof response !== 'object') throw new Error('Settings writer unavailable');
+  const result = response as { ok?: unknown; settings?: unknown; error?: unknown };
+  if (result.ok !== true || !result.settings || typeof result.settings !== 'object') {
+    throw new Error(typeof result.error === 'string' ? result.error : 'Could not save settings');
+  }
+  return sanitizeSettings(result.settings);
 }
-export async function setBlockedAccount(platform: Platform, accountKey: string, blocked: boolean): Promise<void> {
-  const current = await loadSettings();
-  await saveSettings(withAccountBlock(current, platform, accountKey, blocked));
+export async function updateSettings(patch: SettingsPatch): Promise<Settings> {
+  return mutateSettings({ kind: 'preferences', patch });
+}
+export async function setBlockedAccount(platform: Platform, accountKey: string, blocked: boolean): Promise<Settings> {
+  return mutateSettings({ kind: 'account', platform, accountKey, blocked });
 }

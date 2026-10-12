@@ -7,8 +7,8 @@ Status: **scaffolded** (features `store-publishing`, `cross-browser-builds`). No
 | Store | Command | Output | Status |
 |---|---|---|---|
 | Chrome Web Store | `npm run build` / `npm run zip:extension` | `.output/chrome-mv3` | Builds; not browser smoke-tested |
-| Firefox Add-ons (desktop + Android) | `npm run build:firefox` / `npm run zip:firefox` | `.output/firefox-mv2` | Script added; not smoke-tested |
-| Microsoft Edge Add-ons | `npm run build:edge` / `npm run zip:edge` | `.output/edge-mv3` | Script added; not smoke-tested |
+| Firefox Add-ons (desktop + Android) | `npm run build:firefox` / `npm run zip:firefox` | `.output/firefox-mv2` | Builds with manifest warnings; not smoke-tested |
+| Microsoft Edge Add-ons | `npm run build:edge` / `npm run zip:edge` | `.output/edge-mv3` | Builds; not smoke-tested |
 
 Firefox for Android supports extensions, which is the cheapest route to mobile users.
 
@@ -16,8 +16,9 @@ Firefox for Android supports extensions, which is the cheapest route to mobile u
 
 1. **Firefox add-on ID.** Pick a permanent ID (e.g. `aliveinternet@<your-domain>`) and add `browser_specific_settings.gecko.id` in `wxt.config.ts`. It cannot change after the first listing.
 2. **Opt-in host permissions** (docs/privacy.md). Stores scrutinize broad content-script matches; request each site when the user enables it.
-3. **YouTube replies + 350-item cap** fixed (docs/agent-backlog.md P0), so the demo matches reality.
+3. **YouTube replies + large-page processing:** fixed in source with synthetic adapter/controller DOM tests; live verification and overhead measurements remain outstanding (docs/agent-backlog.md P0).
 4. Browser E2E on YouTube at minimum, and the README support matrix updated.
+5. Resolve the WXT Firefox `data_collection_permissions` warning; see [development report](development-status.md).
 
 ## Listing copy (draft)
 

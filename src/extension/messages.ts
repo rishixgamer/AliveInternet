@@ -6,8 +6,8 @@ import type { ItemExplanation } from '../core/explain.ts';
  * GROUNDWORK — feature `toolbar-badge-count`.
  * Message contract between the content script and a future background
  * entrypoint (content scripts cannot call browser.action.setBadgeText).
- * Not sent or received anywhere yet; no background script exists, so the
- * built manifest is unchanged.
+ * Not sent or received anywhere yet. The background script handles settings
+ * mutations only; this scaffold adds no manifest permissions or badge behavior.
  */
 export const PAGE_STATS_MESSAGE = 'aliveinternet/page-stats' as const;
 export interface PageStatsMessage {
