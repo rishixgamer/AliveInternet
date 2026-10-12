@@ -1,0 +1,10 @@
+:root { font: 13px/1.5 system-ui, sans-serif; color-scheme: light dark; }
+body { min-width: 295px; margin: 0; }
+main { padding: 16px; }
+h1 { font-size: 19px; margin: 0 0 6px; }
+p { margin: 8px 0 16px; }
+label { display: block; margin: 14px 0 6px; font-weight: 600; }
+label.toggle { display: flex; align-items: flex-start; gap: 8px; font-weight: 400; }
+select { width: 100%; padding: 7px; }
+.foot { font-size: 11px; opacity: .7; }
+#status { min-height: 1em; font-size: 11px; }

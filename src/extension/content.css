@@ -1,0 +1,25 @@
+.threadsieve-collapsed {
+  color: var(--yt-spec-text-secondary, #666);
+  border: 1px solid var(--yt-spec-10-percent-layer, #aaa);
+  border-radius: 8px;
+  padding: 12px;
+  margin: 8px 0;
+  font: 12px/1.5 Arial, sans-serif;
+}
+.threadsieve-collapsed button {
+  cursor: pointer;
+  font: inherit;
+  font-weight: 600;
+  border-radius: 4px;
+  padding: 4px 8px;
+  border: 1px solid currentColor;
+  background: transparent;
+  color: var(--yt-spec-text-primary, inherit);
+}
+.threadsieve-flag {
+  padding: 4px 8px;
+  margin-bottom: 6px;
+  border-left: 3px solid #888;
+  font: 11px/1.4 Arial, sans-serif;
+  color: var(--yt-spec-text-secondary, #666);
+}
