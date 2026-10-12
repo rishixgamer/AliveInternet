@@ -1,4 +1,4 @@
-.threadsieve-collapsed {
+.aliveinternet-collapsed {
   color: inherit !important;
   background: color-mix(in srgb, Canvas 93%, transparent);
   border: 1px solid #8889;
@@ -7,8 +7,8 @@
   margin: 8px 0;
   font: 12px/1.5 system-ui, Arial, sans-serif;
 }
-.threadsieve-collapsed button,
-.threadsieve-account-action {
+.aliveinternet-collapsed button,
+.aliveinternet-account-action {
   cursor: pointer;
   font: 11px/1.4 system-ui, Arial, sans-serif;
   border: 1px solid #8889;
@@ -18,14 +18,19 @@
   background: color-mix(in srgb, Canvas 90%, transparent);
   color: CanvasText;
 }
-.threadsieve-collapsed button:focus-visible,
-.threadsieve-account-action:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; }
-.threadsieve-account-action { opacity: .7; display: inline-block; }
-.threadsieve-account-action:hover { opacity: 1; }
-.threadsieve-flag {
+.aliveinternet-collapsed button:focus-visible,
+.aliveinternet-account-action:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; }
+.aliveinternet-account-action { opacity: .7; display: inline-block; }
+.aliveinternet-account-action:hover { opacity: 1; }
+.aliveinternet-flag {
   padding: 4px 8px;
   margin-bottom: 6px;
   border-left: 3px solid #888;
   font: 11px/1.4 system-ui, Arial, sans-serif;
   color: inherit;
 }
+.aliveinternet-controls { display: flex; gap: 4px; flex-wrap: wrap; align-items: center; }
+.aliveinternet-controls button, .aliveinternet-evidence button { font: 11px system-ui; cursor: pointer; }
+.aliveinternet-evidence { flex-basis: 100%; background: Canvas; color: CanvasText; border: 1px solid #8888; border-radius: 6px; padding: 8px; margin-top: 5px; font: 12px/1.5 system-ui; }
+.aliveinternet-evidence ul { margin: 6px 0 0; padding-left: 20px; }
+.aliveinternet-evidence p { margin: 5px 0; }

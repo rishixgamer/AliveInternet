@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "title": "Example only — synthetic indicators",
+  "publisher": "AliveInternet test fixtures",
+  "sourceUrl": "https://example.org/research/demo",
+  "indicators": [
+    {
+      "kind": "domain",
+      "value": "example-scam.test",
+      "evidenceUrl": "https://example.org/research/demo",
+      "note": "Synthetic domain for testing — not a real threat assertion."
+    },
+    {
+      "kind": "account",
+      "value": "@demo-account",
+      "platform": "x",
+      "evidenceUrl": "https://example.org/research/demo",
+      "note": "Synthetic account for testing — not a real person."
+    }
+  ]
+}

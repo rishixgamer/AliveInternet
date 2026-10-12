@@ -2,9 +2,9 @@ import { defineConfig } from 'wxt';
 
 export default defineConfig({
   manifest: {
-    name: 'ThreadSieve',
-    description: 'Hide suspicious comments, feed content, and locally blocked accounts across social platforms.',
+    name: 'AliveInternet',
+    description: 'Local, reversible spam filtering, account evidence, and optional public-indicator advisories.',
     permissions: ['storage'],
-    version: '0.2.0',
+    version: '0.3.0',
   },
 });

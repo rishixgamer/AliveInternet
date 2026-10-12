@@ -1,8 +1,12 @@
+# Legacy v0.2 architecture notes
+
+For current architecture see [architecture v0.3](architecture-v0.3.md).
+
 # Architecture and implementation boundaries (v0.2)
 
 ## Feature dimensions
 
-ThreadSieve separates *where an item came from* (platform adapter), *what it is* (`comment` or `post`), *who visibly posted it* (profile key if verifiable), and *what heuristic evidence it contains* (content score). This is not a human-vs-bot identity system.
+AliveInternet separates *where an item came from* (platform adapter), *what it is* (`comment` or `post`), *who visibly posted it* (profile key if verifiable), and *what heuristic evidence it contains* (content score). This is not a human-vs-bot identity system.
 
 ```text
 Browser / permitted websites (DOM only)

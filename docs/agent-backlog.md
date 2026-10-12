@@ -1,32 +1,36 @@
-# Suggested agent task queue for Claude Code / Codex
+# Agent backlog — AliveInternet
 
-Each task should land in a focused PR with tests, browser screenshots/recordings where appropriate, and exact validation output. Never label adapter matching patterns alone as working feature support.
+Agent coding tasks should be self-contained branches, with tests, reproducible measurements, and explicit verified/unverified status.
 
-## P0 — can users actually install it?
+## P0: build and user reliability (Codex)
 
-- Install pinned WXT deps; run WXT-generated TypeScript checker and `wxt build -b chrome`.
-- Chrome MV3 install/uninstall/reinstall smoke tests and verify permissions shown match README.
-- Write Playwright browser extension tests with YouTube synthetic DOM fixtures, then test on the live page with consent.
-- Validate local account hide/unhide end to end across comments and video cards.
-- Fix storage races for multi-tab blocking and settings edits; test rapid consecutive writes.
+- Install pinned dependencies, get `npm run typecheck && npm run build` green, then test Chrome MV3 install.
+- Browser fixture tests for popup imported-pack flow, reversible reveals, account inspector, long-comment deduplication, and changing settings across SPA transitions.
+- Stabilize YouTube DOM selectors first, then X, Reddit; keep other sites opt-in until verified. No full-text unrelated element capture.
+- Fix concurrent storage race for user account blocklist; validate browser permissions and progressive optional host access.
+- Benchmark MutationObserver and dedup scan CPU on large feeds; cap work and skip when disabled.
 
-## P1 — initial public platforms
+## P1: evidence and anti-false-positive quality (Claude + Codex)
 
-- Stabilize YouTube original comment + video + community selectors, including SPA navigation, replies, channel profile links and infinite scroll.
-- Stabilize X tweet/reply feed extraction and profile URLs. Avoid processing private messages, navigation, and quoted unrelated profiles.
-- Stabilize Reddit posts/comments on current web UI; fail open on Old Reddit or unsupported layouts.
-- Only then consider enabling these platforms by default.
+- Design representative, permissioned labeled datasets and measure per-site precision, false-positive rate, latency and memory usage. Check protected characteristics without using them as scoring inputs.
+- Improve rules for scam links, impersonation, coordination while ensuring false positives remain low.
+- Add a user-controlled allowlist and local-only “wrongly hidden” feedback, without sending comments to backend.
+- Improve provenance in account inspector; restrict summaries to observed page items and known public URLs.
 
-## P2 — broaden adapters
+## P2: optional intelligence (Claude)
 
-- Instagram post captions + replies; TikTok video descriptions + comments.
-- Facebook feed posts/comments with strong root scoping; Threads cards and replies.
-- Bluesky feed posts/replies; LinkedIn updates/comments.
-- Prefer small per-site modules and real-browser fixtures over speculative universal selectors.
+- Threat provider ports for manual, consented lookups: RDAP, URLhaus and externally documented campaigns, each with policy/rate-limit review.
+- Provenance, versioning, expiration/revocation, publisher key verification and opt-in subscription packages. Never auto-block based solely on community claims.
+- Bluesky moderation-label interoperability where public protocol supports it.
+- Local graph viewer upgrade for observed timestamp edges, semantic clusters and evidence-linked edges. Graph candidates remain **hypotheses**.
 
-## P3 — validated semantic layer
+## P3: local ML + multimodal (Claude; Qwen test generation)
 
-- Compare baseline vs embeddings offline using labeled, ethically sourced data.
-- WebGPU/WASM inference only after packaging and weights-consent review.
-- Add latency, GPU/RAM budgets and per-device fallback.
-- Never auto-block an account based on embeddings alone.
+- Compare baseline vs multilingual embedding models on independently labeled samples; prevent train/test leakage.
+- Implement opt-in quantized EmbeddingGemma 2 browser inference with packaged runtime, integrity-checked user-consented weights, device budget and graceful fallback.
+- Experiment with optional image/text/video features for preferences against manipulative/repetitive content, not unsupported AI authorship claims.
+- Document calibration and failure modes; do not permit model alone to auto-ban accounts.
+
+## Exclusions
+
+- “Bot farms near a region” individual scoring; inferred physical location, private IP harvesting, de-anonymization, ethnicity, language or political-viewpoint targeting; automated server-side account bans; shadow moderation; covert mass scraping.

@@ -1,71 +1,99 @@
-# ThreadSieve
+# AliveInternet
 
-**An open-source, privacy-first, client-side filter for social accounts, comments, and feed content.** Think of ad blocking, but for high-evidence spam and accounts you choose to hide.
+**An open-source, privacy-first browser extension for reducing social spam, suspicious promotions and unwanted artificial engagement.** Think of content blocking with explainable evidence, transparent user controls, and modular OSINT research tools.
 
-**Status: v0.2 alpha / experimental cross-platform scaffold.** Only the original YouTube comment extractor has received initial implementation attention; **none of the adapters has passed real-browser smoke tests in this environment**, and other platforms' selectors are speculative. Expect missed items and layout changes. This is **not** a validated bot classifier.
+> **Status: v0.3 alpha.** A real Chrome/WXT build and live social-platform adapter smoke tests have **not** yet been completed in this environment. This is **not** a verified bot detector. The source contains working, tested pure functions and experimental browser adapters; deployment reliability is not established.
 
-## Capabilities
+## What works in the source
 
-- Nine website adapters: **YouTube, X/Twitter, Instagram, Reddit, TikTok, Facebook, Threads, Bluesky, LinkedIn**.
-- Distinct **comments/replies** and **posts/feed content** filtering controls. Some platforms expose only a subset in this prototype; X replies are treated as feed posts.
-- Local, cross-surface *within-site* account blocking: click **Hide @account locally** to collapse matching visible posts/comments by that profile on the same platform, without using a site's Block API. A popup blocklist provides **Unhide** controls.
-- High-evidence scam/promotional-content rules and exact normalized repetition detection. Rules are not calibrated bot probabilities; benign agreement/repetition cannot alone trigger automatic collapse.
-- Optional, **off by default**, page-local rule that temporarily hides other items by an account that has three or more distinct high-evidence spam items visible in a scan. This **does not verify that account is a bot** and never adds a permanent block.
-- Reversible collapses with explanations and **Show temporarily**, with opt-in warnings for uncertain items.
-- Defaults to **YouTube enabled**. Every other site's prototype adapter must be explicitly enabled in the popup, since selectors require validation.
-- Runs locally, with no backend, telemetry, comment uploads, platform API writes, or raw-text persistence. Settings and explicitly chosen account block identifiers are stored in extension local storage.
-- Standalone **Node-only EmbeddingGemma 2 POC** for semantic similarity: `npm run embedding:poc`. The extension does **not** yet perform on-device embeddings or ML bot identification.
+| Capability | State |
+|---|---|
+| Local manual account hiding (posts + comments) with reversible UI | Implemented, needs browser E2E |
+| Conservative spam/scam heuristics and optional evidence annotations | Implemented, not benchmark-calibrated |
+| Optional long lexical near-duplicate comment collapsing | Implemented, enabled **off** by default |
+| Visible-page account evidence inspector | Implemented, needs browser E2E |
+| Manual JSON public-indicator pack import and exact match advisory | Implemented, **off** by default |
+| Exact public domain matching, no unverified domain-to-person attribution | Implemented, tests pass |
+| Local/offline shared-domain campaign candidate graph extraction | Implemented CLI and optional offline viewer |
+| Manual opt-in RDAP domain metadata lookup | Implemented CLI, requires internet |
+| Cross-platform adapters for YouTube, X, Instagram, Reddit, TikTok, Facebook, Threads, Bluesky, LinkedIn | Experimental (see below) |
+| EmbeddingGemma 2 semantic similarity | Node proof of concept only; **not in browser filtering** |
+| Signed community threat feeds, semantic multilingual detection, multimodal slop filters, full coordination graph, real-time domain reputation | Research/design only; **not built** |
 
-## Platform support matrix (v0.2)
+**The project never verifies that an individual account is a bot.** It identifies observable suspicious behavior, gives users reversible local filtering, and surfaces limited, cited investigative signals. Browser hiding does **not** delete posts, ban accounts, alter platform account settings or act as a server-side moderator.
 
-| Site | Post/feed adapter | Comment adapter | Account identity | Readiness |
+### Platforms
+
+| Site | Feed / posts | Comments | Account identity | Readiness |
 |---|---|---|---|---|
-| YouTube | Video cards, community posts | Yes | Profile URL when present | Initial prototype |
-| X / Twitter | Tweet/reply cards | Treated as cards | Handle from profile link | Experimental |
-| Instagram | Caption selector | Provisional selector | Profile link if present | Experimental |
-| Reddit | Post/custom elements | Comment/custom elements | Profile link if present | Experimental |
-| TikTok | Video descriptions | Provisional selector | Profile link if present | Experimental |
-| Facebook | Post text | Not yet | Profile link if present | Experimental |
-| Threads | Post text | Not separately | Profile link if present | Experimental |
-| Bluesky | Feed posts | Not separately | Profile link if present | Experimental |
-| LinkedIn | Feed updates | Comment elements | Profile link if present | Experimental |
+| YouTube | Video cards, community posts | Initial extractor | Public profile URL | Initial experimental adapter; default on |
+| X / Twitter | Tweets / replies | Part of tweet cards | Public profile URL | Experimental, default off |
+| Instagram | Caption selector | Provisional | Public profile URL | Experimental, default off |
+| Reddit | Posts | Comments | Public profile URL | Experimental, default off |
+| TikTok | Video descriptions | Provisional | Public profile URL | Experimental, default off |
+| Facebook | Feed | Not yet | Public profile URL | Experimental, default off |
+| Threads | Feed | Not separately | Public profile URL | Experimental, default off |
+| Bluesky | Feed | Not separately | Public profile URL | Experimental, default off |
+| LinkedIn | Feed | Provisional | Public profile URL | Experimental, default off |
 
-A row indicates code scaffolding, **not verified reliable blocking**. If a site has no matching element selectors, it does nothing instead of hiding arbitrary page content. Some mobile/native apps cannot be reached by a desktop browser extension.
+The extension works only in supported **browser** pages. A matched selector is not proof the site works with its current interface. **It does not filter native mobile apps.**
 
 ## Quick start
 
-Prerequisites: Node.js >= 22.16, npm, Chrome/Chromium.
+Requirements: Node.js >= 22.16, npm, Chrome/Chromium, and network access for dependencies.
 
-```bash
+```sh
 npm install
 npm test
+npm run typecheck:core
 npm run typecheck
 npm run build
 ```
 
-1. Open `chrome://extensions`, enable Developer mode.
-2. Choose **Load unpacked** and select `.output/chrome-mv3`.
-3. Use the extension popup to enable specific websites and select comment, feed, or account filtering.
-4. Click an account's **Hide ... locally** button to collapse their visible content on that site. Use the popup blocklist to undo it.
-5. Every auto-collapsed item has a **Show temporarily** option. If an adapter causes errors, disable that site.
+Then go to `chrome://extensions`, enable Developer mode, select **Load unpacked**, and choose `.output/chrome-mv3`. Use the popup to select websites, filtering strength, individual account hiding, opt-in duplicate hiding, and OSINT annotations. Every content collapse has a **Show temporarily** button. Use the popup blocklist to undo local account hides.
 
-`npm run dev` launches the WXT development workflow. A built extension is not included in the source ZIP.
+`npm run dev` uses WXT development mode. Check the installed extension permissions and test each site's adapter manually before using it regularly.
 
-## Model research
+## OSINT / network tools
 
-The core currently uses transparent rules. `scripts/embedding-poc.mjs` is an opt-in Node-only experiment with [EmbeddingGemma 2 ONNX](https://huggingface.co/onnx-community/embeddinggemma-2-ONNX); it does not participate in extension filtering. Read [docs/model-research.md](docs/model-research.md) for the browser WebGPU, model-consent, licensing, quantization, resource benchmarking, and evaluation requirements.
+**No OSINT web request is made by the browser extension.** Public indicator packs are imported explicitly from local JSON, length-validated, and matched only against exact on-page account keys / URL hostnames. **Matches are advisory only.** Imported publisher and evidence metadata are not cryptographically verified and must not be treated as authoritative.
 
-## Design and contribution
+- [Example synthetic indicator pack](docs/indicator-pack.example.json): use the popup's JSON import control; toggle on **OSINT indicator advisories** to display potential exact matches.
+- `npm run investigate:fixture`: analyzes a bundled **synthetic** dataset in local memory and prints account observations, shared-domain candidate groups, and evidence-labelled graph JSON. `npm run investigate:fixture -- path/to/permissioned.json` accepts a local JSON file (<=2 MB, <=500 entries). This is investigative context, not proof of bots.
+- [Offline graph viewer](tools/network-viewer.html): open locally in a browser, save the prior report to JSON, and load it to inspect edges without uploading anything.
+- `npm run intel:rdap -- example.com`: manual domain registration metadata lookup, not IP/location attribution. This command uses a public RDAP service and transmits the requested domain; it is **never** called automatically.
 
-- [Architecture](docs/architecture.md) — platform adapters, account IDs, content classifications, risk gates.
-- [Privacy](docs/privacy.md) — in-memory processing, local-only blocklist and privacy threat model.
-- [Roadmap](docs/roadmap.md) — fixture/regression tests and model gating.
-- [Agent task queue](docs/agent-backlog.md) — prioritized tasks for Claude Code, Codex and local coding agents.
-- [Contribution guide](CONTRIBUTING.md).
-- [AGENTS.md](AGENTS.md) — shared guidelines for Codex, Claude Code, and local agents. [CLAUDE.md](CLAUDE.md) — Claude-specific setup.
+**No geographic-proximity risk model**: publicly attributed campaign origins can be researched at the *campaign* level with citations. An individual's apparent country, language, claimed location, or proximity to documented operations is not used as evidence of automation or spam.
 
-**Never claim to verify a human/bot identity from embeddings, text style, or account name.** Do not collect or scrape social graphs, perform unauthorized platform actions, or make irreversible moderation changes. Account actions are local browser hides, not server-side blocks.
+## Project map
 
-## License
+```text
+entrypoints/                 WXT content script and popup
+src/adapters/platforms/     One DOM spec per social platform
+src/core/                   Spam rules, deduplication, account observations, policy, embedding ports
+src/extension/              Local settings, reversible DOM UI and event controller
+src/intel/                  Exact-match provenance-aware indicator packs and enrichment ports
+src/network/                Shared-domain campaign candidates and evidence-labelled graph DTO
+src/research/               Classification evaluation metrics
+scripts/                    Offline fixture analysis, opt-in RDAP, EmbeddingGemma research
+fixtures/                   Synthetic content only
+tools/                      Offline network graph viewer
+AGENTS.md / CLAUDE.md       Agent policy and division of work
+```
 
-Apache-2.0 for repository source. Model weights are not bundled and retain their own distribution terms.
+Refer to [architecture v0.3](docs/architecture-v0.3.md), [roadmap](docs/roadmap.md), [privacy](docs/privacy.md), [model research](docs/model-research.md), and [agent backlog](docs/agent-backlog.md).
+
+## Development with Claude Code, Codex, and local Qwen
+
+Shared invariants are in `AGENTS.md`; `CLAUDE.md` covers Claude workflows. Separate worktrees/PRs by subsystem, for example `src/adapters/platforms/` versus `src/intel/` versus `src/network/`, and require tests and live browser screenshots before marking platforms supported.
+
+## Privacy, safety, and contributions
+
+- Local-only content processing, no telemetry or default backend; content bodies and graph research are not persisted by the extension.
+- The browser stores only preferences, local account-block identifiers, and **explicitly imported** advisory pack data.
+- No demographic, nationality, geography, political viewpoint, linguistic identity, or inferred physical-location classifiers.
+- Account relationships are hypotheses with specific evidence labels, not inferred common ownership or real-world identity.
+- No unauthorized scraping, private-message access, cookies, platform moderation API writes, or remote code execution.
+- Signed feeds, model weights, server analysis, threat-data updates and optional APIs require explicit review and opt-in.
+
+[Contributing](CONTRIBUTING.md) · [Threat model](docs/privacy.md) · Apache-2.0 source license (external model weights have separate terms).

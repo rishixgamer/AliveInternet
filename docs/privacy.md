@@ -1,23 +1,30 @@
-# Privacy and threat model (v0.2)
+# AliveInternet privacy and threat model (v0.3 alpha)
 
-## Local data flow
+## Browser extension
 
-ThreadSieve reads *currently rendered* post/comment text, author display names, profile link URLs, and content links in memory when a supported site is enabled. Rule assessments and short-lived page-local account campaign counts are ephemeral. No comment bodies, post texts, viewing histories, or classification histories are persisted or transmitted.
+- Parses **currently rendered** enabled-platform content and links in memory. No off-page private social graph collection, private messages, session token access, IP address extraction or location inference.
+- Persists `settings` (preferences + explicit per-platform user account hides) and a **user-uploaded** public-indicator JSON pack when explicitly imported. Does not persist raw posts, comments, observed account histories, browsing sessions, or network graphs. `browser.storage.local` is not encrypted; profile hides are potentially sensitive personal preference data.
+- No automatic external HTTP requests, analytics, telemetry, comment uploads, or AI weight downloads. Manual source code scripts that query internet services are separate and are never invoked by browser content scripts.
+- Imported indicator matches produce explainable *advisory labels* when the user opts in. They never trigger automatic collapse or account-level blocks. Publishers/URLs in imported packs are self-declared, not independently authenticated.
+- Local rule-based collapse is conservative; user can **Show temporarily**. User-selected account hides remain visible in a removable popup list. Optional deduplication preserves the first long comment; may still suppress legitimate repeated speech, so default is off.
 
-`browser.storage.local` stores filtering preferences and **user-selected** local account block identifiers of the form `platform:profileKey`. It does not make server-side blocks. These IDs should be considered potentially sensitive browsing preferences; don't sync or publish them without consent. Clear site data or unhide individual entries via the popup.
+## OSINT limitations
 
-The opt-in Node `embedding:poc` downloads public model weights and runs on synthetic examples, not user feed data. The browser extension has no model downloads today.
+- Public RDAP data may expose registrant contact information; the manual CLI intentionally outputs only registration events, status and nameservers. Metadata does not establish a bot account's location, operator, or maliciousness.
+- `src/intel/ports.ts` specifies explicit consent boundaries for proposed public-intelligence services. No third-party intelligence integration is active in the extension.
+- Campaign-level reported origins must retain source and uncertainty and never become individual account risk or geographic proximity scores. The Global South is not an appropriate bot-classification target.
+- Shared URL or account graph relationships are candidate observations, not proof of ownership, collusion, operator identity or automation.
 
-## Attack surfaces
+## Attack surfaces and security tasks
 
-- **Untrusted text/markup:** Read `textContent`, construct DOM elements, never insert untrusted `innerHTML` or execute code from content.
-- **Profile confusion:** Accept keys only from platform profile URLs, not display names or off-site links. Handles can change.
-- **Selector churn:** Changes to social websites can cause missed items or misattribution. Default-disable experimental platforms, test with actual page fixtures, prefer failure to detect over aggressive hiding.
-- **False positives:** Multiple independent high-evidence spam signals are required for automatic collapses. Decisions are reversible and uncalibrated. Do not classify accounts as verified bots.
-- **Browser privileges:** The MV3 content-script declaration requests access to multiple named social host patterns (potential install warnings). Avoid broad wildcard all-site access, cookies, browsing-history APIs, external API calls, and remote executable scripts.
-- **Concurrent tabs/settings:** Existing settings storage uses read-modify-write and is not a transactional blocklist database; concurrent blocks from multiple tabs need conflict-resistant persistence before release.
-- **Performance:** MutationObserver work, large comment threads, and future embeddings must be throttled, bounded, and benchmarked.
+- Untrusted page text is processed with `textContent` and safely constructed DOM nodes; no injected `innerHTML`, script execution or remote MV3 code.
+- Page/profile link parsing is platform scoped; changes to site DOM risk misattribution. Abort and fail open on unknown layouts; no arbitrary broad page-body hiding.
+- Pack parser strictly restricts fields, indicator count, lengths, HTTPS evidence URLs, hostname format and recognized sites; packs remain **untrusted** and a malicious user-installed pack could still produce false warnings.
+- False positives and coordination misinterpretation can chill legitimate speech. Prefer missing ambiguous spam to hiding legitimate content.
+- Large DOM scans, quadratic local near-duplicate comparisons, and future on-device embeddings require performance limits and device testing.
+- Manifest presently declares multiple named content-script host patterns. Before public release, implement opt-in site permissions and browser store policy compliance.
+- Storage update races across tabs and browser E2E regressions remain unaddressed release blockers.
 
-## Production expansion criteria
+## Prior to release
 
-Consent for any model weights and updates, model-license review, WebGPU CPU/GPU budgets, platform-policy review, inspectable source and dependency SBOM, user-visible data deletion controls, and real-browser regression tests.
+Dependency audit/SBOM, browser-specific selector fixture tests, consent and deletion UX, accessibility, platform terms review, better account allowlist, exact model licensing verification, reproducible evaluation on permissioned labels, geographic bias audit without geography-based classifier signals, signed community-list validation and code review.

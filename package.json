@@ -1,9 +1,9 @@
 {
-  "name": "thread-sieve",
-  "version": "0.2.0",
+  "name": "aliveinternet",
+  "version": "0.3.0",
   "private": true,
   "type": "module",
-  "description": "Local, reversible spam and account filtering across social media websites.",
+  "description": "Privacy-first, cross-platform filtering and explainable public-indicator analysis.",
   "scripts": {
     "dev": "wxt dev -b chrome",
     "build": "wxt build -b chrome",
@@ -12,7 +12,9 @@
     "typecheck": "wxt prepare && tsc --noEmit",
     "typecheck:core": "tsc -p tsconfig.core.json",
     "test": "node --experimental-strip-types --test tests/*.test.mjs",
-    "embedding:poc": "node scripts/embedding-poc.mjs"
+    "embedding:poc": "node scripts/embedding-poc.mjs",
+    "investigate:fixture": "node --experimental-strip-types scripts/analyze-fixture.mjs",
+    "intel:rdap": "node scripts/rdap-domain.mjs"
   },
   "engines": {"node": ">=22.16"},
   "devDependencies": {

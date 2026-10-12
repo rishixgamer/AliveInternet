@@ -8,6 +8,12 @@ export interface Settings {
   filterComments: boolean;
   filterPosts: boolean;
   filterAccounts: boolean;
+  /** Opt-in readability: keep first long repeated comment visible. */
+  dedupeComments: boolean;
+  /** Account evidence from visible items only (no profile scraping). */
+  inspectAccounts: boolean;
+  /** Opt-in advisories from manually imported indicator pack; never auto-block. */
+  intelAdvisories: boolean;
   showBlockControls: boolean;
   /** Opt-in: collapse other visible content from accounts with 3+ distinct high-evidence spam items. */
   autoCampaignAccounts: boolean;
@@ -19,6 +25,7 @@ export interface Settings {
 export const DEFAULT_SETTINGS: Settings = {
   enabled: true, mode: 'balanced', annotateFlagged: false,
   filterComments: true, filterPosts: true, filterAccounts: true,
+  dedupeComments: false, inspectAccounts: true, intelAdvisories: false,
   showBlockControls: true, autoCampaignAccounts: false,
   platforms: { youtube: true, x: false, instagram: false, reddit: false,
     tiktok: false, facebook: false, threads: false, bluesky: false, linkedin: false },
@@ -51,6 +58,8 @@ export function sanitizeSettings(value: unknown): Settings {
     annotateFlagged: bool('annotateFlagged'), filterComments: bool('filterComments'),
     filterPosts: bool('filterPosts'), filterAccounts: bool('filterAccounts'),
     showBlockControls: bool('showBlockControls'), autoCampaignAccounts: bool('autoCampaignAccounts'),
+    dedupeComments: bool('dedupeComments'), inspectAccounts: bool('inspectAccounts'),
+    intelAdvisories: bool('intelAdvisories'),
     platforms: normalizedPlatforms, blockedAccounts,
   };
 }

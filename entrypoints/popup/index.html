@@ -3,13 +3,13 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>ThreadSieve</title>
+    <title>AliveInternet</title>
   </head>
   <body>
     <main>
-      <h1>ThreadSieve <small>0.2 alpha</small></h1>
+      <h1>AliveInternet <small>0.3 alpha</small></h1>
       <p class="intro">On-device, reversible social feed filtering. No content is sent to a server.</p>
-      <label class="toggle"><input id="enabled" type="checkbox" /> Enable ThreadSieve</label>
+      <label class="toggle"><input id="enabled" type="checkbox" /> Enable AliveInternet</label>
 
       <fieldset>
         <legend>What to filter</legend>
@@ -17,6 +17,8 @@
         <label class="toggle"><input id="filterPosts" type="checkbox" /> Posts and feed content</label>
         <label class="toggle"><input id="filterAccounts" type="checkbox" /> Locally blocked accounts</label>
         <label class="toggle"><input id="showBlockControls" type="checkbox" /> Show local account-hide buttons</label>
+        <label class="toggle"><input id="inspectAccounts" type="checkbox" /> Show visible-page account evidence</label>
+        <label class="toggle"><input id="dedupeComments" type="checkbox" /> Collapse near-duplicate long comments (opt-in)</label>
       </fieldset>
 
       <label for="mode">Rule filtering strength</label>
@@ -29,6 +31,14 @@
       <label class="toggle"><input id="autoCampaignAccounts" type="checkbox" /> Experimental: temporarily hide visible content from repeated high-evidence spam accounts</label>
       <p class="hint">This heuristic does not prove an account is a bot. It never adds accounts to your permanent blocklist.</p>
 
+      <fieldset>
+        <legend>OSINT indicator advisories (opt-in)</legend>
+        <label class="toggle"><input id="intelAdvisories" type="checkbox" /> Annotate exact public-indicator matches</label>
+        <p class="hint">Matches come from a user-imported JSON pack. This is not automatic threat attribution and NEVER auto-hides an account or post.</p>
+        <input type="file" id="importPack" accept="application/json,.json" aria-label="Import local indicator pack" />
+        <button type="button" id="removePack">Remove pack</button>
+        <p id="packStatus" class="hint" aria-live="polite">No pack loaded</p>
+      </fieldset>
       <fieldset>
         <legend>Websites</legend>
         <p class="hint">Only YouTube is enabled by default. Other adapters are experimental, may miss content, and need real-browser verification.</p>
