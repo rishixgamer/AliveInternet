@@ -1,0 +1,19 @@
+name: Site adapter (new site or broken layout)
+description: Add a site, or fix selectors after a site redesign.
+labels: [adapter]
+body:
+  - type: input
+    id: site
+    attributes: {label: Site}
+    validations: {required: true}
+  - type: textarea
+    id: details
+    attributes: {label: What is missing or broken, with a screenshot}
+    validations: {required: true}
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Requirements
+      options:
+        - label: I will keep selectors in src/adapters/platforms/ only (AGENTS.md rule 8).
+        - label: I will add a live-browser screenshot before marking the site supported.

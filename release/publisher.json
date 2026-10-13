@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "product": "AliveInternet",
+  "publisher": {
+    "name": "Rishi Haldar",
+    "githubLogin": "rishixgamer",
+    "profileUrl": "https://github.com/rishixgamer",
+    "githubIdentityVerified": true,
+    "storeIdentityVerified": false
+  },
+  "repository": {
+    "url": "https://github.com/rishixgamer/AliveInternet",
+    "visibility": "private",
+    "permission": "ADMIN",
+    "sourceUploaded": false
+  },
+  "privacy": {
+    "contact": "rishihaldar@umass.edu",
+    "contactSource": "Authenticated GitHub profile; maintainer requested defaults",
+    "mailboxDeliveryVerified": false,
+    "proposedPolicyUrl": "https://rishixgamer.github.io/AliveInternet/privacy/",
+    "hostedPolicyVerified": false
+  },
+  "stores": {
+    "chrome": {
+      "publisherAccountVerified": false
+    },
+    "edge": {
+      "publisherAccountVerified": false
+    },
+    "firefox": {
+      "publisherAccountVerified": false,
+      "signedXpiVerified": false
+    }
+  },
+  "publicationAuthorized": false
+}

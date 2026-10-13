@@ -1,0 +1,8 @@
+{
+  "extName": { "message": "AliveInternet", "description": "Extension name in the browser and stores" },
+  "extDescription": { "message": "Local, reversible spam filtering, account evidence, and optional public-indicator advisories." },
+  "showTemporarily": { "message": "Show temporarily", "description": "Button that reveals one hidden item" },
+  "hiddenLocally": { "message": "AliveInternet hid this locally: $REASON$", "placeholders": { "reason": { "content": "$1" } } },
+  "inspectEvidence": { "message": "Inspect evidence" },
+  "settingsSaved": { "message": "Settings saved" }
+}

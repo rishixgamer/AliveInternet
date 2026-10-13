@@ -1,0 +1,19 @@
+name: New rule or language rule pack
+description: Propose spam rules, or a rule pack for a new language.
+labels: [rules, good first issue]
+body:
+  - type: markdown
+    attributes:
+      value: Read docs/rule-list-spec.md. Every rule needs **positive examples and benign look-alikes**.
+  - type: input
+    id: locale
+    attributes: {label: Language (BCP-47), placeholder: es, pt-BR, hi}
+    validations: {required: true}
+  - type: textarea
+    id: pattern
+    attributes: {label: Pattern and why it is spam}
+    validations: {required: true}
+  - type: textarea
+    id: benign
+    attributes: {label: Legitimate comments that look similar and must NOT match}
+    validations: {required: true}

@@ -1,0 +1,22 @@
+name: Missed scam or spam
+description: A scam or spam comment that AliveInternet did not catch.
+labels: [missed-spam, detection]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **Remove usernames, profile links and phone numbers** (replace with `[handle]`, `[phone]`). Paste the pattern, not personal data.
+  - type: dropdown
+    id: platform
+    attributes: {label: Site, options: [YouTube, X / Twitter, Instagram, Reddit, TikTok, Facebook, Threads, Bluesky, LinkedIn]}
+    validations: {required: true}
+  - type: dropdown
+    id: category
+    attributes: {label: Kind of spam, options: [Investment / crypto testimonial, Reply chain endorsing a person, Creator impersonation, Prize / giveaway claim, Copied comment, "Check my profile" bait, Other]}
+  - type: textarea
+    id: text
+    attributes: {label: Redacted text (include replies if it is a reply chain)}
+    validations: {required: true}
+  - type: input
+    id: language
+    attributes: {label: Language, placeholder: en}

@@ -1,0 +1,6 @@
+
+> aliveinternet@0.3.0 test:live
+> node scripts/test-live-youtube.mjs
+
+live YouTube smoke passed (one page; aggregate evidence only)
+passed: /Users/rishihaldar/Downloads/AliveInternet/artifacts/live-youtube/2026-10-12-parent-final/receipt.json

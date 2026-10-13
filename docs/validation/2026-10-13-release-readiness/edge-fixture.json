@@ -1,0 +1,284 @@
+{
+  "startedAt": "2026-10-13T20:39:43.822Z",
+  "status": "passed",
+  "scope": "Synthetic YouTube-shaped pages; real unpacked MV3 production build. Not live-platform selector validation.",
+  "extensionDir": "/Users/rishihaldar/Downloads/AliveInternet/.output/edge-mv3",
+  "checks": [
+    {
+      "name": "MV3 permissions and production package boundaries",
+      "status": "passed",
+      "elapsedMs": 0
+    },
+    {
+      "name": "real extension worker, popup and default YouTube controller",
+      "status": "passed",
+      "elapsedMs": 599
+    },
+    {
+      "name": "local reveal restores original display and SPA/reload reset reveal",
+      "status": "passed",
+      "elapsedMs": 1386
+    },
+    {
+      "name": "popup settings propagate to multiple content tabs and restore",
+      "status": "passed",
+      "elapsedMs": 705
+    },
+    {
+      "name": "local account hide and popup unhide are serialized and reversible",
+      "status": "passed",
+      "elapsedMs": 1152
+    },
+    {
+      "name": "hidden-item messages and popup review reveal current page only",
+      "status": "passed",
+      "elapsedMs": 1180
+    },
+    {
+      "name": "content edits and appended replies trigger isolated rescans",
+      "status": "passed",
+      "elapsedMs": 1031
+    },
+    {
+      "name": "settings export, preview, cancellation and explicit merge import",
+      "status": "passed",
+      "elapsedMs": 121
+    },
+    {
+      "name": "local advisory pack import is strict, escaped, opt-in and never hides benign content",
+      "status": "passed",
+      "elapsedMs": 1528
+    },
+    {
+      "name": "MV3 worker restart retains authoritative settings and resumes writes",
+      "status": "passed",
+      "elapsedMs": 12
+    },
+    {
+      "name": "popup controls have labels and enable toggle supports keyboard use",
+      "status": "passed",
+      "elapsedMs": 558
+    },
+    {
+      "name": "unconsented optional site has no injected controller",
+      "status": "passed",
+      "elapsedMs": 1084
+    },
+    {
+      "name": "1400-item feed completes in batches and stays quiet while idle",
+      "status": "passed",
+      "elapsedMs": 2716
+    },
+    {
+      "name": "synthetic release screenshots and reversible demo use production UI",
+      "status": "passed",
+      "elapsedMs": 1680
+    },
+    {
+      "name": "optional-site pending consent; headed grant and revocation path",
+      "status": "passed",
+      "elapsedMs": 826
+    }
+  ],
+  "metrics": {
+    "workerRestart": {
+      "stoppedObserved": true,
+      "previous": {
+        "versionId": "0",
+        "registrationId": "0",
+        "scriptURL": "chrome-extension://apkmikdckhgnkcckakmbmgcapmgpngmi/background.js",
+        "runningStatus": "running",
+        "status": "activated",
+        "scriptLastModified": 1791923853,
+        "scriptResponseTime": 0,
+        "controlledClients": [
+          "173B2174DD2DAA5D9E9EE1587DA74283"
+        ],
+        "targetId": "6B48AABEFC098B4CEC6B56D9DBE86D6A"
+      },
+      "running": {
+        "versionId": "0",
+        "registrationId": "0",
+        "scriptURL": "chrome-extension://apkmikdckhgnkcckakmbmgcapmgpngmi/background.js",
+        "runningStatus": "running",
+        "status": "activated",
+        "scriptLastModified": 1791923853,
+        "scriptResponseTime": 0,
+        "controlledClients": [
+          "173B2174DD2DAA5D9E9EE1587DA74283"
+        ],
+        "targetId": "6B48AABEFC098B4CEC6B56D9DBE86D6A"
+      }
+    },
+    "largeFeed": {
+      "itemCount": 1401,
+      "hiddenCount": 1400,
+      "readyMs": 678,
+      "longTasks": [],
+      "mutations": 2801
+    },
+    "idle": {
+      "intervalMs": 1200,
+      "rendererTaskSeconds": 0.0009200000000000041,
+      "rendererScriptSeconds": 0,
+      "uiMutations": 0
+    },
+    "media": {
+      "synthetic": true,
+      "screenshots": [
+        1280,
+        800
+      ],
+      "promo": [
+        440,
+        280
+      ],
+      "demoSeconds": 10,
+      "demoBytes": 202002
+    },
+    "optionalAccess": {
+      "pendingPromptUnresolved": true,
+      "headlessPromptUnresolved": false,
+      "noPreferenceEnable": true,
+      "noRegistration": true,
+      "nativePromptManuallyVerified": false
+    }
+  },
+  "console": [
+    {
+      "type": "warning",
+      "text": "The resource edge://downloads-hub/mai-message-bar.css was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally.",
+      "url": "edge://downloads-hub/"
+    },
+    {
+      "type": "warning",
+      "text": "The resource edge://downloads-hub/progress-bar.styles.css was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally.",
+      "url": "edge://downloads-hub/"
+    },
+    {
+      "type": "warning",
+      "text": "The resource edge://downloads-hub/button.styles.css was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally.",
+      "url": "edge://downloads-hub/"
+    },
+    {
+      "type": "warning",
+      "text": "The resource edge://downloads-hub/mai-menu-list.css was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally.",
+      "url": "edge://downloads-hub/"
+    },
+    {
+      "type": "warning",
+      "text": "The resource edge://downloads-hub/mai-progress-bar.css was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally.",
+      "url": "edge://downloads-hub/"
+    },
+    {
+      "type": "warning",
+      "text": "The resource edge://downloads-hub/mai-menu-item.css was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally.",
+      "url": "edge://downloads-hub/"
+    },
+    {
+      "type": "warning",
+      "text": "The resource edge://downloads-hub/text.styles.css was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally.",
+      "url": "edge://downloads-hub/"
+    },
+    {
+      "type": "warning",
+      "text": "The resource edge://downloads-hub/text-input.styles.css was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally.",
+      "url": "edge://downloads-hub/"
+    },
+    {
+      "type": "warning",
+      "text": "The resource edge://downloads-hub/link.styles.css was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally.",
+      "url": "edge://downloads-hub/"
+    }
+  ],
+  "errors": [],
+  "network": [
+    {
+      "url": "chrome-extension://apkmikdckhgnkcckakmbmgcapmgpngmi/chunks/popup-D0pNW6MG.js",
+      "resourceType": "script",
+      "action": "local-extension-resource"
+    },
+    {
+      "url": "chrome-extension://apkmikdckhgnkcckakmbmgcapmgpngmi/assets/popup-BRn-ieg6.css",
+      "resourceType": "stylesheet",
+      "action": "local-extension-resource"
+    },
+    {
+      "url": "https://www.youtube.com/watch?v=aliveinternet-synthetic-first",
+      "resourceType": "document",
+      "action": "synthetic-fulfill"
+    },
+    {
+      "url": "https://www.youtube.com/watch?v=aliveinternet-synthetic-second",
+      "resourceType": "document",
+      "action": "synthetic-fulfill"
+    },
+    {
+      "url": "https://www.youtube.com/watch?v=aliveinternet-synthetic-spa",
+      "resourceType": "document",
+      "action": "synthetic-fulfill"
+    },
+    {
+      "url": "https://www.youtube.com/watch?v=aliveinternet-synthetic-spa",
+      "resourceType": "document",
+      "action": "synthetic-fulfill"
+    },
+    {
+      "url": "https://www.x.com/aliveinternet-authorized-synthetic",
+      "resourceType": "document",
+      "action": "synthetic-fulfill"
+    },
+    {
+      "url": "https://www.youtube.com/watch?v=aliveinternet-synthetic-large&large=1",
+      "resourceType": "document",
+      "action": "synthetic-fulfill"
+    },
+    {
+      "url": "https://www.youtube.com/watch?v=aliveinternet-synthetic-media",
+      "resourceType": "document",
+      "action": "synthetic-fulfill"
+    },
+    {
+      "url": "chrome-extension://apkmikdckhgnkcckakmbmgcapmgpngmi/chunks/popup-D0pNW6MG.js",
+      "resourceType": "script",
+      "action": "local-extension-resource"
+    },
+    {
+      "url": "chrome-extension://apkmikdckhgnkcckakmbmgcapmgpngmi/assets/popup-BRn-ieg6.css",
+      "resourceType": "stylesheet",
+      "action": "local-extension-resource"
+    }
+  ],
+  "buildSha256": {
+    "assets/popup-BRn-ieg6.css": "7bee36e9755a38bce95778138886b241da3ecd44235e334c87a6f910369a5d5e",
+    "background.js": "3372ce01d9104e88691f4c7316868465242240120f824fad4f44cd9babd36ba4",
+    "chunks/popup-D0pNW6MG.js": "f81c3a381b5d567bda300a263d05bdc744256f4f40f372cf2c8e56c8a0f1d78f",
+    "content-scripts/social.css": "0d55ea1ae8a01ae4ebc34dfb988881a02fcdeeee35deabdcd7898489a9d33713",
+    "content-scripts/social.js": "34721fe3d46dbe7e15e1427e9d5ff50b28d90f79d3dd11c4feac680bd601295a",
+    "icons/128.png": "a39967b7ff506f787c12fba78b8df4f9b13c63ec997063bf21675fc6c28f37d0",
+    "icons/16.png": "ac04ff58bb1dc8d0a2c20760f147a6a430b18add0a4590b838d5c17ba8c09bea",
+    "icons/32.png": "a714d69f5cada276b0f0136f01a35c5b7b3d08cac701a0b5259d8ea964027a49",
+    "icons/48.png": "9938af96f428d6e344f92fab779c4858e3e8ae5cb194bc887702d559954af499",
+    "icons/source.svg": "6c92e16803f3ccc2fcc17e04991ee2cae5f431f25235ac91bbc463cc3c569a6b",
+    "manifest.json": "c3cc9a2f3e8e55f03bdae3bcc420a7efaa62e1af3ad863f67acf3b90f6610277",
+    "popup.html": "ad947351f1c2937836cb12508418f89e0307f0de815ba615f52b8c9fc3066646",
+    "THIRD_PARTY_LICENSES.txt": "6888cc8bd7d86fc4c521ab134ba300219919d767f1a58e0ac2c11abec544cafb"
+  },
+  "harnessSha256": "3a5d9ae6df3e90c6f9916c427b502075391ad573388eea16b3aa3804cf33d800",
+  "profile": "/var/folders/rl/mqdfknl56h77p6bc5yjzqx2w0000gn/T/aliveinternet-browser-xKVzea",
+  "brandedBrowser": {
+    "channel": "msedge",
+    "protocolVersion": "1.3",
+    "product": "Edg/155.0.4283.45",
+    "revision": "@50f24ef2aa5369a074b8888b7db82d9c0652d642",
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Safari/537.36 Edg/155.0.0.0",
+    "jsVersion": "15.5.9.4"
+  },
+  "installation": {
+    "method": "CDP Extensions.loadUnpacked",
+    "id": "apkmikdckhgnkcckakmbmgcapmgpngmi"
+  },
+  "browserVersion": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Safari/537.36 Edg/155.0.0.0",
+  "extensionId": "apkmikdckhgnkcckakmbmgcapmgpngmi",
+  "finishedAt": "2026-10-13T20:39:59.268Z"
+}

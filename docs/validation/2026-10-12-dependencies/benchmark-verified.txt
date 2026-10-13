@@ -1,0 +1,925 @@
+
+> aliveinternet@0.3.0 benchmark
+> node --experimental-strip-types scripts/benchmark.mjs benchmark/datasets/synthetic.json docs/validation/2026-10-12-dependencies/synthetic-benchmark-verified.json
+
+{
+  "schemaVersion": 1,
+  "timestamp": "2026-10-13T03:15:29.832Z",
+  "node": "v26.8.2",
+  "dataset": {
+    "sha256": "2b2ca2ae08571c26f0bbf4f20b66c9e7a69d9b53ae3ce1c11aac25415933d4a0",
+    "source": "synthetic",
+    "split": "dev",
+    "items": 42
+  },
+  "scope": "Rule-only offline collapse evaluation; ordered platform-isolated batches <=350. Flags count as not hidden. Synthetic metrics cannot establish real-world accuracy or bot identity. No raw rows or manifest free text in report.",
+  "lockSha256": "b4d7686494d587ea0b08c6ea14654a9ed3f341f18d2da5be79a32687cbe1f126",
+  "sourceHashes": {
+    "scripts/benchmark.mjs": "7eb99f5c288eb06205b7836eb44ea16633c66a183aadcd2991fa20d9cdb45235",
+    "src/core/accounts.ts": "1ccf1aac3f08ffb5a2777d6bf0e5f017b4259426105c4e03a0f85775c019e14b",
+    "src/core/analyzer-ports.ts": "189d62f530bc6e99aa9ed40bb5b9d285a107eeec8de093cd328c9593d94a2bd7",
+    "src/core/behavior.ts": "d1030384c4b118f91e64cb572cc056dec010c448b5da8b87bf6b0160a24cb684",
+    "src/core/cluster.ts": "a4279100f0dbe218bda399dd1cf19d661c1fbc7c6a543301de37a0529c06ffc4",
+    "src/core/dedupe.ts": "a6560ec807774a4bc283ea585dadea06cde1b4fd75a4a09fdec37966f4adc497",
+    "src/core/domains.ts": "a77570eb41657e3568bbd12141a4e305491bd3a0a4db6d8d7b3728a613528276",
+    "src/core/embeddings.ts": "af4432b798ffdd44eab191a480c947b0d84c05e3c2b014e50689fa36aeafe88a",
+    "src/core/explain.ts": "4a4be5b7a00dfc09daf5da37797dddd6c6d951f0498389cec0749b73557a0636",
+    "src/core/features.ts": "82efef950146b0b85777d08e099fdc9ee04b50ab4433b4d0bc9f0122879a309d",
+    "src/core/filter.ts": "64bb9a8b630adba4a204f659edc5f2b0549c3fbe0bdb1cc4c16120acc2c007fc",
+    "src/core/links.ts": "56f221300842594bfac183779d3ec3591dafa9926fa37f1a4ae34a3e42ff0702",
+    "src/core/live-chat.ts": "985568d6fa58c64b7b6bb9c66649e758c4781276e49de2243bc8f6f0105dcb37",
+    "src/core/mute.ts": "3e4060b8534ebfb7b86763cd4b0779115ec977604350df5cc92c057f08b38ce6",
+    "src/core/normalize.ts": "da642e6dffe20ed53651fed6e2a9ab6ddf595833f1f15b1827bb80893fb3b9de",
+    "src/core/obfuscation.ts": "8de2279ea9f82c6d0ed1884a37c447e9458aaca12cfd21eae255af69a42dd468",
+    "src/core/page-context.ts": "9922e535ad3ca948d0729df1834d171b2ca0655e89ec399931740f3422788840",
+    "src/core/platforms.ts": "af9d2bfaa8f2cfeb565b67bcf54c027df0e222866072900ee3c59993e56850d0",
+    "src/core/policy.ts": "efb6526708ea6ce7b3ee59b93df08f80042cdc94db36df175218cd0825ba7f5d",
+    "src/core/portability.ts": "2420f1b35266606cb63c2e128b8a7a0b6e290d62d0fdacf7fc8997a09c715524",
+    "src/core/preferences.ts": "a4025cc4e4fd27eb8edd1f07d9c90090acb9924cde3791a15a8c333064251653",
+    "src/core/review-list.ts": "f4f4436e4fe7d48ee2261be8ce874e69bd5b850d6f6f17e4aa7549c9b2664a5c",
+    "src/core/scaffold.ts": "20c4f90cc2fb13105373096da8f5043f3a5be32f84da26571390f87d814f7322",
+    "src/core/scopes.ts": "c937e876bbeca723d9a687a28227a7182c7893f16f37da3d2d070a26662c8f09",
+    "src/core/stats.ts": "6895ca5fbfc3b69adf69dd22c806df44f41a76e3f222afdda211c4b052e61814",
+    "src/core/trust.ts": "bc1d9c4c5bf3c5a6d51909e547e92dc833835dc1b1953d66a9bff331d52beff8",
+    "src/core/types.ts": "9cb240c2db7fde08cfc176c304c7d27176de7741eeff5cc6041258502f1f2d30",
+    "src/research/benchmark.ts": "8c299addfbb941c2f8118a26ff01233abdfb968a2bdcb614f683add2e7e1d85d",
+    "src/research/dataset.ts": "5345cfc6d6b4b9c070a939761cd087c8f4a066fe1b3746a2ad4abc986f56de7c",
+    "src/research/metrics.ts": "eea9cc0bdbf6fc8ea2479bcfa0a067c8de71caef59c6d59a74c19be1c5ed9ee7"
+  },
+  "results": [
+    {
+      "mode": "conservative",
+      "overall": {
+        "tp": 3,
+        "tn": 36,
+        "fp": 0,
+        "fn": 3,
+        "precision": 1,
+        "recall": 0.5,
+        "falsePositiveRate": 0
+      },
+      "flagged": 18,
+      "groups": [
+        {
+          "dimensions": [
+            "youtube",
+            "generic-filler",
+            "en"
+          ],
+          "count": 2,
+          "tp": 0,
+          "tn": 2,
+          "fp": 0,
+          "fn": 0,
+          "precision": null,
+          "recall": null,
+          "falsePositiveRate": 0
+        },
+        {
+          "dimensions": [
+            "youtube",
+            "spam",
+            "en"
+          ],
+          "count": 4,
+          "tp": 0,
+          "tn": 3,
+          "fp": 0,
+          "fn": 1,
+          "precision": null,
+          "recall": 0,
+          "falsePositiveRate": 0
+        },
+        {
+          "dimensions": [
+            "youtube",
+            "fake-giveaway",
+            "en"
+          ],
+          "count": 2,
+          "tp": 1,
+          "tn": 1,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1,
+          "recall": 1,
+          "falsePositiveRate": 0
+        },
+        {
+          "dimensions": [
+            "youtube",
+            "spam",
+            "es"
+          ],
+          "count": 1,
+          "tp": 0,
+          "tn": 1,
+          "fp": 0,
+          "fn": 0,
+          "precision": null,
+          "recall": null,
+          "falsePositiveRate": 0
+        },
+        {
+          "dimensions": [
+            "youtube",
+            "generic-filler",
+            "fr"
+          ],
+          "count": 1,
+          "tp": 0,
+          "tn": 1,
+          "fp": 0,
+          "fn": 0,
+          "precision": null,
+          "recall": null,
+          "falsePositiveRate": 0
+        },
+        {
+          "dimensions": [
+            "youtube",
+            "repetition",
+            "en"
+          ],
+          "count": 4,
+          "tp": 0,
+          "tn": 4,
+          "fp": 0,
+          "fn": 0,
+          "precision": null,
+          "recall": null,
+          "falsePositiveRate": 0
+        },
+        {
+          "dimensions": [
+            "x",
+            "generic-filler",
+            "en"
+          ],
+          "count": 2,
+          "tp": 0,
+          "tn": 2,
+          "fp": 0,
+          "fn": 0,
+          "precision": null,
+          "recall": null,
+          "falsePositiveRate": 0
+        },
+        {
+          "dimensions": [
+            "x",
+            "spam",
+            "en"
+          ],
+          "count": 4,
+          "tp": 0,
+          "tn": 3,
+          "fp": 0,
+          "fn": 1,
+          "precision": null,
+          "recall": 0,
+          "falsePositiveRate": 0
+        },
+        {
+          "dimensions": [
+            "x",
+            "fake-giveaway",
+            "en"
+          ],
+          "count": 2,
+          "tp": 1,
+          "tn": 1,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1,
+          "recall": 1,
+          "falsePositiveRate": 0
+        },
+        {
+          "dimensions": [
+            "x",
+            "spam",
+            "es"
+          ],
+          "count": 1,
+          "tp": 0,
+          "tn": 1,
+          "fp": 0,
+          "fn": 0,
+          "precision": null,
+          "recall": null,
+          "falsePositiveRate": 0
+        },
+        {
+          "dimensions": [
+            "x",
+            "generic-filler",
+            "fr"
+          ],
+          "count": 1,
+          "tp": 0,
+          "tn": 1,
+          "fp": 0,
+          "fn": 0,
+          "precision": null,
+          "recall": null,
+          "falsePositiveRate": 0
+        },
+        {
+          "dimensions": [
+            "x",
+            "repetition",
+            "en"
+          ],
+          "count": 4,
+          "tp": 0,
+          "tn": 4,
+          "fp": 0,
+          "fn": 0,
+          "precision": null,
+          "recall": null,
+          "falsePositiveRate": 0
+        },
+        {
+          "dimensions": [
+            "reddit",
+            "generic-filler",
+            "en"
+          ],
+          "count": 2,
+          "tp": 0,
+          "tn": 2,
+          "fp": 0,
+          "fn": 0,
+          "precision": null,
+          "recall": null,
+          "falsePositiveRate": 0
+        },
+        {
+          "dimensions": [
+            "reddit",
+            "spam",
+            "en"
+          ],
+          "count": 4,
+          "tp": 0,
+          "tn": 3,
+          "fp": 0,
+          "fn": 1,
+          "precision": null,
+          "recall": 0,
+          "falsePositiveRate": 0
+        },
+        {
+          "dimensions": [
+            "reddit",
+            "fake-giveaway",
+            "en"
+          ],
+          "count": 2,
+          "tp": 1,
+          "tn": 1,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1,
+          "recall": 1,
+          "falsePositiveRate": 0
+        },
+        {
+          "dimensions": [
+            "reddit",
+            "spam",
+            "es"
+          ],
+          "count": 1,
+          "tp": 0,
+          "tn": 1,
+          "fp": 0,
+          "fn": 0,
+          "precision": null,
+          "recall": null,
+          "falsePositiveRate": 0
+        },
+        {
+          "dimensions": [
+            "reddit",
+            "generic-filler",
+            "fr"
+          ],
+          "count": 1,
+          "tp": 0,
+          "tn": 1,
+          "fp": 0,
+          "fn": 0,
+          "precision": null,
+          "recall": null,
+          "falsePositiveRate": 0
+        },
+        {
+          "dimensions": [
+            "reddit",
+            "repetition",
+            "en"
+          ],
+          "count": 4,
+          "tp": 0,
+          "tn": 4,
+          "fp": 0,
+          "fn": 0,
+          "precision": null,
+          "recall": null,
+          "falsePositiveRate": 0
+        }
+      ],
+      "latency": {
+        "batchLimit": 350,
+        "batches": 3,
+        "totalMs": 2.709417000000002,
+        "maxBatchMs": 2.427500000000002
+      }
+    },
+    {
+      "mode": "balanced",
+      "overall": {
+        "tp": 6,
+        "tn": 33,
+        "fp": 3,
+        "fn": 0,
+        "precision": 0.6666666666666666,
+        "recall": 1,
+        "falsePositiveRate": 0.08333333333333333
+      },
+      "flagged": 12,
+      "groups": [
+        {
+          "dimensions": [
+            "youtube",
+            "generic-filler",
+            "en"
+          ],
+          "count": 2,
+          "tp": 0,
+          "tn": 2,
+          "fp": 0,
+          "fn": 0,
+          "precision": null,
+          "recall": null,
+          "falsePositiveRate": 0
+        },
+        {
+          "dimensions": [
+            "youtube",
+            "spam",
+            "en"
+          ],
+          "count": 4,
+          "tp": 1,
+          "tn": 2,
+          "fp": 1,
+          "fn": 0,
+          "precision": 0.5,
+          "recall": 1,
+          "falsePositiveRate": 0.3333333333333333
+        },
+        {
+          "dimensions": [
+            "youtube",
+            "fake-giveaway",
+            "en"
+          ],
+          "count": 2,
+          "tp": 1,
+          "tn": 1,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1,
+          "recall": 1,
+          "falsePositiveRate": 0
+        },
+        {
+          "dimensions": [
+            "youtube",
+            "spam",
+            "es"
+          ],
+          "count": 1,
+          "tp": 0,
+          "tn": 1,
+          "fp": 0,
+          "fn": 0,
+          "precision": null,
+          "recall": null,
+          "falsePositiveRate": 0
+        },
+        {
+          "dimensions": [
+            "youtube",
+            "generic-filler",
+            "fr"
+          ],
+          "count": 1,
+          "tp": 0,
+          "tn": 1,
+          "fp": 0,
+          "fn": 0,
+          "precision": null,
+          "recall": null,
+          "falsePositiveRate": 0
+        },
+        {
+          "dimensions": [
+            "youtube",
+            "repetition",
+            "en"
+          ],
+          "count": 4,
+          "tp": 0,
+          "tn": 4,
+          "fp": 0,
+          "fn": 0,
+          "precision": null,
+          "recall": null,
+          "falsePositiveRate": 0
+        },
+        {
+          "dimensions": [
+            "x",
+            "generic-filler",
+            "en"
+          ],
+          "count": 2,
+          "tp": 0,
+          "tn": 2,
+          "fp": 0,
+          "fn": 0,
+          "precision": null,
+          "recall": null,
+          "falsePositiveRate": 0
+        },
+        {
+          "dimensions": [
+            "x",
+            "spam",
+            "en"
+          ],
+          "count": 4,
+          "tp": 1,
+          "tn": 2,
+          "fp": 1,
+          "fn": 0,
+          "precision": 0.5,
+          "recall": 1,
+          "falsePositiveRate": 0.3333333333333333
+        },
+        {
+          "dimensions": [
+            "x",
+            "fake-giveaway",
+            "en"
+          ],
+          "count": 2,
+          "tp": 1,
+          "tn": 1,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1,
+          "recall": 1,
+          "falsePositiveRate": 0
+        },
+        {
+          "dimensions": [
+            "x",
+            "spam",
+            "es"
+          ],
+          "count": 1,
+          "tp": 0,
+          "tn": 1,
+          "fp": 0,
+          "fn": 0,
+          "precision": null,
+          "recall": null,
+          "falsePositiveRate": 0
+        },
+        {
+          "dimensions": [
+            "x",
+            "generic-filler",
+            "fr"
+          ],
+          "count": 1,
+          "tp": 0,
+          "tn": 1,
+          "fp": 0,
+          "fn": 0,
+          "precision": null,
+          "recall": null,
+          "falsePositiveRate": 0
+        },
+        {
+          "dimensions": [
+            "x",
+            "repetition",
+            "en"
+          ],
+          "count": 4,
+          "tp": 0,
+          "tn": 4,
+          "fp": 0,
+          "fn": 0,
+          "precision": null,
+          "recall": null,
+          "falsePositiveRate": 0
+        },
+        {
+          "dimensions": [
+            "reddit",
+            "generic-filler",
+            "en"
+          ],
+          "count": 2,
+          "tp": 0,
+          "tn": 2,
+          "fp": 0,
+          "fn": 0,
+          "precision": null,
+          "recall": null,
+          "falsePositiveRate": 0
+        },
+        {
+          "dimensions": [
+            "reddit",
+            "spam",
+            "en"
+          ],
+          "count": 4,
+          "tp": 1,
+          "tn": 2,
+          "fp": 1,
+          "fn": 0,
+          "precision": 0.5,
+          "recall": 1,
+          "falsePositiveRate": 0.3333333333333333
+        },
+        {
+          "dimensions": [
+            "reddit",
+            "fake-giveaway",
+            "en"
+          ],
+          "count": 2,
+          "tp": 1,
+          "tn": 1,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1,
+          "recall": 1,
+          "falsePositiveRate": 0
+        },
+        {
+          "dimensions": [
+            "reddit",
+            "spam",
+            "es"
+          ],
+          "count": 1,
+          "tp": 0,
+          "tn": 1,
+          "fp": 0,
+          "fn": 0,
+          "precision": null,
+          "recall": null,
+          "falsePositiveRate": 0
+        },
+        {
+          "dimensions": [
+            "reddit",
+            "generic-filler",
+            "fr"
+          ],
+          "count": 1,
+          "tp": 0,
+          "tn": 1,
+          "fp": 0,
+          "fn": 0,
+          "precision": null,
+          "recall": null,
+          "falsePositiveRate": 0
+        },
+        {
+          "dimensions": [
+            "reddit",
+            "repetition",
+            "en"
+          ],
+          "count": 4,
+          "tp": 0,
+          "tn": 4,
+          "fp": 0,
+          "fn": 0,
+          "precision": null,
+          "recall": null,
+          "falsePositiveRate": 0
+        }
+      ],
+      "latency": {
+        "batchLimit": 350,
+        "batches": 3,
+        "totalMs": 0.3077909999999946,
+        "maxBatchMs": 0.11408300000000082
+      }
+    },
+    {
+      "mode": "aggressive",
+      "overall": {
+        "tp": 6,
+        "tn": 33,
+        "fp": 3,
+        "fn": 0,
+        "precision": 0.6666666666666666,
+        "recall": 1,
+        "falsePositiveRate": 0.08333333333333333
+      },
+      "flagged": 12,
+      "groups": [
+        {
+          "dimensions": [
+            "youtube",
+            "generic-filler",
+            "en"
+          ],
+          "count": 2,
+          "tp": 0,
+          "tn": 2,
+          "fp": 0,
+          "fn": 0,
+          "precision": null,
+          "recall": null,
+          "falsePositiveRate": 0
+        },
+        {
+          "dimensions": [
+            "youtube",
+            "spam",
+            "en"
+          ],
+          "count": 4,
+          "tp": 1,
+          "tn": 2,
+          "fp": 1,
+          "fn": 0,
+          "precision": 0.5,
+          "recall": 1,
+          "falsePositiveRate": 0.3333333333333333
+        },
+        {
+          "dimensions": [
+            "youtube",
+            "fake-giveaway",
+            "en"
+          ],
+          "count": 2,
+          "tp": 1,
+          "tn": 1,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1,
+          "recall": 1,
+          "falsePositiveRate": 0
+        },
+        {
+          "dimensions": [
+            "youtube",
+            "spam",
+            "es"
+          ],
+          "count": 1,
+          "tp": 0,
+          "tn": 1,
+          "fp": 0,
+          "fn": 0,
+          "precision": null,
+          "recall": null,
+          "falsePositiveRate": 0
+        },
+        {
+          "dimensions": [
+            "youtube",
+            "generic-filler",
+            "fr"
+          ],
+          "count": 1,
+          "tp": 0,
+          "tn": 1,
+          "fp": 0,
+          "fn": 0,
+          "precision": null,
+          "recall": null,
+          "falsePositiveRate": 0
+        },
+        {
+          "dimensions": [
+            "youtube",
+            "repetition",
+            "en"
+          ],
+          "count": 4,
+          "tp": 0,
+          "tn": 4,
+          "fp": 0,
+          "fn": 0,
+          "precision": null,
+          "recall": null,
+          "falsePositiveRate": 0
+        },
+        {
+          "dimensions": [
+            "x",
+            "generic-filler",
+            "en"
+          ],
+          "count": 2,
+          "tp": 0,
+          "tn": 2,
+          "fp": 0,
+          "fn": 0,
+          "precision": null,
+          "recall": null,
+          "falsePositiveRate": 0
+        },
+        {
+          "dimensions": [
+            "x",
+            "spam",
+            "en"
+          ],
+          "count": 4,
+          "tp": 1,
+          "tn": 2,
+          "fp": 1,
+          "fn": 0,
+          "precision": 0.5,
+          "recall": 1,
+          "falsePositiveRate": 0.3333333333333333
+        },
+        {
+          "dimensions": [
+            "x",
+            "fake-giveaway",
+            "en"
+          ],
+          "count": 2,
+          "tp": 1,
+          "tn": 1,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1,
+          "recall": 1,
+          "falsePositiveRate": 0
+        },
+        {
+          "dimensions": [
+            "x",
+            "spam",
+            "es"
+          ],
+          "count": 1,
+          "tp": 0,
+          "tn": 1,
+          "fp": 0,
+          "fn": 0,
+          "precision": null,
+          "recall": null,
+          "falsePositiveRate": 0
+        },
+        {
+          "dimensions": [
+            "x",
+            "generic-filler",
+            "fr"
+          ],
+          "count": 1,
+          "tp": 0,
+          "tn": 1,
+          "fp": 0,
+          "fn": 0,
+          "precision": null,
+          "recall": null,
+          "falsePositiveRate": 0
+        },
+        {
+          "dimensions": [
+            "x",
+            "repetition",
+            "en"
+          ],
+          "count": 4,
+          "tp": 0,
+          "tn": 4,
+          "fp": 0,
+          "fn": 0,
+          "precision": null,
+          "recall": null,
+          "falsePositiveRate": 0
+        },
+        {
+          "dimensions": [
+            "reddit",
+            "generic-filler",
+            "en"
+          ],
+          "count": 2,
+          "tp": 0,
+          "tn": 2,
+          "fp": 0,
+          "fn": 0,
+          "precision": null,
+          "recall": null,
+          "falsePositiveRate": 0
+        },
+        {
+          "dimensions": [
+            "reddit",
+            "spam",
+            "en"
+          ],
+          "count": 4,
+          "tp": 1,
+          "tn": 2,
+          "fp": 1,
+          "fn": 0,
+          "precision": 0.5,
+          "recall": 1,
+          "falsePositiveRate": 0.3333333333333333
+        },
+        {
+          "dimensions": [
+            "reddit",
+            "fake-giveaway",
+            "en"
+          ],
+          "count": 2,
+          "tp": 1,
+          "tn": 1,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1,
+          "recall": 1,
+          "falsePositiveRate": 0
+        },
+        {
+          "dimensions": [
+            "reddit",
+            "spam",
+            "es"
+          ],
+          "count": 1,
+          "tp": 0,
+          "tn": 1,
+          "fp": 0,
+          "fn": 0,
+          "precision": null,
+          "recall": null,
+          "falsePositiveRate": 0
+        },
+        {
+          "dimensions": [
+            "reddit",
+            "generic-filler",
+            "fr"
+          ],
+          "count": 1,
+          "tp": 0,
+          "tn": 1,
+          "fp": 0,
+          "fn": 0,
+          "precision": null,
+          "recall": null,
+          "falsePositiveRate": 0
+        },
+        {
+          "dimensions": [
+            "reddit",
+            "repetition",
+            "en"
+          ],
+          "count": 4,
+          "tp": 0,
+          "tn": 4,
+          "fp": 0,
+          "fn": 0,
+          "precision": null,
+          "recall": null,
+          "falsePositiveRate": 0
+        }
+      ],
+      "latency": {
+        "batchLimit": 350,
+        "batches": 3,
+        "totalMs": 0.4528350000000003,
+        "maxBatchMs": 0.2682090000000059
+      }
+    }
+  ]
+}
+

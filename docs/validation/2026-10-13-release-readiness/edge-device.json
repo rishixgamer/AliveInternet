@@ -1,0 +1,1643 @@
+{
+  "schemaVersion": 1,
+  "startedAt": "2026-10-13T20:40:15.588Z",
+  "status": "passed",
+  "scope": "One real device, intercepted synthetic 1401-item fixture, extension absent versus production extension installed. Three warm-up pairs and ten measured pairs; alternating order. Not live-feed or cross-device evidence.",
+  "protocol": {
+    "warmupPairs": 3,
+    "measuredPairs": 10,
+    "settleMs": 650,
+    "idleMs": 1200,
+    "headless": false,
+    "itemCount": 1401,
+    "pageFocusedBeforeEachSample": true,
+    "baseline": "Separate browser process with no extension; both isolated contexts remain open, inactive pages blank.",
+    "readyDefinition": "Navigation to DOMContentLoaded plus two animation frames, then all 1400 expected collapses when enabled; includes navigation and scheduling.",
+    "cpuDefinition": "CDP SystemInfo cumulative process CPU deltas; exited processes unavailable. GPU-process CPU is host CPU time, never GPU utilization.",
+    "memoryDefinition": "OS ps resident-set KiB summed by CDP process type at settled checkpoint, not peak/unique physical memory; shared pages may be counted more than once.",
+    "gpuDefinition": "GPU utilization and energy unavailable; no dedicated hardware sampler is attached.",
+    "rendererDefinition": "CDP Performance renderer TaskDuration/ScriptDuration deltas, including navigation, completion and equal settle time."
+  },
+  "samples": [
+    {
+      "pair": -3,
+      "warmup": true,
+      "condition": "off",
+      "readyMs": 75.83829200000014,
+      "renderer": {
+        "taskMs": 58.442,
+        "scriptMs": 0.261
+      },
+      "cpu": {
+        "cpuMs": {
+          "browser": 65.82700000000003,
+          "renderer": 51.319,
+          "GPU": 22.343000000000004,
+          "network.mojom.NetworkService": 17.759999999999998,
+          "storage.mojom.StorageService": 0.2050000000000038
+        },
+        "startedProcesses": 0,
+        "exitedProcesses": 0
+      },
+      "rss": {
+        "byTypeKiB": {
+          "browser": 277248,
+          "renderer": 287296,
+          "GPU": 134000,
+          "network.mojom.NetworkService": 96144,
+          "storage.mojom.StorageService": 83104
+        },
+        "totalKiB": 877792,
+        "missingProcesses": 0
+      },
+      "longTaskCount": 0,
+      "longTaskTotalMs": 0,
+      "idle": {
+        "taskMs": 2.5149999999999966,
+        "scriptMs": 0,
+        "cpuMs": {
+          "browser": 90.62199999999999,
+          "renderer": 3.266999999999999,
+          "GPU": 2.4619999999999918,
+          "network.mojom.NetworkService": 5.854999999999999,
+          "storage.mojom.StorageService": 0.22300000000000098,
+          "entity_extraction_service.mojom.Extractor": 26.518
+        },
+        "startedProcesses": 1,
+        "exitedProcesses": 0,
+        "mutations": 0
+      },
+      "gpuBusyPercent": null,
+      "gpuEnergyJoules": null
+    },
+    {
+      "pair": -3,
+      "warmup": true,
+      "condition": "on",
+      "readyMs": 679.8453750000003,
+      "renderer": {
+        "taskMs": 162.34799999999998,
+        "scriptMs": 59.121
+      },
+      "cpu": {
+        "cpuMs": {
+          "browser": 192.797,
+          "renderer": 195.88500000000002,
+          "GPU": 39.091000000000015,
+          "network.mojom.NetworkService": 52.529999999999994,
+          "storage.mojom.StorageService": 0.24699999999999722,
+          "entity_extraction_service.mojom.Extractor": 0.26600000000000235
+        },
+        "startedProcesses": 0,
+        "exitedProcesses": 0
+      },
+      "rss": {
+        "byTypeKiB": {
+          "browser": 298656,
+          "renderer": 520144,
+          "GPU": 153248,
+          "network.mojom.NetworkService": 100656,
+          "storage.mojom.StorageService": 81232,
+          "entity_extraction_service.mojom.Extractor": 79584
+        },
+        "totalKiB": 1233520,
+        "missingProcesses": 0
+      },
+      "longTaskCount": 0,
+      "longTaskTotalMs": 0,
+      "idle": {
+        "taskMs": 1.5580000000000038,
+        "scriptMs": 0,
+        "cpuMs": {
+          "browser": 57.71499999999996,
+          "renderer": 2.7919999999999683,
+          "GPU": 5.31899999999999,
+          "network.mojom.NetworkService": 43.05600000000001,
+          "storage.mojom.StorageService": 0.20799999999999985,
+          "entity_extraction_service.mojom.Extractor": 0.8200000000000013
+        },
+        "startedProcesses": 0,
+        "exitedProcesses": 0,
+        "mutations": 0
+      },
+      "gpuBusyPercent": null,
+      "gpuEnergyJoules": null
+    },
+    {
+      "pair": -2,
+      "warmup": true,
+      "condition": "on",
+      "readyMs": 750.6293749999995,
+      "renderer": {
+        "taskMs": 151.211,
+        "scriptMs": 66.471
+      },
+      "cpu": {
+        "cpuMs": {
+          "browser": 210.24300000000008,
+          "renderer": 228.171,
+          "GPU": 40.107000000000006,
+          "network.mojom.NetworkService": 44.16300000000001,
+          "storage.mojom.StorageService": 0.16499999999999848,
+          "entity_extraction_service.mojom.Extractor": 0.060999999999998555
+        },
+        "startedProcesses": 0,
+        "exitedProcesses": 0
+      },
+      "rss": {
+        "byTypeKiB": {
+          "browser": 299536,
+          "renderer": 584480,
+          "GPU": 153296,
+          "network.mojom.NetworkService": 100752,
+          "storage.mojom.StorageService": 81264,
+          "entity_extraction_service.mojom.Extractor": 80112
+        },
+        "totalKiB": 1299440,
+        "missingProcesses": 0
+      },
+      "longTaskCount": 0,
+      "longTaskTotalMs": 0,
+      "idle": {
+        "taskMs": 1.467999999999997,
+        "scriptMs": 0,
+        "cpuMs": {
+          "browser": 57.606999999999964,
+          "renderer": 2.7459999999999845,
+          "GPU": 5.448999999999982,
+          "network.mojom.NetworkService": 33.62600000000002,
+          "storage.mojom.StorageService": 0.15400000000000136,
+          "entity_extraction_service.mojom.Extractor": 0.6209999999999966
+        },
+        "startedProcesses": 0,
+        "exitedProcesses": 0,
+        "mutations": 0
+      },
+      "gpuBusyPercent": null,
+      "gpuEnergyJoules": null
+    },
+    {
+      "pair": -2,
+      "warmup": true,
+      "condition": "off",
+      "readyMs": 54.982208000001265,
+      "renderer": {
+        "taskMs": 26.202,
+        "scriptMs": 0.112
+      },
+      "cpu": {
+        "cpuMs": {
+          "browser": 71.39000000000007,
+          "renderer": 39.82000000000001,
+          "GPU": 24.786,
+          "network.mojom.NetworkService": 13.761999999999997,
+          "storage.mojom.StorageService": 0.11999999999999511,
+          "entity_extraction_service.mojom.Extractor": 0.0999999999999994
+        },
+        "startedProcesses": 0,
+        "exitedProcesses": 0
+      },
+      "rss": {
+        "byTypeKiB": {
+          "browser": 292208,
+          "renderer": 310784,
+          "GPU": 135184,
+          "network.mojom.NetworkService": 99936,
+          "storage.mojom.StorageService": 83248,
+          "entity_extraction_service.mojom.Extractor": 79568
+        },
+        "totalKiB": 1000928,
+        "missingProcesses": 0
+      },
+      "longTaskCount": 0,
+      "longTaskTotalMs": 0,
+      "idle": {
+        "taskMs": 1.9609999999999974,
+        "scriptMs": 0,
+        "cpuMs": {
+          "browser": 42.38399999999998,
+          "renderer": 3.428999999999988,
+          "GPU": 1.7749999999999988,
+          "network.mojom.NetworkService": 20.65500000000001,
+          "storage.mojom.StorageService": 0.2620000000000053,
+          "entity_extraction_service.mojom.Extractor": 0.18900000000000167
+        },
+        "startedProcesses": 0,
+        "exitedProcesses": 0,
+        "mutations": 0
+      },
+      "gpuBusyPercent": null,
+      "gpuEnergyJoules": null
+    },
+    {
+      "pair": -1,
+      "warmup": true,
+      "condition": "off",
+      "readyMs": 162.48812499999985,
+      "renderer": {
+        "taskMs": 35.36900000000001,
+        "scriptMs": 0.127
+      },
+      "cpu": {
+        "cpuMs": {
+          "browser": 90.997,
+          "renderer": 49.85000000000001,
+          "GPU": 22.780999999999995,
+          "network.mojom.NetworkService": 22.190000000000015,
+          "storage.mojom.StorageService": 0.1749999999999946,
+          "entity_extraction_service.mojom.Extractor": 0.06499999999999909
+        },
+        "startedProcesses": 0,
+        "exitedProcesses": 0
+      },
+      "rss": {
+        "byTypeKiB": {
+          "browser": 292512,
+          "renderer": 329664,
+          "GPU": 136240,
+          "network.mojom.NetworkService": 100080,
+          "storage.mojom.StorageService": 83248,
+          "entity_extraction_service.mojom.Extractor": 79584
+        },
+        "totalKiB": 1021328,
+        "missingProcesses": 0
+      },
+      "longTaskCount": 0,
+      "longTaskTotalMs": 0,
+      "idle": {
+        "taskMs": 3.007999999999997,
+        "scriptMs": 0,
+        "cpuMs": {
+          "browser": 43.69199999999995,
+          "renderer": 3.2319999999999918,
+          "GPU": 6.815999999999988,
+          "network.mojom.NetworkService": 25.66299999999999,
+          "storage.mojom.StorageService": 0.10200000000000486,
+          "entity_extraction_service.mojom.Extractor": 0.11000000000000246
+        },
+        "startedProcesses": 0,
+        "exitedProcesses": 0,
+        "mutations": 0
+      },
+      "gpuBusyPercent": null,
+      "gpuEnergyJoules": null
+    },
+    {
+      "pair": -1,
+      "warmup": true,
+      "condition": "on",
+      "readyMs": 840.5892499999991,
+      "renderer": {
+        "taskMs": 154.184,
+        "scriptMs": 64.471
+      },
+      "cpu": {
+        "cpuMs": {
+          "browser": 222.45099999999996,
+          "renderer": 234.19200000000004,
+          "GPU": 46.999999999999986,
+          "network.mojom.NetworkService": 42.459000000000024,
+          "storage.mojom.StorageService": 0.4109999999999947,
+          "entity_extraction_service.mojom.Extractor": 0.2600000000000033
+        },
+        "startedProcesses": 0,
+        "exitedProcesses": 0
+      },
+      "rss": {
+        "byTypeKiB": {
+          "browser": 299920,
+          "renderer": 587984,
+          "GPU": 153600,
+          "network.mojom.NetworkService": 100816,
+          "storage.mojom.StorageService": 81264,
+          "entity_extraction_service.mojom.Extractor": 80096
+        },
+        "totalKiB": 1303680,
+        "missingProcesses": 0
+      },
+      "longTaskCount": 0,
+      "longTaskTotalMs": 0,
+      "idle": {
+        "taskMs": 1.3370000000000049,
+        "scriptMs": 0,
+        "cpuMs": {
+          "browser": 70.84299999999999,
+          "renderer": 2.526000000000063,
+          "GPU": 3.9859999999999896,
+          "network.mojom.NetworkService": 44.92699999999999,
+          "storage.mojom.StorageService": 0.1300000000000051,
+          "entity_extraction_service.mojom.Extractor": 0.5560000000000009
+        },
+        "startedProcesses": 0,
+        "exitedProcesses": 0,
+        "mutations": 0
+      },
+      "gpuBusyPercent": null,
+      "gpuEnergyJoules": null
+    },
+    {
+      "pair": 0,
+      "warmup": false,
+      "condition": "on",
+      "readyMs": 745.6482499999984,
+      "renderer": {
+        "taskMs": 145.64400000000003,
+        "scriptMs": 64.885
+      },
+      "cpu": {
+        "cpuMs": {
+          "browser": 206.7030000000001,
+          "renderer": 199.67899999999997,
+          "GPU": 39.99900000000001,
+          "network.mojom.NetworkService": 42.27199999999998,
+          "storage.mojom.StorageService": 0.18900000000000167,
+          "entity_extraction_service.mojom.Extractor": 0.06699999999999762
+        },
+        "startedProcesses": 0,
+        "exitedProcesses": 0
+      },
+      "rss": {
+        "byTypeKiB": {
+          "browser": 300080,
+          "renderer": 599680,
+          "GPU": 153280,
+          "network.mojom.NetworkService": 100960,
+          "storage.mojom.StorageService": 81264,
+          "entity_extraction_service.mojom.Extractor": 80096
+        },
+        "totalKiB": 1315360,
+        "missingProcesses": 0
+      },
+      "longTaskCount": 0,
+      "longTaskTotalMs": 0,
+      "idle": {
+        "taskMs": 1.4739999999999753,
+        "scriptMs": 0,
+        "cpuMs": {
+          "browser": 60.84,
+          "renderer": 2.807000000000004,
+          "GPU": 5.562000000000012,
+          "network.mojom.NetworkService": 36.94699999999995,
+          "storage.mojom.StorageService": 0.14699999999999436,
+          "entity_extraction_service.mojom.Extractor": 0.6309999999999996
+        },
+        "startedProcesses": 0,
+        "exitedProcesses": 0,
+        "mutations": 0
+      },
+      "gpuBusyPercent": null,
+      "gpuEnergyJoules": null
+    },
+    {
+      "pair": 0,
+      "warmup": false,
+      "condition": "off",
+      "readyMs": 112.76458300000013,
+      "renderer": {
+        "taskMs": 26.681000000000004,
+        "scriptMs": 0.11900000000000001
+      },
+      "cpu": {
+        "cpuMs": {
+          "browser": 85.09199999999994,
+          "renderer": 53.757,
+          "GPU": 24.936000000000014,
+          "network.mojom.NetworkService": 22.219000000000044,
+          "storage.mojom.StorageService": 0.13599999999999723,
+          "entity_extraction_service.mojom.Extractor": 0.059000000000000025
+        },
+        "startedProcesses": 0,
+        "exitedProcesses": 0
+      },
+      "rss": {
+        "byTypeKiB": {
+          "browser": 293040,
+          "renderer": 349136,
+          "GPU": 135168,
+          "network.mojom.NetworkService": 100096,
+          "storage.mojom.StorageService": 83248,
+          "entity_extraction_service.mojom.Extractor": 79584
+        },
+        "totalKiB": 1040272,
+        "missingProcesses": 0
+      },
+      "longTaskCount": 0,
+      "longTaskTotalMs": 0,
+      "idle": {
+        "taskMs": 15.898999999999997,
+        "scriptMs": 0,
+        "cpuMs": {
+          "browser": 57.19199999999991,
+          "renderer": 25.93799999999997,
+          "GPU": 1.8279999999999963,
+          "network.mojom.NetworkService": 33.569999999999986,
+          "storage.mojom.StorageService": 0.2549999999999983,
+          "entity_extraction_service.mojom.Extractor": 0.21900000000000044
+        },
+        "startedProcesses": 0,
+        "exitedProcesses": 0,
+        "mutations": 0
+      },
+      "gpuBusyPercent": null,
+      "gpuEnergyJoules": null
+    },
+    {
+      "pair": 1,
+      "warmup": false,
+      "condition": "off",
+      "readyMs": 151.23649999999907,
+      "renderer": {
+        "taskMs": 32.056,
+        "scriptMs": 0.12999999999999998
+      },
+      "cpu": {
+        "cpuMs": {
+          "browser": 87.04200000000006,
+          "renderer": 62.007999999999996,
+          "GPU": 23.33299999999999,
+          "network.mojom.NetworkService": 21.992999999999984,
+          "storage.mojom.StorageService": 0.16100000000000142,
+          "entity_extraction_service.mojom.Extractor": 0.06600000000000009
+        },
+        "startedProcesses": 0,
+        "exitedProcesses": 0
+      },
+      "rss": {
+        "byTypeKiB": {
+          "browser": 293136,
+          "renderer": 350400,
+          "GPU": 136128,
+          "network.mojom.NetworkService": 100064,
+          "storage.mojom.StorageService": 83248,
+          "entity_extraction_service.mojom.Extractor": 79584
+        },
+        "totalKiB": 1042560,
+        "missingProcesses": 0
+      },
+      "longTaskCount": 0,
+      "longTaskTotalMs": 0,
+      "idle": {
+        "taskMs": 11.201000000000002,
+        "scriptMs": 0,
+        "cpuMs": {
+          "browser": 64.39699999999982,
+          "renderer": 11.920999999999987,
+          "GPU": 5.613000000000035,
+          "network.mojom.NetworkService": 41.45800000000005,
+          "storage.mojom.StorageService": 0.13099999999999917,
+          "entity_extraction_service.mojom.Extractor": 0.12599999999999764
+        },
+        "startedProcesses": 0,
+        "exitedProcesses": 0,
+        "mutations": 0
+      },
+      "gpuBusyPercent": null,
+      "gpuEnergyJoules": null
+    },
+    {
+      "pair": 1,
+      "warmup": false,
+      "condition": "on",
+      "readyMs": 777.9222090000003,
+      "renderer": {
+        "taskMs": 154.05100000000002,
+        "scriptMs": 63.504000000000005
+      },
+      "cpu": {
+        "cpuMs": {
+          "browser": 205.9879999999996,
+          "renderer": 252.94399999999987,
+          "GPU": 45.82599999999998,
+          "network.mojom.NetworkService": 37.02499999999998,
+          "storage.mojom.StorageService": 0.38900000000000046,
+          "entity_extraction_service.mojom.Extractor": 0.23100000000000204
+        },
+        "startedProcesses": 0,
+        "exitedProcesses": 0
+      },
+      "rss": {
+        "byTypeKiB": {
+          "browser": 300208,
+          "renderer": 608912,
+          "GPU": 153424,
+          "network.mojom.NetworkService": 100912,
+          "storage.mojom.StorageService": 81264,
+          "entity_extraction_service.mojom.Extractor": 80096
+        },
+        "totalKiB": 1324816,
+        "missingProcesses": 0
+      },
+      "longTaskCount": 0,
+      "longTaskTotalMs": 0,
+      "idle": {
+        "taskMs": 1.348999999999989,
+        "scriptMs": 0,
+        "cpuMs": {
+          "browser": 61.71000000000015,
+          "renderer": 2.5190000000000836,
+          "GPU": 4.0839999999999765,
+          "network.mojom.NetworkService": 38.330000000000084,
+          "storage.mojom.StorageService": 0.12699999999999517,
+          "entity_extraction_service.mojom.Extractor": 0.5370000000000028
+        },
+        "startedProcesses": 0,
+        "exitedProcesses": 0,
+        "mutations": 0
+      },
+      "gpuBusyPercent": null,
+      "gpuEnergyJoules": null
+    },
+    {
+      "pair": 2,
+      "warmup": false,
+      "condition": "on",
+      "readyMs": 852.7152500000011,
+      "renderer": {
+        "taskMs": 157.80700000000002,
+        "scriptMs": 63.166
+      },
+      "cpu": {
+        "cpuMs": {
+          "browser": 231.33500000000006,
+          "renderer": 236.29700000000005,
+          "GPU": 47.97099999999999,
+          "network.mojom.NetworkService": 43.711000000000055,
+          "storage.mojom.StorageService": 0.3090000000000037,
+          "entity_extraction_service.mojom.Extractor": 0.056000000000000494
+        },
+        "startedProcesses": 0,
+        "exitedProcesses": 0
+      },
+      "rss": {
+        "byTypeKiB": {
+          "browser": 300368,
+          "renderer": 606656,
+          "GPU": 153024,
+          "network.mojom.NetworkService": 100912,
+          "storage.mojom.StorageService": 81264,
+          "entity_extraction_service.mojom.Extractor": 80096
+        },
+        "totalKiB": 1322320,
+        "missingProcesses": 0
+      },
+      "longTaskCount": 0,
+      "longTaskTotalMs": 0,
+      "idle": {
+        "taskMs": 1.3970000000000093,
+        "scriptMs": 0,
+        "cpuMs": {
+          "browser": 70.07399999999997,
+          "renderer": 2.622000000000006,
+          "GPU": 5.075999999999969,
+          "network.mojom.NetworkService": 42.83999999999999,
+          "storage.mojom.StorageService": 0.10899999999999799,
+          "entity_extraction_service.mojom.Extractor": 0.5350000000000008
+        },
+        "startedProcesses": 0,
+        "exitedProcesses": 0,
+        "mutations": 0
+      },
+      "gpuBusyPercent": null,
+      "gpuEnergyJoules": null
+    },
+    {
+      "pair": 2,
+      "warmup": false,
+      "condition": "off",
+      "readyMs": 104.77466699999786,
+      "renderer": {
+        "taskMs": 26.983,
+        "scriptMs": 0.114
+      },
+      "cpu": {
+        "cpuMs": {
+          "browser": 88.897,
+          "renderer": 56.48000000000003,
+          "GPU": 26.186999999999962,
+          "network.mojom.NetworkService": 22.626000000000033,
+          "storage.mojom.StorageService": 0.1500000000000043,
+          "entity_extraction_service.mojom.Extractor": 0.06899999999999962
+        },
+        "startedProcesses": 0,
+        "exitedProcesses": 0
+      },
+      "rss": {
+        "byTypeKiB": {
+          "browser": 293680,
+          "renderer": 350464,
+          "GPU": 135072,
+          "network.mojom.NetworkService": 100080,
+          "storage.mojom.StorageService": 83248,
+          "entity_extraction_service.mojom.Extractor": 79584
+        },
+        "totalKiB": 1042128,
+        "missingProcesses": 0
+      },
+      "longTaskCount": 0,
+      "longTaskTotalMs": 0,
+      "idle": {
+        "taskMs": 9.298,
+        "scriptMs": 0,
+        "cpuMs": {
+          "browser": 54.15300000000012,
+          "renderer": 10.507999999999948,
+          "GPU": 1.8000000000000238,
+          "network.mojom.NetworkService": 33.663,
+          "storage.mojom.StorageService": 0.23999999999999716,
+          "entity_extraction_service.mojom.Extractor": 0.2160000000000009
+        },
+        "startedProcesses": 0,
+        "exitedProcesses": 0,
+        "mutations": 0
+      },
+      "gpuBusyPercent": null,
+      "gpuEnergyJoules": null
+    },
+    {
+      "pair": 3,
+      "warmup": false,
+      "condition": "off",
+      "readyMs": 107.44116700000086,
+      "renderer": {
+        "taskMs": 31.965,
+        "scriptMs": 0.116
+      },
+      "cpu": {
+        "cpuMs": {
+          "browser": 99.25300000000004,
+          "renderer": 58.31100000000001,
+          "GPU": 24.173999999999975,
+          "network.mojom.NetworkService": 21.693999999999992,
+          "storage.mojom.StorageService": 0.22199999999999998,
+          "entity_extraction_service.mojom.Extractor": 0.06300000000000056
+        },
+        "startedProcesses": 0,
+        "exitedProcesses": 0
+      },
+      "rss": {
+        "byTypeKiB": {
+          "browser": 293968,
+          "renderer": 348752,
+          "GPU": 136048,
+          "network.mojom.NetworkService": 100272,
+          "storage.mojom.StorageService": 83248,
+          "entity_extraction_service.mojom.Extractor": 79584
+        },
+        "totalKiB": 1041872,
+        "missingProcesses": 0
+      },
+      "longTaskCount": 0,
+      "longTaskTotalMs": 0,
+      "idle": {
+        "taskMs": 10.673999999999996,
+        "scriptMs": 0,
+        "cpuMs": {
+          "browser": 45.691000000000145,
+          "renderer": 12.236999999999984,
+          "GPU": 4.8040000000000305,
+          "network.mojom.NetworkService": 27.429000000000038,
+          "storage.mojom.StorageService": 0.11500000000000399,
+          "entity_extraction_service.mojom.Extractor": 0.09499999999999786
+        },
+        "startedProcesses": 0,
+        "exitedProcesses": 0,
+        "mutations": 0
+      },
+      "gpuBusyPercent": null,
+      "gpuEnergyJoules": null
+    },
+    {
+      "pair": 3,
+      "warmup": false,
+      "condition": "on",
+      "readyMs": 751.4024169999975,
+      "renderer": {
+        "taskMs": 140.746,
+        "scriptMs": 64.636
+      },
+      "cpu": {
+        "cpuMs": {
+          "browser": 227.03300000000004,
+          "renderer": 203.87399999999994,
+          "GPU": 46.958000000000055,
+          "network.mojom.NetworkService": 42.11700000000007,
+          "storage.mojom.StorageService": 0.36599999999999827,
+          "entity_extraction_service.mojom.Extractor": 0.2200000000000049
+        },
+        "startedProcesses": 0,
+        "exitedProcesses": 0
+      },
+      "rss": {
+        "byTypeKiB": {
+          "browser": 300720,
+          "renderer": 619104,
+          "GPU": 153440,
+          "network.mojom.NetworkService": 100960,
+          "storage.mojom.StorageService": 81264,
+          "entity_extraction_service.mojom.Extractor": 80112
+        },
+        "totalKiB": 1335600,
+        "missingProcesses": 0
+      },
+      "longTaskCount": 0,
+      "longTaskTotalMs": 0,
+      "idle": {
+        "taskMs": 27.743999999999993,
+        "scriptMs": 0,
+        "cpuMs": {
+          "browser": 61.16799999999989,
+          "renderer": 77.54900000000002,
+          "GPU": 4.244999999999943,
+          "network.mojom.NetworkService": 36.737999999999936,
+          "storage.mojom.StorageService": 0.16700000000000048,
+          "entity_extraction_service.mojom.Extractor": 0.6469999999999948
+        },
+        "startedProcesses": 0,
+        "exitedProcesses": 0,
+        "mutations": 0
+      },
+      "gpuBusyPercent": null,
+      "gpuEnergyJoules": null
+    },
+    {
+      "pair": 4,
+      "warmup": false,
+      "condition": "on",
+      "readyMs": 713.7959580000024,
+      "renderer": {
+        "taskMs": 153.74099999999999,
+        "scriptMs": 67.131
+      },
+      "cpu": {
+        "cpuMs": {
+          "browser": 198.47599999999989,
+          "renderer": 231.50099999999975,
+          "GPU": 35.13900000000003,
+          "network.mojom.NetworkService": 37.175999999999874,
+          "storage.mojom.StorageService": 0.15300000000000036,
+          "entity_extraction_service.mojom.Extractor": 0.056000000000000494
+        },
+        "startedProcesses": 0,
+        "exitedProcesses": 0
+      },
+      "rss": {
+        "byTypeKiB": {
+          "browser": 300816,
+          "renderer": 566912,
+          "GPU": 153744,
+          "network.mojom.NetworkService": 100944,
+          "storage.mojom.StorageService": 81264,
+          "entity_extraction_service.mojom.Extractor": 80112
+        },
+        "totalKiB": 1283792,
+        "missingProcesses": 0
+      },
+      "longTaskCount": 0,
+      "longTaskTotalMs": 0,
+      "idle": {
+        "taskMs": 1.469999999999999,
+        "scriptMs": 0,
+        "cpuMs": {
+          "browser": 69.4530000000002,
+          "renderer": 2.6900000000000395,
+          "GPU": 5.221999999999949,
+          "network.mojom.NetworkService": 40.67200000000004,
+          "storage.mojom.StorageService": 0.11800000000000005,
+          "entity_extraction_service.mojom.Extractor": 0.5839999999999943
+        },
+        "startedProcesses": 0,
+        "exitedProcesses": 0,
+        "mutations": 0
+      },
+      "gpuBusyPercent": null,
+      "gpuEnergyJoules": null
+    },
+    {
+      "pair": 4,
+      "warmup": false,
+      "condition": "off",
+      "readyMs": 170.70683299999655,
+      "renderer": {
+        "taskMs": 36.164,
+        "scriptMs": 0.124
+      },
+      "cpu": {
+        "cpuMs": {
+          "browser": 91.26900000000005,
+          "renderer": 55.82500000000002,
+          "GPU": 30.500999999999944,
+          "network.mojom.NetworkService": 17.95000000000002,
+          "storage.mojom.StorageService": 0.22300000000000098,
+          "entity_extraction_service.mojom.Extractor": 0.08700000000000027
+        },
+        "startedProcesses": 0,
+        "exitedProcesses": 0
+      },
+      "rss": {
+        "byTypeKiB": {
+          "browser": 294000,
+          "renderer": 349648,
+          "GPU": 135936,
+          "network.mojom.NetworkService": 100384,
+          "storage.mojom.StorageService": 83248,
+          "entity_extraction_service.mojom.Extractor": 79584
+        },
+        "totalKiB": 1042800,
+        "missingProcesses": 0
+      },
+      "longTaskCount": 0,
+      "longTaskTotalMs": 0,
+      "idle": {
+        "taskMs": 0.907999999999999,
+        "scriptMs": 0,
+        "cpuMs": {
+          "browser": 64.886,
+          "renderer": 1.5400000000000136,
+          "GPU": 2.951000000000037,
+          "network.mojom.NetworkService": 34.20099999999992,
+          "storage.mojom.StorageService": 0.2009999999999998,
+          "entity_extraction_service.mojom.Extractor": 0.17399999999999707
+        },
+        "startedProcesses": 0,
+        "exitedProcesses": 0,
+        "mutations": 0
+      },
+      "gpuBusyPercent": null,
+      "gpuEnergyJoules": null
+    },
+    {
+      "pair": 5,
+      "warmup": false,
+      "condition": "off",
+      "readyMs": 148.8492499999993,
+      "renderer": {
+        "taskMs": 33.811,
+        "scriptMs": 0.116
+      },
+      "cpu": {
+        "cpuMs": {
+          "browser": 96.78900000000024,
+          "renderer": 62.03399999999992,
+          "GPU": 20.15800000000001,
+          "network.mojom.NetworkService": 26.483999999999952,
+          "storage.mojom.StorageService": 0.2869999999999956,
+          "entity_extraction_service.mojom.Extractor": 0.07000000000000062
+        },
+        "startedProcesses": 0,
+        "exitedProcesses": 0
+      },
+      "rss": {
+        "byTypeKiB": {
+          "browser": 294048,
+          "renderer": 349616,
+          "GPU": 135824,
+          "network.mojom.NetworkService": 100400,
+          "storage.mojom.StorageService": 83248,
+          "entity_extraction_service.mojom.Extractor": 79584
+        },
+        "totalKiB": 1042720,
+        "missingProcesses": 0
+      },
+      "longTaskCount": 0,
+      "longTaskTotalMs": 0,
+      "idle": {
+        "taskMs": 10.999999999999996,
+        "scriptMs": 0,
+        "cpuMs": {
+          "browser": 61.332999999999856,
+          "renderer": 12.576000000000088,
+          "GPU": 7.0069999999999855,
+          "network.mojom.NetworkService": 36.060000000000095,
+          "storage.mojom.StorageService": 0.1270000000000021,
+          "entity_extraction_service.mojom.Extractor": 0.09600000000000233
+        },
+        "startedProcesses": 0,
+        "exitedProcesses": 0,
+        "mutations": 0
+      },
+      "gpuBusyPercent": null,
+      "gpuEnergyJoules": null
+    },
+    {
+      "pair": 5,
+      "warmup": false,
+      "condition": "on",
+      "readyMs": 743.4288750000051,
+      "renderer": {
+        "taskMs": 151.6,
+        "scriptMs": 67.053
+      },
+      "cpu": {
+        "cpuMs": {
+          "browser": 156.77200000000013,
+          "renderer": 232.22300000000027,
+          "GPU": 42.20199999999996,
+          "network.mojom.NetworkService": 3.0209999999999404,
+          "storage.mojom.StorageService": 0.2689999999999984,
+          "entity_extraction_service.mojom.Extractor": 0.2370000000000011
+        },
+        "startedProcesses": 0,
+        "exitedProcesses": 0
+      },
+      "rss": {
+        "byTypeKiB": {
+          "browser": 298800,
+          "renderer": 579104,
+          "GPU": 153040,
+          "network.mojom.NetworkService": 98896,
+          "storage.mojom.StorageService": 81264,
+          "entity_extraction_service.mojom.Extractor": 80128
+        },
+        "totalKiB": 1291232,
+        "missingProcesses": 0
+      },
+      "longTaskCount": 0,
+      "longTaskTotalMs": 0,
+      "idle": {
+        "taskMs": 1.2290000000000079,
+        "scriptMs": 0,
+        "cpuMs": {
+          "browser": 6.464000000000247,
+          "renderer": 2.492999999999905,
+          "GPU": 4.313000000000011,
+          "network.mojom.NetworkService": 2.2250000000001435,
+          "storage.mojom.StorageService": 0.19399999999999973,
+          "entity_extraction_service.mojom.Extractor": 0.5729999999999971
+        },
+        "startedProcesses": 0,
+        "exitedProcesses": 0,
+        "mutations": 0
+      },
+      "gpuBusyPercent": null,
+      "gpuEnergyJoules": null
+    },
+    {
+      "pair": 6,
+      "warmup": false,
+      "condition": "on",
+      "readyMs": 750.1261249999952,
+      "renderer": {
+        "taskMs": 150.401,
+        "scriptMs": 63.07300000000001
+      },
+      "cpu": {
+        "cpuMs": {
+          "browser": 153.36499999999998,
+          "renderer": 225.59900000000013,
+          "GPU": 39.262999999999934,
+          "network.mojom.NetworkService": 2.523000000000053,
+          "storage.mojom.StorageService": 0.11900000000000105,
+          "entity_extraction_service.mojom.Extractor": 0.058999999999996555
+        },
+        "startedProcesses": 0,
+        "exitedProcesses": 0
+      },
+      "rss": {
+        "byTypeKiB": {
+          "browser": 298976,
+          "renderer": 580816,
+          "GPU": 153520,
+          "network.mojom.NetworkService": 98896,
+          "storage.mojom.StorageService": 81264,
+          "entity_extraction_service.mojom.Extractor": 80128
+        },
+        "totalKiB": 1293600,
+        "missingProcesses": 0
+      },
+      "longTaskCount": 0,
+      "longTaskTotalMs": 0,
+      "idle": {
+        "taskMs": 1.4590000000000158,
+        "scriptMs": 0,
+        "cpuMs": {
+          "browser": 5.467000000000333,
+          "renderer": 2.6989999999999723,
+          "GPU": 5.203999999999986,
+          "network.mojom.NetworkService": 0.15399999999998748,
+          "storage.mojom.StorageService": 0.13099999999999917,
+          "entity_extraction_service.mojom.Extractor": 0.5050000000000054
+        },
+        "startedProcesses": 0,
+        "exitedProcesses": 0,
+        "mutations": 0
+      },
+      "gpuBusyPercent": null,
+      "gpuEnergyJoules": null
+    },
+    {
+      "pair": 6,
+      "warmup": false,
+      "condition": "off",
+      "readyMs": 90.96304199999577,
+      "renderer": {
+        "taskMs": 26.593,
+        "scriptMs": 0.104
+      },
+      "cpu": {
+        "cpuMs": {
+          "browser": 94.00699999999995,
+          "renderer": 55.06499999999992,
+          "GPU": 25.702,
+          "network.mojom.NetworkService": 23.735000000000063,
+          "storage.mojom.StorageService": 0.13799999999999923,
+          "entity_extraction_service.mojom.Extractor": 0.059000000000000025
+        },
+        "startedProcesses": 0,
+        "exitedProcesses": 0
+      },
+      "rss": {
+        "byTypeKiB": {
+          "browser": 294128,
+          "renderer": 350512,
+          "GPU": 135680,
+          "network.mojom.NetworkService": 100400,
+          "storage.mojom.StorageService": 83248,
+          "entity_extraction_service.mojom.Extractor": 79584
+        },
+        "totalKiB": 1043552,
+        "missingProcesses": 0
+      },
+      "longTaskCount": 0,
+      "longTaskTotalMs": 0,
+      "idle": {
+        "taskMs": 9.086000000000004,
+        "scriptMs": 0,
+        "cpuMs": {
+          "browser": 60.24200000000013,
+          "renderer": 10.99100000000005,
+          "GPU": 1.8289999999999695,
+          "network.mojom.NetworkService": 35.846999999999966,
+          "storage.mojom.StorageService": 0.19800000000000373,
+          "entity_extraction_service.mojom.Extractor": 0.17400000000000054
+        },
+        "startedProcesses": 0,
+        "exitedProcesses": 0,
+        "mutations": 0
+      },
+      "gpuBusyPercent": null,
+      "gpuEnergyJoules": null
+    },
+    {
+      "pair": 7,
+      "warmup": false,
+      "condition": "off",
+      "readyMs": 132.09654199999932,
+      "renderer": {
+        "taskMs": 30.988000000000003,
+        "scriptMs": 0.11900000000000001
+      },
+      "cpu": {
+        "cpuMs": {
+          "browser": 357.90800000000013,
+          "renderer": 52.23800000000001,
+          "GPU": 23.256999999999973,
+          "network.mojom.NetworkService": 19.430999999999976,
+          "storage.mojom.StorageService": 0.2149999999999999,
+          "entity_extraction_service.mojom.Extractor": 0.061000000000002025,
+          "unzip.mojom.Unzipper": 0
+        },
+        "startedProcesses": 1,
+        "exitedProcesses": 0
+      },
+      "rss": {
+        "byTypeKiB": {
+          "browser": 292336,
+          "renderer": 350704,
+          "GPU": 135632,
+          "network.mojom.NetworkService": 98400,
+          "storage.mojom.StorageService": 83248,
+          "entity_extraction_service.mojom.Extractor": 79584,
+          "unzip.mojom.Unzipper": 13136
+        },
+        "totalKiB": 1053040,
+        "missingProcesses": 0
+      },
+      "longTaskCount": 0,
+      "longTaskTotalMs": 0,
+      "idle": {
+        "taskMs": 4.559,
+        "scriptMs": 0,
+        "cpuMs": {
+          "browser": 18.01699999999995,
+          "renderer": 7.486999999999945,
+          "GPU": 1.438999999999968,
+          "network.mojom.NetworkService": 4.8880000000000035,
+          "storage.mojom.StorageService": 0.11199999999999405,
+          "entity_extraction_service.mojom.Extractor": 0.07300000000000015
+        },
+        "startedProcesses": 0,
+        "exitedProcesses": 1,
+        "mutations": 0
+      },
+      "gpuBusyPercent": null,
+      "gpuEnergyJoules": null
+    },
+    {
+      "pair": 7,
+      "warmup": false,
+      "condition": "on",
+      "readyMs": 664.1687909999964,
+      "renderer": {
+        "taskMs": 141.10199999999998,
+        "scriptMs": 60.799
+      },
+      "cpu": {
+        "cpuMs": {
+          "browser": 154.19299999999936,
+          "renderer": 220.69699999999972,
+          "GPU": 42.119000000000014,
+          "network.mojom.NetworkService": 2.785999999999955,
+          "storage.mojom.StorageService": 0.26400000000000035,
+          "entity_extraction_service.mojom.Extractor": 0.18199999999999467
+        },
+        "startedProcesses": 0,
+        "exitedProcesses": 0
+      },
+      "rss": {
+        "byTypeKiB": {
+          "browser": 301008,
+          "renderer": 594672,
+          "GPU": 153664,
+          "network.mojom.NetworkService": 99632,
+          "storage.mojom.StorageService": 82160,
+          "entity_extraction_service.mojom.Extractor": 80944
+        },
+        "totalKiB": 1312080,
+        "missingProcesses": 0
+      },
+      "longTaskCount": 0,
+      "longTaskTotalMs": 0,
+      "idle": {
+        "taskMs": 1.2680000000000191,
+        "scriptMs": 0,
+        "cpuMs": {
+          "browser": 6.803000000000559,
+          "renderer": 2.7430000000001895,
+          "GPU": 4.086999999999952,
+          "network.mojom.NetworkService": 2.3480000000000167,
+          "storage.mojom.StorageService": 0.15099999999999836,
+          "entity_extraction_service.mojom.Extractor": 0.6030000000000063
+        },
+        "startedProcesses": 0,
+        "exitedProcesses": 0,
+        "mutations": 0
+      },
+      "gpuBusyPercent": null,
+      "gpuEnergyJoules": null
+    },
+    {
+      "pair": 8,
+      "warmup": false,
+      "condition": "on",
+      "readyMs": 667.7064580000006,
+      "renderer": {
+        "taskMs": 139.902,
+        "scriptMs": 62.133
+      },
+      "cpu": {
+        "cpuMs": {
+          "browser": 150.9830000000001,
+          "renderer": 193.18899999999977,
+          "GPU": 36.50100000000012,
+          "network.mojom.NetworkService": 2.3450000000000415,
+          "storage.mojom.StorageService": 0.1480000000000023,
+          "entity_extraction_service.mojom.Extractor": 0.04999999999999449
+        },
+        "startedProcesses": 0,
+        "exitedProcesses": 0
+      },
+      "rss": {
+        "byTypeKiB": {
+          "browser": 301056,
+          "renderer": 596656,
+          "GPU": 154064,
+          "network.mojom.NetworkService": 99648,
+          "storage.mojom.StorageService": 82160,
+          "entity_extraction_service.mojom.Extractor": 80944
+        },
+        "totalKiB": 1314528,
+        "missingProcesses": 0
+      },
+      "longTaskCount": 0,
+      "longTaskTotalMs": 0,
+      "idle": {
+        "taskMs": 1.5380000000000116,
+        "scriptMs": 0,
+        "cpuMs": {
+          "browser": 8.767000000000635,
+          "renderer": 3.1090000000001323,
+          "GPU": 5.139999999999922,
+          "network.mojom.NetworkService": 0.26999999999999247,
+          "storage.mojom.StorageService": 0.16000000000000042,
+          "entity_extraction_service.mojom.Extractor": 0.48100000000000226
+        },
+        "startedProcesses": 0,
+        "exitedProcesses": 0,
+        "mutations": 0
+      },
+      "gpuBusyPercent": null,
+      "gpuEnergyJoules": null
+    },
+    {
+      "pair": 8,
+      "warmup": false,
+      "condition": "off",
+      "readyMs": 48.8072500000053,
+      "renderer": {
+        "taskMs": 32.82,
+        "scriptMs": 0.108
+      },
+      "cpu": {
+        "cpuMs": {
+          "browser": 55.38899999999991,
+          "renderer": 64.76100000000007,
+          "GPU": 23.49900000000005,
+          "network.mojom.NetworkService": 2.4999999999999467,
+          "storage.mojom.StorageService": 0.12200000000000405,
+          "entity_extraction_service.mojom.Extractor": 0.07399999999999768
+        },
+        "startedProcesses": 0,
+        "exitedProcesses": 0
+      },
+      "rss": {
+        "byTypeKiB": {
+          "browser": 292304,
+          "renderer": 352736,
+          "GPU": 135488,
+          "network.mojom.NetworkService": 98384,
+          "storage.mojom.StorageService": 83248,
+          "entity_extraction_service.mojom.Extractor": 79600
+        },
+        "totalKiB": 1041760,
+        "missingProcesses": 0
+      },
+      "longTaskCount": 0,
+      "longTaskTotalMs": 0,
+      "idle": {
+        "taskMs": 1.9329999999999972,
+        "scriptMs": 0,
+        "cpuMs": {
+          "browser": 10.950000000000237,
+          "renderer": 2.4479999999999364,
+          "GPU": 1.762999999999959,
+          "network.mojom.NetworkService": 0.2460000000001905,
+          "storage.mojom.StorageService": 0.22399999999999504,
+          "entity_extraction_service.mojom.Extractor": 0.18900000000000167
+        },
+        "startedProcesses": 0,
+        "exitedProcesses": 0,
+        "mutations": 0
+      },
+      "gpuBusyPercent": null,
+      "gpuEnergyJoules": null
+    },
+    {
+      "pair": 9,
+      "warmup": false,
+      "condition": "off",
+      "readyMs": 44.86570899999788,
+      "renderer": {
+        "taskMs": 27.734,
+        "scriptMs": 0.10500000000000001
+      },
+      "cpu": {
+        "cpuMs": {
+          "browser": 60.03300000000023,
+          "renderer": 56.72199999999994,
+          "GPU": 18.302000000000042,
+          "network.mojom.NetworkService": 3.67800000000007,
+          "storage.mojom.StorageService": 0.14300000000000423,
+          "entity_extraction_service.mojom.Extractor": 0.059999999999997555
+        },
+        "startedProcesses": 0,
+        "exitedProcesses": 0
+      },
+      "rss": {
+        "byTypeKiB": {
+          "browser": 292368,
+          "renderer": 353824,
+          "GPU": 136448,
+          "network.mojom.NetworkService": 98384,
+          "storage.mojom.StorageService": 83248,
+          "entity_extraction_service.mojom.Extractor": 79600
+        },
+        "totalKiB": 1043872,
+        "missingProcesses": 0
+      },
+      "longTaskCount": 0,
+      "longTaskTotalMs": 0,
+      "idle": {
+        "taskMs": 10.923000000000002,
+        "scriptMs": 0,
+        "cpuMs": {
+          "browser": 12.171999999999628,
+          "renderer": 12.952999999999895,
+          "GPU": 5.383000000000027,
+          "network.mojom.NetworkService": 0.1389999999998892,
+          "storage.mojom.StorageService": 0.1250000000000001,
+          "entity_extraction_service.mojom.Extractor": 0.10700000000000293
+        },
+        "startedProcesses": 0,
+        "exitedProcesses": 0,
+        "mutations": 0
+      },
+      "gpuBusyPercent": null,
+      "gpuEnergyJoules": null
+    },
+    {
+      "pair": 9,
+      "warmup": false,
+      "condition": "on",
+      "readyMs": 664.1789160000044,
+      "renderer": {
+        "taskMs": 131.172,
+        "scriptMs": 60.726
+      },
+      "cpu": {
+        "cpuMs": {
+          "browser": 160.83600000000064,
+          "renderer": 221.58300000000003,
+          "GPU": 43.49800000000003,
+          "network.mojom.NetworkService": 4.369999999999985,
+          "storage.mojom.StorageService": 0.9419999999999984,
+          "entity_extraction_service.mojom.Extractor": 0.22699999999999804
+        },
+        "startedProcesses": 0,
+        "exitedProcesses": 0
+      },
+      "rss": {
+        "byTypeKiB": {
+          "browser": 301312,
+          "renderer": 601520,
+          "GPU": 154288,
+          "network.mojom.NetworkService": 99648,
+          "storage.mojom.StorageService": 82176,
+          "entity_extraction_service.mojom.Extractor": 80944
+        },
+        "totalKiB": 1319888,
+        "missingProcesses": 0
+      },
+      "longTaskCount": 0,
+      "longTaskTotalMs": 0,
+      "idle": {
+        "taskMs": 1.560999999999979,
+        "scriptMs": 0,
+        "cpuMs": {
+          "browser": 8.744999999999337,
+          "renderer": 4.53299999999994,
+          "GPU": 6.488999999999967,
+          "network.mojom.NetworkService": 3.154000000000101,
+          "storage.mojom.StorageService": 0.2710000000000004,
+          "entity_extraction_service.mojom.Extractor": 0.47900000000000026
+        },
+        "startedProcesses": 0,
+        "exitedProcesses": 0,
+        "mutations": 0
+      },
+      "gpuBusyPercent": null,
+      "gpuEnergyJoules": null
+    }
+  ],
+  "errors": [],
+  "deviceBefore": {
+    "platform": "darwin",
+    "release": "27.0.0",
+    "arch": "arm64",
+    "cpu": "Apple M5 Pro",
+    "logicalCpus": 18,
+    "totalMemoryBytes": 51539607552,
+    "loadAverage": [
+      3.2197265625,
+      3.03955078125,
+      2.283203125
+    ],
+    "model": "Mac17,9",
+    "osVersion": "27.0",
+    "power": "Now drawing from 'AC Power'\n -InternalBattery-0 (id=23789667)\t80%; AC attached; not charging present: true",
+    "powerSettings": "Battery Power:\n Sleep On Power Button 1\n powermode            2\n standby              1\n ttyskeepawake        1\n hibernatemode        3\n powernap             1\n hibernatefile        /var/vm/sleepimage\n displaysleep         5\n womp                 0\n networkoversleep     0\n sleep                1\n lessbright           1\n tcpkeepalive         1\n disksleep            10\nAC Power:\n Sleep On Power Button 1\n powermode            0\n standby              1\n ttyskeepawake        1\n hibernatemode        3\n powernap             1\n hibernatefile        /var/vm/sleepimage\n displaysleep         20\n womp                 1\n networkoversleep     0\n sleep                1\n tcpkeepalive         1\n disksleep            10"
+  },
+  "buildSha256": {
+    "assets/popup-BRn-ieg6.css": "7bee36e9755a38bce95778138886b241da3ecd44235e334c87a6f910369a5d5e",
+    "background.js": "3372ce01d9104e88691f4c7316868465242240120f824fad4f44cd9babd36ba4",
+    "chunks/popup-D0pNW6MG.js": "f81c3a381b5d567bda300a263d05bdc744256f4f40f372cf2c8e56c8a0f1d78f",
+    "content-scripts/social.css": "0d55ea1ae8a01ae4ebc34dfb988881a02fcdeeee35deabdcd7898489a9d33713",
+    "content-scripts/social.js": "34721fe3d46dbe7e15e1427e9d5ff50b28d90f79d3dd11c4feac680bd601295a",
+    "icons/128.png": "a39967b7ff506f787c12fba78b8df4f9b13c63ec997063bf21675fc6c28f37d0",
+    "icons/16.png": "ac04ff58bb1dc8d0a2c20760f147a6a430b18add0a4590b838d5c17ba8c09bea",
+    "icons/32.png": "a714d69f5cada276b0f0136f01a35c5b7b3d08cac701a0b5259d8ea964027a49",
+    "icons/48.png": "9938af96f428d6e344f92fab779c4858e3e8ae5cb194bc887702d559954af499",
+    "icons/source.svg": "6c92e16803f3ccc2fcc17e04991ee2cae5f431f25235ac91bbc463cc3c569a6b",
+    "manifest.json": "c3cc9a2f3e8e55f03bdae3bcc420a7efaa62e1af3ad863f67acf3b90f6610277",
+    "popup.html": "ad947351f1c2937836cb12508418f89e0307f0de815ba615f52b8c9fc3066646",
+    "THIRD_PARTY_LICENSES.txt": "6888cc8bd7d86fc4c521ab134ba300219919d767f1a58e0ac2c11abec544cafb"
+  },
+  "lockSha256": "b4d7686494d587ea0b08c6ea14654a9ed3f341f18d2da5be79a32687cbe1f126",
+  "harnessSha256": "8c900c5c939333a25dda6a120324d98ded2cf7a5e1b561b2e9143d95e9f8b755",
+  "fixtureSha256": "6ebc2b7da6b6f634e166039da03338db43fc063b4e34f9fadb3a73842caa98cc",
+  "fixtureHtmlSha256": "615e1311a0b7d1b878eb80f8645cf5fe5ffaef319c3e359033940eaf84e880b8",
+  "browser": {
+    "protocolVersion": "1.3",
+    "product": "Edg/155.0.4283.45",
+    "revision": "@50f24ef2aa5369a074b8888b7db82d9c0652d642",
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Safari/537.36 Edg/155.0.0.0",
+    "jsVersion": "15.5.9.4"
+  },
+  "gpuHardware": [
+    {
+      "deviceString": "ANGLE (Apple, ANGLE Metal Renderer: Apple M5 Pro, Version 27.0 (Build 26A428))",
+      "vendorString": "Google Inc. (Apple)",
+      "driverVersion": "27.0"
+    }
+  ],
+  "installation": {
+    "method": "CDP Extensions.loadUnpacked",
+    "id": "apkmikdckhgnkcckakmbmgcapmgpngmi"
+  },
+  "summary": {
+    "off": {
+      "readyMs": {
+        "count": 10,
+        "median": 110.1028750000005,
+        "p95": 170.70683299999655,
+        "min": 44.86570899999788,
+        "max": 170.70683299999655
+      },
+      "rendererTaskMs": {
+        "count": 10,
+        "median": 31.4765,
+        "p95": 36.164,
+        "min": 26.593,
+        "max": 36.164
+      },
+      "rendererScriptMs": {
+        "count": 10,
+        "median": 0.116,
+        "p95": 0.12999999999999998,
+        "min": 0.104,
+        "max": 0.12999999999999998
+      },
+      "rssMiB": {
+        "count": 10,
+        "median": 1018.203125,
+        "p95": 1028.359375,
+        "min": 1015.890625,
+        "max": 1028.359375
+      },
+      "idleTaskMs": {
+        "count": 10,
+        "median": 9.985999999999997,
+        "p95": 15.898999999999997,
+        "min": 0.907999999999999,
+        "max": 15.898999999999997
+      },
+      "longTaskTotalMs": {
+        "count": 10,
+        "median": 0,
+        "p95": 0,
+        "min": 0,
+        "max": 0
+      },
+      "processCpuMs": {
+        "count": 10,
+        "median": 195.22900000000004,
+        "p95": 453.11,
+        "min": 138.9380000000003,
+        "max": 453.11
+      },
+      "rendererProcessCpuMs": {
+        "count": 10,
+        "median": 56.600999999999985,
+        "p95": 64.76100000000007,
+        "min": 52.23800000000001,
+        "max": 64.76100000000007
+      },
+      "gpuProcessHostCpuMs": {
+        "count": 10,
+        "median": 23.83650000000001,
+        "p95": 30.500999999999944,
+        "min": 18.302000000000042,
+        "max": 30.500999999999944
+      },
+      "idleProcessCpuMs": {
+        "count": 10,
+        "median": 102.26650000000002,
+        "p95": 123.64599999999989,
+        "min": 15.82000000000032,
+        "max": 123.64599999999989
+      }
+    },
+    "on": {
+      "readyMs": {
+        "count": 10,
+        "median": 744.5385625000017,
+        "p95": 852.7152500000011,
+        "min": 664.1687909999964,
+        "max": 852.7152500000011
+      },
+      "rendererTaskMs": {
+        "count": 10,
+        "median": 148.02250000000004,
+        "p95": 157.80700000000002,
+        "min": 131.172,
+        "max": 157.80700000000002
+      },
+      "rendererScriptMs": {
+        "count": 10,
+        "median": 63.335,
+        "p95": 67.131,
+        "min": 60.726,
+        "max": 67.131
+      },
+      "rssMiB": {
+        "count": 10,
+        "median": 1284.125,
+        "p95": 1304.296875,
+        "min": 1253.703125,
+        "max": 1304.296875
+      },
+      "idleTaskMs": {
+        "count": 10,
+        "median": 1.4645000000000075,
+        "p95": 27.743999999999993,
+        "min": 1.2290000000000079,
+        "max": 27.743999999999993
+      },
+      "longTaskTotalMs": {
+        "count": 10,
+        "median": 0,
+        "p95": 0,
+        "min": 0,
+        "max": 0
+      },
+      "processCpuMs": {
+        "count": 10,
+        "median": 461.81650000000025,
+        "p95": 559.6790000000001,
+        "min": 383.21600000000007,
+        "max": 559.6790000000001
+      },
+      "rendererProcessCpuMs": {
+        "count": 10,
+        "median": 223.59100000000007,
+        "p95": 252.94399999999987,
+        "min": 193.18899999999977,
+        "max": 252.94399999999987
+      },
+      "gpuProcessHostCpuMs": {
+        "count": 10,
+        "median": 42.160499999999985,
+        "p95": 47.97099999999999,
+        "min": 35.13900000000003,
+        "max": 47.97099999999999
+      },
+      "idleProcessCpuMs": {
+        "count": 10,
+        "median": 65.30249999999965,
+        "p95": 180.5139999999998,
+        "min": 14.160000000000284,
+        "max": 180.5139999999998
+      }
+    }
+  },
+  "pairedOnMinusOff": {
+    "readyMs": {
+      "count": 10,
+      "median": 622.9994580000039,
+      "p95": 747.9405830000032,
+      "min": 532.0722489999971,
+      "max": 747.9405830000032
+    },
+    "rendererTaskMs": {
+      "count": 10,
+      "median": 117.68299999999999,
+      "p95": 130.824,
+      "min": 103.43799999999999,
+      "max": 130.824
+    },
+    "rssMiB": {
+      "count": 10,
+      "median": 267.5078125,
+      "p95": 286.84375,
+      "min": 235.34375,
+      "max": 286.84375
+    }
+  },
+  "deviceAfter": {
+    "platform": "darwin",
+    "release": "27.0.0",
+    "arch": "arm64",
+    "cpu": "Apple M5 Pro",
+    "logicalCpus": 18,
+    "totalMemoryBytes": 51539607552,
+    "loadAverage": [
+      3.1455078125,
+      3.056640625,
+      2.34423828125
+    ],
+    "model": "Mac17,9",
+    "osVersion": "27.0",
+    "power": "Now drawing from 'AC Power'\n -InternalBattery-0 (id=23789667)\t80%; AC attached; not charging present: true",
+    "powerSettings": "Battery Power:\n Sleep On Power Button 1\n powermode            2\n standby              1\n ttyskeepawake        1\n hibernatemode        3\n powernap             1\n hibernatefile        /var/vm/sleepimage\n displaysleep         5\n womp                 0\n networkoversleep     0\n sleep                1\n lessbright           1\n tcpkeepalive         1\n disksleep            10\nAC Power:\n Sleep On Power Button 1\n powermode            0\n standby              1\n ttyskeepawake        1\n hibernatemode        3\n powernap             1\n hibernatefile        /var/vm/sleepimage\n displaysleep         20\n womp                 1\n networkoversleep     0\n sleep                1\n tcpkeepalive         1\n disksleep            10"
+  },
+  "finishedAt": "2026-10-13T20:41:18.545Z"
+}

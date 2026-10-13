@@ -1,0 +1,25 @@
+name: Wrongly hidden (false positive)
+description: AliveInternet hid or flagged something that was legitimate.
+labels: [false-positive, detection]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        False positives are our most serious bug. **Remove usernames, profile links and anything identifying** before submitting; we only need the text pattern.
+  - type: dropdown
+    id: platform
+    attributes: {label: Site, options: [YouTube, X / Twitter, Instagram, Reddit, TikTok, Facebook, Threads, Bluesky, LinkedIn]}
+    validations: {required: true}
+  - type: textarea
+    id: text
+    attributes: {label: Redacted comment or post text}
+    validations: {required: true}
+  - type: input
+    id: reason
+    attributes: {label: Reason AliveInternet showed, placeholder: "e.g. Off-platform contact solicitation · Prize-claim solicitation"}
+  - type: dropdown
+    id: mode
+    attributes: {label: Filtering strength, options: [Conservative, Balanced, Aggressive, Not sure]}
+  - type: input
+    id: version
+    attributes: {label: Extension version}

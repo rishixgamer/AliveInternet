@@ -1,0 +1,4 @@
+aliveinternet-0.3.0-chrome.zip: 147957 bytes, SHA256 c3ef5945e601688cca5c5a440b11bcd3da50c9b14d5561d3308746bdca952677
+aliveinternet-0.3.0-firefox.zip: 147949 bytes, SHA256 a6e2a6aee162e77182350b5d1ba9446ba3004d6c016cdb5602ee8b89774d5983
+aliveinternet-0.3.0-edge.zip: 147957 bytes, SHA256 c3ef5945e601688cca5c5a440b11bcd3da50c9b14d5561d3308746bdca952677
+browser archives verified against unpacked builds

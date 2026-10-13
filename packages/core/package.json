@@ -1,0 +1,29 @@
+{
+  "name": "@aliveinternet/core",
+  "version": "0.3.0",
+  "description": "Local, explainable spam heuristics and reversible preference helpers; scores are not bot probabilities.",
+  "type": "module",
+  "license": "Apache-2.0",
+  "author": "Rishi Haldar",
+  "repository": { "type": "git", "url": "git+https://github.com/rishixgamer/AliveInternet.git", "directory": "packages/core" },
+  "exports": {
+    ".": {
+      "types": "./dist/lib.d.ts",
+      "import": "./dist/lib.js"
+    }
+  },
+  "types": "./dist/lib.d.ts",
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE",
+    "THIRD_PARTY_LICENSES.txt"
+  ],
+  "engines": {
+    "node": ">=22.16"
+  },
+  "scripts": {
+    "build": "npm --prefix ../.. run build:core",
+    "prepack": "npm run build"
+  }
+}

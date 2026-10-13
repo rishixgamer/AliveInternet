@@ -1,0 +1,5 @@
+
+> aliveinternet@0.3.0 check:dependencies
+> node scripts/check-dependencies.mjs
+
+dependency evidence verified: production hashes, Chromium/Firefox, permission lifecycle, live replies, synthetic media, benchmark, audit and SBOM

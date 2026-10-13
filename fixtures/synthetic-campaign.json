@@ -1,0 +1,5 @@
+[
+  {"id":"1","platform":"x","kind":"post","accountKey":"@account1","author":"Fixture 1","text":"Please check this promotional website for more information about the offer.","links":["https://promo.example/launch"]},
+  {"id":"2","platform":"youtube","kind":"comment","accountKey":"@account2","author":"Fixture 2","text":"Information about the same promotion is now posted in our latest announcement.","links":["https://promo.example/launch"]},
+  {"id":"3","platform":"reddit","kind":"comment","accountKey":"@account3","author":"Fixture 3","text":"Here is a relevant link to the public website, for anyone interested in reading it.","links":["https://promo.example/launch"]}
+]

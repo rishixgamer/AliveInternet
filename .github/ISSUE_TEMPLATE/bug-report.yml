@@ -1,0 +1,17 @@
+name: Bug report
+description: Something is broken (UI, settings, performance, a site layout change).
+labels: [bug]
+body:
+  - type: textarea
+    id: what
+    attributes: {label: What happened and what you expected}
+    validations: {required: true}
+  - type: textarea
+    id: steps
+    attributes: {label: Steps to reproduce}
+  - type: input
+    id: browser
+    attributes: {label: Browser and version, placeholder: Chrome 141 / Firefox 144 / Edge}
+  - type: input
+    id: version
+    attributes: {label: Extension version}

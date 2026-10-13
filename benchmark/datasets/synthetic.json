@@ -1,0 +1,433 @@
+{
+  "manifest": {
+    "name": "Synthetic safety smoke",
+    "version": "1",
+    "license": "Apache-2.0",
+    "provenance": "Hand-authored artificial examples; no real accounts/content; only verifies evaluation plumbing, not accuracy.",
+    "source": "synthetic",
+    "split": "dev",
+    "items": 42
+  },
+  "items": [
+    {
+      "id": "youtube-0",
+      "platform": "youtube",
+      "kind": "comment",
+      "text": "Great video, thanks!",
+      "links": [],
+      "label": "legitimate",
+      "category": "generic-filler",
+      "locale": "en"
+    },
+    {
+      "id": "youtube-1",
+      "platform": "youtube",
+      "kind": "comment",
+      "text": "I agree.",
+      "links": [],
+      "label": "legitimate",
+      "category": "generic-filler",
+      "locale": "en"
+    },
+    {
+      "id": "youtube-2",
+      "platform": "youtube",
+      "kind": "comment",
+      "text": "Link in bio for my free lesson on investment risk.",
+      "links": [],
+      "label": "legitimate",
+      "category": "spam",
+      "locale": "en"
+    },
+    {
+      "id": "youtube-3",
+      "platform": "youtube",
+      "kind": "comment",
+      "text": "Never contact a stranger on Telegram claiming guaranteed profit from crypto investment.",
+      "links": [],
+      "label": "legitimate",
+      "category": "spam",
+      "locale": "en"
+    },
+    {
+      "id": "youtube-4",
+      "platform": "youtube",
+      "kind": "comment",
+      "text": "Our creator giveaway has no entry payment. Details on our website.",
+      "links": [],
+      "label": "legitimate",
+      "category": "fake-giveaway",
+      "locale": "en"
+    },
+    {
+      "id": "youtube-5",
+      "platform": "youtube",
+      "kind": "comment",
+      "text": "Investment returns are not guaranteed. Diversify and research fees.",
+      "links": [],
+      "label": "legitimate",
+      "category": "spam",
+      "locale": "en"
+    },
+    {
+      "id": "youtube-6",
+      "platform": "youtube",
+      "kind": "comment",
+      "text": "Contact me on Telegram for guaranteed crypto profit. Double your investment!",
+      "links": [],
+      "label": "scam",
+      "category": "spam",
+      "locale": "en"
+    },
+    {
+      "id": "youtube-7",
+      "platform": "youtube",
+      "kind": "comment",
+      "text": "Official support team: message me on WhatsApp to claim your prize reward. Hurry!",
+      "links": [],
+      "label": "scam",
+      "category": "fake-giveaway",
+      "locale": "en"
+    },
+    {
+      "id": "youtube-8",
+      "platform": "youtube",
+      "kind": "comment",
+      "text": "Gracias por explicar el riesgo de inversión.",
+      "links": [],
+      "label": "legitimate",
+      "category": "spam",
+      "locale": "es"
+    },
+    {
+      "id": "youtube-9",
+      "platform": "youtube",
+      "kind": "comment",
+      "text": "Merci pour cette vidéo très claire.",
+      "links": [],
+      "label": "legitimate",
+      "category": "generic-filler",
+      "locale": "fr"
+    },
+    {
+      "id": "youtube-10",
+      "platform": "youtube",
+      "kind": "comment",
+      "text": "I keep this same legitimate opinion: longer explanations help beginners learn.",
+      "links": [],
+      "label": "legitimate",
+      "category": "repetition",
+      "locale": "en"
+    },
+    {
+      "id": "youtube-11",
+      "platform": "youtube",
+      "kind": "comment",
+      "text": "I keep this same legitimate opinion: longer explanations help beginners learn.",
+      "links": [],
+      "label": "legitimate",
+      "category": "repetition",
+      "locale": "en"
+    },
+    {
+      "id": "youtube-12",
+      "platform": "youtube",
+      "kind": "comment",
+      "text": "I keep this same legitimate opinion: longer explanations help beginners learn.",
+      "links": [],
+      "label": "legitimate",
+      "category": "repetition",
+      "locale": "en"
+    },
+    {
+      "id": "youtube-13",
+      "platform": "youtube",
+      "kind": "comment",
+      "text": "I keep this same legitimate opinion: longer explanations help beginners learn.",
+      "links": [],
+      "label": "legitimate",
+      "category": "repetition",
+      "locale": "en"
+    },
+    {
+      "id": "reddit-0",
+      "platform": "reddit",
+      "kind": "comment",
+      "text": "Great video, thanks!",
+      "links": [],
+      "label": "legitimate",
+      "category": "generic-filler",
+      "locale": "en"
+    },
+    {
+      "id": "reddit-1",
+      "platform": "reddit",
+      "kind": "comment",
+      "text": "I agree.",
+      "links": [],
+      "label": "legitimate",
+      "category": "generic-filler",
+      "locale": "en"
+    },
+    {
+      "id": "reddit-2",
+      "platform": "reddit",
+      "kind": "comment",
+      "text": "Link in bio for my free lesson on investment risk.",
+      "links": [],
+      "label": "legitimate",
+      "category": "spam",
+      "locale": "en"
+    },
+    {
+      "id": "reddit-3",
+      "platform": "reddit",
+      "kind": "comment",
+      "text": "Never contact a stranger on Telegram claiming guaranteed profit from crypto investment.",
+      "links": [],
+      "label": "legitimate",
+      "category": "spam",
+      "locale": "en"
+    },
+    {
+      "id": "reddit-4",
+      "platform": "reddit",
+      "kind": "comment",
+      "text": "Our creator giveaway has no entry payment. Details on our website.",
+      "links": [],
+      "label": "legitimate",
+      "category": "fake-giveaway",
+      "locale": "en"
+    },
+    {
+      "id": "reddit-5",
+      "platform": "reddit",
+      "kind": "comment",
+      "text": "Investment returns are not guaranteed. Diversify and research fees.",
+      "links": [],
+      "label": "legitimate",
+      "category": "spam",
+      "locale": "en"
+    },
+    {
+      "id": "reddit-6",
+      "platform": "reddit",
+      "kind": "comment",
+      "text": "Contact me on Telegram for guaranteed crypto profit. Double your investment!",
+      "links": [],
+      "label": "scam",
+      "category": "spam",
+      "locale": "en"
+    },
+    {
+      "id": "reddit-7",
+      "platform": "reddit",
+      "kind": "comment",
+      "text": "Official support team: message me on WhatsApp to claim your prize reward. Hurry!",
+      "links": [],
+      "label": "scam",
+      "category": "fake-giveaway",
+      "locale": "en"
+    },
+    {
+      "id": "reddit-8",
+      "platform": "reddit",
+      "kind": "comment",
+      "text": "Gracias por explicar el riesgo de inversión.",
+      "links": [],
+      "label": "legitimate",
+      "category": "spam",
+      "locale": "es"
+    },
+    {
+      "id": "reddit-9",
+      "platform": "reddit",
+      "kind": "comment",
+      "text": "Merci pour cette vidéo très claire.",
+      "links": [],
+      "label": "legitimate",
+      "category": "generic-filler",
+      "locale": "fr"
+    },
+    {
+      "id": "reddit-10",
+      "platform": "reddit",
+      "kind": "comment",
+      "text": "I keep this same legitimate opinion: longer explanations help beginners learn.",
+      "links": [],
+      "label": "legitimate",
+      "category": "repetition",
+      "locale": "en"
+    },
+    {
+      "id": "reddit-11",
+      "platform": "reddit",
+      "kind": "comment",
+      "text": "I keep this same legitimate opinion: longer explanations help beginners learn.",
+      "links": [],
+      "label": "legitimate",
+      "category": "repetition",
+      "locale": "en"
+    },
+    {
+      "id": "reddit-12",
+      "platform": "reddit",
+      "kind": "comment",
+      "text": "I keep this same legitimate opinion: longer explanations help beginners learn.",
+      "links": [],
+      "label": "legitimate",
+      "category": "repetition",
+      "locale": "en"
+    },
+    {
+      "id": "reddit-13",
+      "platform": "reddit",
+      "kind": "comment",
+      "text": "I keep this same legitimate opinion: longer explanations help beginners learn.",
+      "links": [],
+      "label": "legitimate",
+      "category": "repetition",
+      "locale": "en"
+    },
+    {
+      "id": "x-0",
+      "platform": "x",
+      "kind": "comment",
+      "text": "Great video, thanks!",
+      "links": [],
+      "label": "legitimate",
+      "category": "generic-filler",
+      "locale": "en"
+    },
+    {
+      "id": "x-1",
+      "platform": "x",
+      "kind": "comment",
+      "text": "I agree.",
+      "links": [],
+      "label": "legitimate",
+      "category": "generic-filler",
+      "locale": "en"
+    },
+    {
+      "id": "x-2",
+      "platform": "x",
+      "kind": "comment",
+      "text": "Link in bio for my free lesson on investment risk.",
+      "links": [],
+      "label": "legitimate",
+      "category": "spam",
+      "locale": "en"
+    },
+    {
+      "id": "x-3",
+      "platform": "x",
+      "kind": "comment",
+      "text": "Never contact a stranger on Telegram claiming guaranteed profit from crypto investment.",
+      "links": [],
+      "label": "legitimate",
+      "category": "spam",
+      "locale": "en"
+    },
+    {
+      "id": "x-4",
+      "platform": "x",
+      "kind": "comment",
+      "text": "Our creator giveaway has no entry payment. Details on our website.",
+      "links": [],
+      "label": "legitimate",
+      "category": "fake-giveaway",
+      "locale": "en"
+    },
+    {
+      "id": "x-5",
+      "platform": "x",
+      "kind": "comment",
+      "text": "Investment returns are not guaranteed. Diversify and research fees.",
+      "links": [],
+      "label": "legitimate",
+      "category": "spam",
+      "locale": "en"
+    },
+    {
+      "id": "x-6",
+      "platform": "x",
+      "kind": "comment",
+      "text": "Contact me on Telegram for guaranteed crypto profit. Double your investment!",
+      "links": [],
+      "label": "scam",
+      "category": "spam",
+      "locale": "en"
+    },
+    {
+      "id": "x-7",
+      "platform": "x",
+      "kind": "comment",
+      "text": "Official support team: message me on WhatsApp to claim your prize reward. Hurry!",
+      "links": [],
+      "label": "scam",
+      "category": "fake-giveaway",
+      "locale": "en"
+    },
+    {
+      "id": "x-8",
+      "platform": "x",
+      "kind": "comment",
+      "text": "Gracias por explicar el riesgo de inversión.",
+      "links": [],
+      "label": "legitimate",
+      "category": "spam",
+      "locale": "es"
+    },
+    {
+      "id": "x-9",
+      "platform": "x",
+      "kind": "comment",
+      "text": "Merci pour cette vidéo très claire.",
+      "links": [],
+      "label": "legitimate",
+      "category": "generic-filler",
+      "locale": "fr"
+    },
+    {
+      "id": "x-10",
+      "platform": "x",
+      "kind": "comment",
+      "text": "I keep this same legitimate opinion: longer explanations help beginners learn.",
+      "links": [],
+      "label": "legitimate",
+      "category": "repetition",
+      "locale": "en"
+    },
+    {
+      "id": "x-11",
+      "platform": "x",
+      "kind": "comment",
+      "text": "I keep this same legitimate opinion: longer explanations help beginners learn.",
+      "links": [],
+      "label": "legitimate",
+      "category": "repetition",
+      "locale": "en"
+    },
+    {
+      "id": "x-12",
+      "platform": "x",
+      "kind": "comment",
+      "text": "I keep this same legitimate opinion: longer explanations help beginners learn.",
+      "links": [],
+      "label": "legitimate",
+      "category": "repetition",
+      "locale": "en"
+    },
+    {
+      "id": "x-13",
+      "platform": "x",
+      "kind": "comment",
+      "text": "I keep this same legitimate opinion: longer explanations help beginners learn.",
+      "links": [],
+      "label": "legitimate",
+      "category": "repetition",
+      "locale": "en"
+    }
+  ]
+}

@@ -1,0 +1,143 @@
+{
+  "startedAt": "2026-10-13T01:19:10.504Z",
+  "status": "failed",
+  "scope": "Synthetic YouTube-shaped pages; real unpacked MV3 production build. Not live-platform selector validation.",
+  "extensionDir": "/Users/rishihaldar/Downloads/AliveInternet/.output/chrome-mv3",
+  "checks": [
+    {
+      "name": "MV3 permissions and production package boundaries",
+      "status": "passed",
+      "elapsedMs": 1
+    },
+    {
+      "name": "real extension worker, popup and default YouTube controller",
+      "status": "passed",
+      "elapsedMs": 529
+    },
+    {
+      "name": "local reveal restores original display and SPA/reload reset reveal",
+      "status": "passed",
+      "elapsedMs": 1018
+    },
+    {
+      "name": "popup settings propagate to multiple content tabs and restore",
+      "status": "passed",
+      "elapsedMs": 504
+    },
+    {
+      "name": "local account hide and popup unhide are serialized and reversible",
+      "status": "passed",
+      "elapsedMs": 1019
+    },
+    {
+      "name": "hidden-item messages and popup review reveal current page only",
+      "status": "passed",
+      "elapsedMs": 1075
+    },
+    {
+      "name": "content edits and appended replies trigger isolated rescans",
+      "status": "passed",
+      "elapsedMs": 943
+    },
+    {
+      "name": "settings export, preview, cancellation and explicit merge import",
+      "status": "passed",
+      "elapsedMs": 203
+    },
+    {
+      "name": "local advisory pack import is strict, escaped, opt-in and never hides benign content",
+      "status": "passed",
+      "elapsedMs": 1478
+    },
+    {
+      "name": "MV3 worker restart retains authoritative settings and resumes writes",
+      "status": "passed",
+      "elapsedMs": 42
+    }
+  ],
+  "metrics": {
+    "workerRestart": {
+      "stoppedObserved": true,
+      "previous": {
+        "versionId": "0",
+        "registrationId": "0",
+        "scriptURL": "chrome-extension://hlpmncbfjidldofcengekkoffonbafkm/background.js",
+        "runningStatus": "running",
+        "status": "activated",
+        "scriptLastModified": 1791854326,
+        "scriptResponseTime": 0,
+        "controlledClients": [
+          "1F1EA62706B8E6386B73E95A406FA0B0"
+        ],
+        "targetId": "C34B3F86F278E436082522559F0CF318"
+      },
+      "running": {
+        "versionId": "0",
+        "registrationId": "0",
+        "scriptURL": "chrome-extension://hlpmncbfjidldofcengekkoffonbafkm/background.js",
+        "runningStatus": "running",
+        "status": "activated",
+        "scriptLastModified": 1791854326,
+        "scriptResponseTime": 0,
+        "controlledClients": [
+          "1F1EA62706B8E6386B73E95A406FA0B0"
+        ],
+        "targetId": "C34B3F86F278E436082522559F0CF318"
+      }
+    }
+  },
+  "console": [],
+  "errors": [],
+  "network": [
+    {
+      "url": "chrome-extension://hlpmncbfjidldofcengekkoffonbafkm/chunks/popup-D0pNW6MG.js",
+      "resourceType": "script",
+      "action": "local-extension-resource"
+    },
+    {
+      "url": "chrome-extension://hlpmncbfjidldofcengekkoffonbafkm/assets/popup-BRn-ieg6.css",
+      "resourceType": "stylesheet",
+      "action": "local-extension-resource"
+    },
+    {
+      "url": "https://www.youtube.com/watch?v=aliveinternet-synthetic-first",
+      "resourceType": "document",
+      "action": "synthetic-fulfill"
+    },
+    {
+      "url": "https://www.youtube.com/watch?v=aliveinternet-synthetic-second",
+      "resourceType": "document",
+      "action": "synthetic-fulfill"
+    },
+    {
+      "url": "https://www.youtube.com/watch?v=aliveinternet-synthetic-spa",
+      "resourceType": "document",
+      "action": "synthetic-fulfill"
+    },
+    {
+      "url": "https://www.youtube.com/watch?v=aliveinternet-synthetic-spa",
+      "resourceType": "document",
+      "action": "synthetic-fulfill"
+    }
+  ],
+  "buildSha256": {
+    "assets/popup-BRn-ieg6.css": "7bee36e9755a38bce95778138886b241da3ecd44235e334c87a6f910369a5d5e",
+    "background.js": "3372ce01d9104e88691f4c7316868465242240120f824fad4f44cd9babd36ba4",
+    "chunks/popup-D0pNW6MG.js": "f81c3a381b5d567bda300a263d05bdc744256f4f40f372cf2c8e56c8a0f1d78f",
+    "content-scripts/social.css": "0d55ea1ae8a01ae4ebc34dfb988881a02fcdeeee35deabdcd7898489a9d33713",
+    "content-scripts/social.js": "340fc611f39e173476928d3d7e980b76a589af4c2e190609560a5a0c46091e09",
+    "icons/128.png": "a39967b7ff506f787c12fba78b8df4f9b13c63ec997063bf21675fc6c28f37d0",
+    "icons/16.png": "ac04ff58bb1dc8d0a2c20760f147a6a430b18add0a4590b838d5c17ba8c09bea",
+    "icons/32.png": "a714d69f5cada276b0f0136f01a35c5b7b3d08cac701a0b5259d8ea964027a49",
+    "icons/48.png": "9938af96f428d6e344f92fab779c4858e3e8ae5cb194bc887702d559954af499",
+    "icons/source.svg": "6c92e16803f3ccc2fcc17e04991ee2cae5f431f25235ac91bbc463cc3c569a6b",
+    "manifest.json": "c3cc9a2f3e8e55f03bdae3bcc420a7efaa62e1af3ad863f67acf3b90f6610277",
+    "popup.html": "ad947351f1c2937836cb12508418f89e0307f0de815ba615f52b8c9fc3066646",
+    "THIRD_PARTY_LICENSES.txt": "6888cc8bd7d86fc4c521ab134ba300219919d767f1a58e0ac2c11abec544cafb"
+  },
+  "profile": "/var/folders/rl/mqdfknl56h77p6bc5yjzqx2w0000gn/T/aliveinternet-browser-sQscOq",
+  "browserVersion": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36",
+  "extensionId": "hlpmncbfjidldofcengekkoffonbafkm",
+  "failure": "page.waitForFunction: Timeout 20000ms exceeded.\n    at waitHidden (/Users/rishihaldar/Downloads/AliveInternet/scripts/test-browser.mjs:31:42)\n    at /Users/rishihaldar/Downloads/AliveInternet/scripts/test-browser.mjs:294:11\n    at async check (/Users/rishihaldar/Downloads/AliveInternet/scripts/test-browser.mjs:24:3)\n    at async file:///Users/rishihaldar/Downloads/AliveInternet/scripts/test-browser.mjs:283:3",
+  "finishedAt": "2026-10-13T01:19:38.262Z"
+}

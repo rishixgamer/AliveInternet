@@ -1,0 +1,109 @@
+
+> aliveinternet@0.3.0 investigate:fixture
+> node --experimental-strip-types scripts/analyze-fixture.mjs
+
+{
+  "note": "Exploratory local findings only, not proof of automation or coordination.",
+  "scannedItems": 3,
+  "highEvidenceRules": 0,
+  "duplicateCandidates": 0,
+  "accountEvidence": [
+    {
+      "accountId": "x:@account1",
+      "itemsObserved": 1,
+      "distinctTexts": 1,
+      "collapsedByRules": 0,
+      "flaggedByRules": 0,
+      "linkedHosts": [
+        "promo.example"
+      ],
+      "findings": [
+        "1 unique linked host(s) observed"
+      ],
+      "limits": "Current visible page only. No posting history, hidden IP address, true location, or verified bot identity."
+    },
+    {
+      "accountId": "youtube:@account2",
+      "itemsObserved": 1,
+      "distinctTexts": 1,
+      "collapsedByRules": 0,
+      "flaggedByRules": 0,
+      "linkedHosts": [
+        "promo.example"
+      ],
+      "findings": [
+        "1 unique linked host(s) observed"
+      ],
+      "limits": "Current visible page only. No posting history, hidden IP address, true location, or verified bot identity."
+    },
+    {
+      "accountId": "reddit:@account3",
+      "itemsObserved": 1,
+      "distinctTexts": 1,
+      "collapsedByRules": 0,
+      "flaggedByRules": 0,
+      "linkedHosts": [
+        "promo.example"
+      ],
+      "findings": [
+        "1 unique linked host(s) observed"
+      ],
+      "limits": "Current visible page only. No posting history, hidden IP address, true location, or verified bot identity."
+    }
+  ],
+  "campaigns": [
+    {
+      "domain": "promo.example",
+      "accountIds": [
+        "reddit:@account3",
+        "x:@account1",
+        "youtube:@account2"
+      ],
+      "platforms": [
+        "reddit",
+        "x",
+        "youtube"
+      ],
+      "visibleItems": 3,
+      "evidence": "shared-linked-domain",
+      "caveat": "Shared URLs alone do not prove bots, coordination, common ownership, or malicious activity."
+    }
+  ],
+  "graph": {
+    "nodes": [
+      {
+        "id": "domain:promo.example",
+        "type": "domain"
+      },
+      {
+        "id": "account:reddit:@account3",
+        "type": "account"
+      },
+      {
+        "id": "account:x:@account1",
+        "type": "account"
+      },
+      {
+        "id": "account:youtube:@account2",
+        "type": "account"
+      }
+    ],
+    "edges": [
+      {
+        "source": "account:reddit:@account3",
+        "target": "domain:promo.example",
+        "evidence": "linked-to-domain"
+      },
+      {
+        "source": "account:x:@account1",
+        "target": "domain:promo.example",
+        "evidence": "linked-to-domain"
+      },
+      {
+        "source": "account:youtube:@account2",
+        "target": "domain:promo.example",
+        "evidence": "linked-to-domain"
+      }
+    ]
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "startedAt": "2026-10-13T01:16:33.924Z",
+  "status": "failed",
+  "scope": "One anonymous public YouTube watch page, locally rendered DOM only; aggregate evidence, no content or identities saved.",
+  "page": "https://www.youtube.com/watch?v=jNQXAC9IVRw",
+  "checks": [
+    {
+      "name": "modern live comment selectors and reversible local controls",
+      "elapsedMs": 535
+    }
+  ],
+  "metrics": {
+    "loadAndScrollMs": 3855,
+    "selectors": {
+      "ytd-comment-view-model": 20,
+      "ytd-comment-renderer": 0,
+      "ytd-comment-thread-renderer": 20,
+      "ytd-comment-replies-renderer": 18,
+      "ytd-comment-view-model #content-text": 20,
+      "ytd-comment-renderer #content-text": 0
+    },
+    "commentControls": 20,
+    "syntheticDiagnostic": {
+      "exists": true,
+      "connected": true,
+      "nestedCommentRoots": 0,
+      "syntheticTextIntact": true,
+      "authorIsAnchor": true,
+      "syntheticProfileIntact": true,
+      "controls": 1
+    }
+  },
+  "phase": "synthetic-node-hide",
+  "buildSha256": {
+    "THIRD_PARTY_LICENSES.txt": "6888cc8bd7d86fc4c521ab134ba300219919d767f1a58e0ac2c11abec544cafb",
+    "assets/popup-C7suIbL_.css": "ddb75c8c7192b333cedfe53614a9451c801ab1c9afbb8b3f46886ad8865368c9",
+    "background.js": "3372ce01d9104e88691f4c7316868465242240120f824fad4f44cd9babd36ba4",
+    "chunks/popup-C1TWtnLE.js": "f81c3a381b5d567bda300a263d05bdc744256f4f40f372cf2c8e56c8a0f1d78f",
+    "content-scripts/social.css": "0d55ea1ae8a01ae4ebc34dfb988881a02fcdeeee35deabdcd7898489a9d33713",
+    "content-scripts/social.js": "340fc611f39e173476928d3d7e980b76a589af4c2e190609560a5a0c46091e09",
+    "icons/128.png": "a39967b7ff506f787c12fba78b8df4f9b13c63ec997063bf21675fc6c28f37d0",
+    "icons/16.png": "ac04ff58bb1dc8d0a2c20760f147a6a430b18add0a4590b838d5c17ba8c09bea",
+    "icons/32.png": "a714d69f5cada276b0f0136f01a35c5b7b3d08cac701a0b5259d8ea964027a49",
+    "icons/48.png": "9938af96f428d6e344f92fab779c4858e3e8ae5cb194bc887702d559954af499",
+    "icons/source.svg": "6c92e16803f3ccc2fcc17e04991ee2cae5f431f25235ac91bbc463cc3c569a6b",
+    "manifest.json": "c3cc9a2f3e8e55f03bdae3bcc420a7efaa62e1af3ad863f67acf3b90f6610277",
+    "popup.html": "f8a497349d486480d55070c47e0ed75c18f825adf5b56496a73cb4e8ff805d9b"
+  },
+  "browserVersion": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36",
+  "reason": "A reversible integration assertion failed on rendered live content.",
+  "errorType": "TimeoutError",
+  "finishedAt": "2026-10-13T01:17:09.548Z"
+}
