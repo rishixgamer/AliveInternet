@@ -42,7 +42,7 @@
   },
   "devDependencies": {
     "@types/node": "^22.15.0",
-    "jsdom": "^26.1.0",
+    "jsdom": "^30.1.2",
     "playwright": "^1.64.0",
     "rolldown": "1.2.13",
     "typescript": "^7.0.2",
