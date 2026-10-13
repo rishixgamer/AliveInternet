@@ -6,7 +6,8 @@
     "nameWithOwner": "rishixgamer/AliveInternet",
     "visibility": "PUBLIC",
     "anonymousHttpsVerified": true,
-    "sourceCommitSha": "30c847ff8041d06a35f39b63e02471878262445f"
+    "sourceCommitSha": "30c847ff8041d06a35f39b63e02471878262445f",
+    "privateVulnerabilityReportingEnabled": true
   },
   "privacy": {
     "url": "https://rishixgamer.github.io/AliveInternet/privacy/",
