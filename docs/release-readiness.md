@@ -72,7 +72,7 @@ Signed Firefox extension installation still requires an AMO-returned XPI and a n
 
 Mailbox delivery, store publisher accounts and a signed XPI remain unverified. No credentials were requested or stored. [Initial repository verification](validation/2026-10-13-release-readiness/github-repository.json) · [Public source/policy receipt](validation/2026-10-13-release-readiness/github-publication.json).
 
-The first hosted CI job did not execute any steps because GitHub blocked runner startup at the account level. Local test/build evidence remains independent; no hosted-CI pass is claimed. The account restriction requires maintainer action outside this publication scope.
+The first CI attempt while the repository was private did not execute any steps because GitHub blocked runner startup at the account level. After public publication, [CI passed at source/publication revision `45d299f`](https://github.com/rishixgamer/AliveInternet/actions/runs/38470569026). The initial failed attempt remains separate historical evidence; no billing settings were changed.
 
 ## Verification and remaining scope
 
@@ -81,6 +81,6 @@ The first hosted CI job did not execute any steps because GitHub blocked runner 
 - Licensed-corpus conversion verified count reconciliation, normalization, explicit contact minimization, unreviewed checksum rejection and overwrite refusal. Offline dataset/schema evaluation succeeds; its classification outcome is the failure described above.
 - Final Chrome/Edge fixtures each pass 15 groups. Branded apps are signature-verified. Focused-page device receipts retain all repeated off/on samples.
 - `npm run check:release-evidence` verifies the exact production/source/harness hashes, licensed-corpus reconciliation, 26 samples per browser, the historical private repository receipt and the approved public source/policy receipt. A passing integrity check explicitly retains the unresolved release conditions.
-- Public source/policy publication is complete. Verified mailbox delivery, signed Firefox and actual store ownership remain external conditions; hosted CI also has an account-level startup block.
+- Public source/policy publication is complete, and the public-source CI run passes. Verified mailbox delivery, signed Firefox and actual store ownership remain external conditions.
 
 Receipts are under `docs/validation/2026-10-13-release-readiness/`; raw licensed content, downloaded runtimes, temporary browser profiles and exploratory/failed runs stay out of public source packages. The historical gates retain their original local scope; they do not turn these external conditions into passes.

@@ -24,5 +24,11 @@
     "Signed Firefox XPI",
     "Representative current accuracy",
     "Hardware GPU sampling and other devices"
-  ]
+  ],
+  "hostedCi": {
+    "status": "completed",
+    "conclusion": "success",
+    "headSha": "45d299f10afd9b9193fac4eef914ff17c19c8d6f",
+    "url": "https://github.com/rishixgamer/AliveInternet/actions/runs/38470569026"
+  }
 }
