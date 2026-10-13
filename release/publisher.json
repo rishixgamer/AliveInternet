@@ -10,16 +10,19 @@
   },
   "repository": {
     "url": "https://github.com/rishixgamer/AliveInternet",
-    "visibility": "private",
+    "visibility": "public",
     "permission": "ADMIN",
-    "sourceUploaded": false
+    "sourceUploaded": true,
+    "approvedSourceCommitSha": "30c847ff8041d06a35f39b63e02471878262445f"
   },
   "privacy": {
     "contact": "rishihaldar@umass.edu",
     "contactSource": "Authenticated GitHub profile; maintainer requested defaults",
     "mailboxDeliveryVerified": false,
     "proposedPolicyUrl": "https://rishixgamer.github.io/AliveInternet/privacy/",
-    "hostedPolicyVerified": false
+    "hostedPolicyVerified": true,
+    "policyUrl": "https://rishixgamer.github.io/AliveInternet/privacy/",
+    "policySha256": "7c889d7153deacf7cb037c48cd92b6f44007c05acb6d6cc41a26d81615c849c9"
   },
   "stores": {
     "chrome": {
@@ -33,5 +36,5 @@
       "signedXpiVerified": false
     }
   },
-  "publicationAuthorized": false
+  "publicationAuthorized": true
 }

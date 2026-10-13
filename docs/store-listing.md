@@ -1,6 +1,6 @@
 # Store listings — groundwork
 
-Status: **local release packages built; listings remain draft**. Nothing has been submitted. See [completion evidence](completion-report.md).
+Status: **local release packages built; public source and privacy policy verified; listings remain draft**. Nothing has been submitted to a store. See [current release evidence](release-readiness.md).
 
 ## Builds
 
@@ -17,7 +17,7 @@ Firefox desktop temporary installation and programmatic popup/content execution 
 1. Verify broader live YouTube behavior and each opt-in adapter before claiming support. The expanded anonymous reply smoke verifies one page's selector/control attribution; it cannot validate all layouts or rule accuracy.
 2. Exercise native optional-host prompts, withheld/revoked access and installation in Firefox/Edge; finish store-policy review.
 3. Obtain representative permissioned false-positive evaluation and real-device CPU/GPU/memory measurements before stable-release claims.
-4. Review the generated synthetic screenshots, promo tile and demo, provide official project/contact and hosted privacy-policy links, then submit through maintainer accounts on explicit release authorization. See [release review](release-review.md).
+4. Review the generated synthetic screenshots, promo tile and demo, confirm privacy-mailbox delivery and store publisher ownership, then submit through maintainer accounts on explicit store-release authorization. The source and hosted policy are already public; this does not authorize store submission. See [publisher verification](publisher-details.md).
 
 Completed source prerequisites: exact optional-site consent, required YouTube boundaries, packaged icons, Firefox MV3 ID `{c0c9c54d-10b7-4ac9-833c-e0cca4c1e407}` and `data_collection_permissions.required: ["none"]`. The generated UUID is a project identifier, not a claim to an email/domain. Keep it stable for this project; see [Mozilla add-on ID guidance](https://extensionworkshop.com/documentation/develop/extensions-and-the-add-on-id/).
 
@@ -41,7 +41,7 @@ Do **not** claim "blocks bots" or "detects AI": the extension cannot prove eithe
 
 ## Privacy disclosures (Chrome data-usage form)
 
-Website content and public profile links are processed locally in memory. Preferences, explicit account hides and manually imported advisory packs are stored in `browser.storage.local`. No extension data is sold or transmitted to the developer or third parties. Dashboard answers must disclose local handling as required by the store; do not equate no transmission with no processing. Publish [the privacy policy](privacy-policy.md) at a stable public URL before submission. [Chrome's local-data disclosure guidance](https://developer.chrome.com/docs/webstore/program-policies/user-data-faq).
+Website content and public profile links are processed locally in memory. Preferences, explicit account hides and manually imported advisory packs are stored in `browser.storage.local`. No extension data is sold or transmitted to the developer or third parties. Dashboard answers must disclose local handling as required by the store; do not equate no transmission with no processing. The [public privacy policy](https://rishixgamer.github.io/AliveInternet/privacy/) is hosted and verified; keep dashboard answers aligned with the submitted artifact. [Chrome's local-data disclosure guidance](https://developer.chrome.com/docs/webstore/program-policies/user-data-faq).
 
 ## Store assets checklist
 

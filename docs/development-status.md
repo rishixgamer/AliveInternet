@@ -1,6 +1,6 @@
 # Development report — 2026-10-12
 
-Current continuation: [October 13 release evidence](release-readiness.md) records licensed historical labels, the zero-collapse-recall result, signed branded Chrome/Edge integration, repeated Mac measurements and the verified private default GitHub repository. Earlier sections below retain their historical scope.
+Current continuation: [October 13 release evidence](release-readiness.md) records licensed historical labels, the zero-collapse-recall result, signed branded Chrome/Edge integration, repeated Mac measurements and the approved public GitHub source/privacy policy. Earlier sections below retain their historical scope.
 
 Latest release prerequisites: [dependency resolution](dependency-resolution.md), including 216 tests, offline evaluation, synthetic release media and expanded live reply attribution.
 

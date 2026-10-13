@@ -1,6 +1,6 @@
 # Local core package
 
-October 13 update: the verified default GitHub repository `rishixgamer/AliveInternet` exists privately, and both package manifests reference it with maintainer name Rishi Haldar. No source is uploaded yet, npm scope/trusted-publishing ownership is unverified, and no publication was performed. See [publisher verification](publisher-details.md). The October 12 lookup below remains historical evidence.
+October 13 update: the verified GitHub repository `rishixgamer/AliveInternet` is public with the maintainer-approved source snapshot, and both package manifests reference it with maintainer name Rishi Haldar. Source/policy publication is complete; npm scope/trusted-publishing ownership remains unverified and no npm publication occurred. See [publisher verification](publisher-details.md). The October 12 lookup below remains historical evidence.
 
 The extension remains `private: true`. `packages/core` builds the implemented
 public API from `src/lib.ts` as ESM JavaScript plus TypeScript declarations.

@@ -1,6 +1,6 @@
 # Release evidence and remaining conditions — October 13, 2026
 
-This continuation completed licensed-data evaluation, repeated measurements on the available Mac, signed-app verification and branded Chrome/Edge integration checks. It also created the maintainer's default **private** GitHub repository and prepared publisher/contact and privacy-hosting drafts. It did not upload source, publish a policy, submit to a store, sign an extension, commit or push the working tree.
+This continuation completed licensed-data evaluation, repeated measurements on the available Mac, signed-app verification and branded Chrome/Edge integration checks. The maintainer then explicitly approved publishing the prepared source snapshot and privacy policy. The repository is now public and the hosted policy is verified anonymously over HTTPS. Publication used isolated temporary checkouts, preserving the original working tree and its Git history. No store submission, npm publication or extension signing occurred.
 
 The release remains an experimental alpha. The historical corpus found **zero collapse recall**, so broad spam-detection and stable-release claims remain blocked. Synthetic integration success does not override that finding.
 
@@ -68,9 +68,11 @@ Signed Firefox extension installation still requires an AMO-returned XPI and a n
 
 ## Repository, privacy contact and publisher
 
-The default **https://github.com/rishixgamer/AliveInternet** now exists privately; the API verifies administrator permission. **Rishi Haldar / rishixgamer** is verified as the authenticated GitHub identity. This does not verify legal/store publisher identity. Default contact and proposed hosting are prepared in `release/publisher.json`, [the local policy](privacy-policy.md), `site/privacy/index.html` and [publisher details](publisher-details.md).
+**https://github.com/rishixgamer/AliveInternet** is public. The approved source snapshot is pinned at `30c847ff8041d06a35f39b63e02471878262445f`; subsequent publication metadata updates do not change the production extension code. **Rishi Haldar / rishixgamer** is verified as the authenticated GitHub identity, without claiming legal/store verification. The approved contact **rishihaldar@umass.edu** appears in the published policy at **https://rishixgamer.github.io/AliveInternet/privacy/**. Its HTTP 200 response and complete bytes were verified against the local static page.
 
-Mailbox delivery, public source upload, unauthenticated policy reachability, store publisher accounts and a signed XPI remain unverified. Publishing source/contact is a separate final approval because it makes the code and selected email public. No credentials were requested or stored. [Repository verification](validation/2026-10-13-release-readiness/github-repository.json).
+Mailbox delivery, store publisher accounts and a signed XPI remain unverified. No credentials were requested or stored. [Initial repository verification](validation/2026-10-13-release-readiness/github-repository.json) · [Public source/policy receipt](validation/2026-10-13-release-readiness/github-publication.json).
+
+The first hosted CI job did not execute any steps because GitHub blocked runner startup at the account level. Local test/build evidence remains independent; no hosted-CI pass is claimed. The account restriction requires maintainer action outside this publication scope.
 
 ## Verification and remaining scope
 
@@ -78,7 +80,7 @@ Mailbox delivery, public source upload, unauthenticated policy reachability, sto
 - Chrome, Firefox and Edge MV3 builds, release checks, inherited dependency-provenance checks and the packed core consumer pass.
 - Licensed-corpus conversion verified count reconciliation, normalization, explicit contact minimization, unreviewed checksum rejection and overwrite refusal. Offline dataset/schema evaluation succeeds; its classification outcome is the failure described above.
 - Final Chrome/Edge fixtures each pass 15 groups. Branded apps are signature-verified. Focused-page device receipts retain all repeated off/on samples.
-- `npm run check:release-evidence` verifies the exact production/source/harness hashes, licensed-corpus reconciliation, 26 samples per browser and private repository receipt. A passing integrity check explicitly retains the unresolved release conditions.
-- The policy/source publication draft is ready to review. Public publication, verified mailbox delivery, signed Firefox and actual store ownership remain external conditions.
+- `npm run check:release-evidence` verifies the exact production/source/harness hashes, licensed-corpus reconciliation, 26 samples per browser, the historical private repository receipt and the approved public source/policy receipt. A passing integrity check explicitly retains the unresolved release conditions.
+- Public source/policy publication is complete. Verified mailbox delivery, signed Firefox and actual store ownership remain external conditions; hosted CI also has an account-level startup block.
 
 Receipts are under `docs/validation/2026-10-13-release-readiness/`; raw licensed content, downloaded runtimes, temporary browser profiles and exploratory/failed runs stay out of public source packages. The historical gates retain their original local scope; they do not turn these external conditions into passes.

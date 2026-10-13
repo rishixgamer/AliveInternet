@@ -68,8 +68,23 @@ assert.equal(repo.nameWithOwner, 'rishixgamer/AliveInternet');
 assert.equal(repo.viewerPermission, 'ADMIN');
 assert.equal(repo.visibility, 'PRIVATE');
 assert.equal(publisher.repository.url, repo.url);
-assert.equal(publisher.repository.sourceUploaded, false);
 assert.equal(publisher.privacy.mailboxDeliveryVerified, false);
-assert.equal(publisher.privacy.hostedPolicyVerified, false);
-assert.equal(publisher.publicationAuthorized, false);
-console.log('Release evidence integrity verified: licensed-corpus provenance, exact branded builds, repeated device samples and private repository identity. Representative accuracy, hardware GPU, signed Firefox, mailbox/hosting and store/publication conditions remain unresolved.');
+if (publisher.publicationAuthorized) {
+  const publication = await json(base + 'github-publication.json');
+  assert.equal(publisher.repository.visibility, 'public');
+  assert.equal(publisher.repository.sourceUploaded, true);
+  assert.equal(publication.repository.visibility, 'PUBLIC');
+  assert.equal(publication.repository.url, publisher.repository.url);
+  assert.equal(publication.repository.sourceCommitSha, publisher.repository.approvedSourceCommitSha);
+  assert.equal(publication.repository.anonymousHttpsVerified, true);
+  assert.equal(publisher.privacy.hostedPolicyVerified, true);
+  assert.equal(publication.privacy.url, publisher.privacy.policyUrl);
+  assert.equal(publication.privacy.httpStatus, 200);
+  assert.equal(publication.privacy.anonymousHttpsVerified, true);
+  assert.equal(publication.privacy.sha256, await sha('site/privacy/index.html'));
+  assert.equal(publication.privacy.sha256, publisher.privacy.policySha256);
+} else {
+  assert.equal(publisher.repository.sourceUploaded, false);
+  assert.equal(publisher.privacy.hostedPolicyVerified, false);
+}
+console.log('Release evidence integrity verified: licensed-corpus provenance, exact branded builds, repeated device samples and repository/policy publication state. Representative accuracy, hardware GPU, signed Firefox, mailbox delivery and store ownership remain unresolved.');

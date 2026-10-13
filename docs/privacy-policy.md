@@ -14,6 +14,6 @@ AliveInternet does not sell, share or transfer extension user data. Its use of w
 
 The browser's extension manager controls required YouTube access and optional site access. Nine additional adapters are experimental and receive access only when enabled with browser consent. No imported settings file grants browser permission.
 
-Draft publisher: Rishi Haldar ([GitHub profile](https://github.com/rishixgamer)). Draft privacy contact: rishihaldar@umass.edu. This default was taken from the maintainer's authenticated GitHub profile at their request; mailbox delivery remains unverified. Avoid posting private browsing content or account preferences to a public issue tracker.
+Publisher: Rishi Haldar ([GitHub profile](https://github.com/rishixgamer)). For privacy questions, email [rishihaldar@umass.edu](mailto:rishihaldar@umass.edu). Avoid posting private browsing content or account preferences to a public issue tracker.
 
-The project repository is [rishixgamer/AliveInternet](https://github.com/rishixgamer/AliveInternet), currently private with no source uploaded. The proposed public policy address is https://rishixgamer.github.io/AliveInternet/privacy/. Hosting, a reachable contact and store publisher identity must be verified before submission. This policy remains a local release draft.
+Project source: [rishixgamer/AliveInternet](https://github.com/rishixgamer/AliveInternet). Public policy address: [AliveInternet privacy policy](https://rishixgamer.github.io/AliveInternet/privacy/).

@@ -1,6 +1,6 @@
 # Alpha release review — October 12, 2026
 
-For current evidence and unresolved conditions, see [October 13 release readiness](release-readiness.md). A private repository now exists; branded Chrome/Edge checks and repeated Mac benchmarks have completed. Signed Firefox, hosted policy/contact delivery and store publisher ownership remain unverified. The licensed historical-label evaluation found zero collapse recall.
+For current evidence and unresolved conditions, see [October 13 release readiness](release-readiness.md). The approved source and privacy policy are now public and verified; branded Chrome/Edge checks and repeated Mac benchmarks have completed. Signed Firefox, privacy mailbox delivery and store publisher ownership remain unverified. The licensed historical-label evaluation found zero collapse recall.
 
 Local release engineering is ready for maintainer review. Store approval, publisher ownership and representative detection accuracy remain unverified. No store/npm submission is authorized by this continuation.
 

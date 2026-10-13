@@ -8,7 +8,7 @@
 
 > **Status: v0.3 alpha.** Chrome, Firefox and Edge MV3 compile; the production extension has isolated Chromium and temporary Firefox desktop fixture coverage. Site consent, settings backup/restore, reversible hiding and current-tab hidden-item review are implemented. Live-platform coverage remains provisional; this is **not** a verified bot detector. See the [completion evidence](docs/completion-report.md) for measured results and remaining dependencies.
 
-Latest verification: [October 13 release evidence](docs/release-readiness.md) adds signed-app checks, 15 integration groups in each branded Chrome/Edge browser, repeated off/on benchmarks on the available Mac, and a licensed historical YouTube corpus. The rules collapsed **0 of 810 source-labelled spam comments** in that transformed corpus. Broad spam-detection claims remain unsupported; signed Firefox, public policy/contact delivery and store publisher verification are still pending.
+Latest verification: [October 13 release evidence](docs/release-readiness.md) adds signed-app checks, 15 integration groups in each branded Chrome/Edge browser, repeated off/on benchmarks on the available Mac, and a licensed historical YouTube corpus. The rules collapsed **0 of 810 source-labelled spam comments** in that transformed corpus. Broad spam-detection claims remain unsupported; signed Firefox, privacy mailbox delivery and store publisher verification are still pending. The maintainer-approved source is public and the [privacy policy](https://rishixgamer.github.io/AliveInternet/privacy/) is hosted and verified.
 
 ## What works in the source
 
