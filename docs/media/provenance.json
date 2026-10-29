@@ -1,0 +1,58 @@
+{
+  "synthetic": true,
+  "sourceReceipt": "../validation/2026-10-12-dependencies/chromium-headed-receipt.json",
+  "buildSha256": {
+    "assets/popup-BRn-ieg6.css": "7bee36e9755a38bce95778138886b241da3ecd44235e334c87a6f910369a5d5e",
+    "background.js": "3372ce01d9104e88691f4c7316868465242240120f824fad4f44cd9babd36ba4",
+    "chunks/popup-D0pNW6MG.js": "f81c3a381b5d567bda300a263d05bdc744256f4f40f372cf2c8e56c8a0f1d78f",
+    "content-scripts/social.css": "0d55ea1ae8a01ae4ebc34dfb988881a02fcdeeee35deabdcd7898489a9d33713",
+    "content-scripts/social.js": "34721fe3d46dbe7e15e1427e9d5ff50b28d90f79d3dd11c4feac680bd601295a",
+    "icons/128.png": "a39967b7ff506f787c12fba78b8df4f9b13c63ec997063bf21675fc6c28f37d0",
+    "icons/16.png": "ac04ff58bb1dc8d0a2c20760f147a6a430b18add0a4590b838d5c17ba8c09bea",
+    "icons/32.png": "a714d69f5cada276b0f0136f01a35c5b7b3d08cac701a0b5259d8ea964027a49",
+    "icons/48.png": "9938af96f428d6e344f92fab779c4858e3e8ae5cb194bc887702d559954af499",
+    "icons/source.svg": "6c92e16803f3ccc2fcc17e04991ee2cae5f431f25235ac91bbc463cc3c569a6b",
+    "manifest.json": "c3cc9a2f3e8e55f03bdae3bcc420a7efaa62e1af3ad863f67acf3b90f6610277",
+    "popup.html": "ad947351f1c2937836cb12508418f89e0307f0de815ba615f52b8c9fc3066646",
+    "THIRD_PARTY_LICENSES.txt": "6888cc8bd7d86fc4c521ab134ba300219919d767f1a58e0ac2c11abec544cafb"
+  },
+  "media": {
+    "before.png": {
+      "sha256": "2a268a32938f622afb4b996540ff7a62423293998f441e121f67dfac61fdec2e",
+      "bytes": 69210,
+      "width": 1280,
+      "height": 800
+    },
+    "after.png": {
+      "sha256": "6eaaa5bd2f606523f08ac24720187cb6e2a97203bd85e72d6d6ff209ebcf9bea",
+      "bytes": 76394,
+      "width": 1280,
+      "height": 800
+    },
+    "reveal.png": {
+      "sha256": "45a2fb3f6b3127c7c292344d9945a2f4a6a2807f9d75234401719257eebb1bfb",
+      "bytes": 77769,
+      "width": 1280,
+      "height": 800
+    },
+    "popup.png": {
+      "sha256": "6a403a1f127cef7cba3c6ec7f9684543d91aa364c8e0fc73ab51041ab3df1b42",
+      "bytes": 97476,
+      "width": 1280,
+      "height": 800
+    },
+    "promo-440x280.png": {
+      "sha256": "9711a296bdc4f33bf13655ffd4890e4016d4de7b970e2f36b8cbea9c44589103",
+      "bytes": 16218,
+      "width": 440,
+      "height": 280
+    },
+    "before-after.gif": {
+      "sha256": "61ac957e1443c13d4ae870ffee2ab96cb99bdfba11e25da11425f5ea10f647c3",
+      "bytes": 202002,
+      "width": 1280,
+      "height": 800
+    }
+  },
+  "demoDurationSeconds": 10
+}

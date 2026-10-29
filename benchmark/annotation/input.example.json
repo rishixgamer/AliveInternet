@@ -1,0 +1,23 @@
+{
+  "manifest": {
+    "name": "Synthetic annotation workflow example",
+    "version": "1",
+    "license": "CC0-1.0",
+    "provenance": "Hand-authored artificial comments for package preparation only; no real accounts, independent labels or accuracy evidence",
+    "split": "mixed",
+    "items": 3,
+    "source": "synthetic"
+  },
+  "collection": {
+    "permissionReviewed": true,
+    "permissionRecord": "synthetic_example",
+    "samplingPlan": "Artificial workflow example. Not a collected sample or representative population.",
+    "collectedFrom": "2026-10-13",
+    "collectedThrough": "2026-10-13"
+  },
+  "items": [
+    { "id": "row_one", "platform": "youtube", "kind": "comment", "text": "A useful lesson; thank you.", "links": [], "locale": "en", "split": "test", "sampleGroup": "window_one", "stratum": "natural" },
+    { "id": "row_two", "platform": "youtube", "kind": "comment", "text": "Contact me on Telegram for guaranteed crypto profit!", "links": [], "locale": "en", "split": "test", "sampleGroup": "window_one", "stratum": "natural" },
+    { "id": "row_three", "platform": "youtube", "kind": "comment", "text": "I warned my family about this fraudulent investment scheme.", "links": [], "locale": "en", "split": "dev", "sampleGroup": "window_two", "stratum": "scam-warning" }
+  ]
+}

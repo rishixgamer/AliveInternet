@@ -1,8 +1,39 @@
 import type { Assessment, ContentKind } from '../core/types.ts';
 import type { AccountEvidence } from '../core/behavior.ts';
 
+type AccountAction = () => void | Promise<void>;
+let nextEvidenceId = 0;
+
+function focusContent(element: HTMLElement): void {
+  if (!element.isConnected) return;
+  const focus = element.querySelector<HTMLElement>('a[href],button,[tabindex="0"]') ?? element;
+  const previous = focus.getAttribute('tabindex');
+  if (focus === element) focus.tabIndex = -1;
+  focus.focus({ preventScroll: true });
+  if (focus === element) {
+    if (previous === null) focus.removeAttribute('tabindex'); else focus.setAttribute('tabindex', previous);
+  }
+}
+
+function addAccountButton(container: HTMLElement, label: string, action: AccountAction): HTMLButtonElement {
+  const button = document.createElement('button');
+  button.type = 'button'; button.textContent = label;
+  button.addEventListener('click', event => {
+    event.preventDefault(); event.stopPropagation(); button.disabled = true;
+    const oldError = container.querySelector('.aliveinternet-action-error'); oldError?.remove();
+    void Promise.resolve().then(action).catch(() => {
+      const error = document.createElement('p'); error.className = 'aliveinternet-action-error';
+      error.setAttribute('role', 'status'); error.textContent = 'Could not save this local choice. Try again or open extension settings.';
+      container.append(error);
+    }).finally(() => { button.disabled = false; });
+  });
+  container.append(button); return button;
+}
+
 export interface AppliedUi {
   teardown(): void;
+  /** Same reversible operation used by the visible reveal button. */
+  reveal?(): void;
   /** Site renderers may remove or move UI while recycling a content element. */
   isCurrent(): boolean;
 }
@@ -39,58 +70,71 @@ function addInspectButton(container: HTMLElement, evidence?: AccountEvidence): v
   const button = document.createElement('button');
   button.type = 'button'; button.textContent = 'Inspect evidence';
   button.setAttribute('aria-expanded', 'false');
+  const id = `aliveinternet-evidence-${++nextEvidenceId}`;
+  button.setAttribute('aria-controls', id);
   let panel: HTMLDivElement | undefined;
   button.addEventListener('click', event => {
     event.preventDefault(); event.stopPropagation();
     if (panel) { panel.remove(); panel = undefined; button.setAttribute('aria-expanded', 'false'); }
-    else { panel = evidencePanel(evidence); container.append(panel); button.setAttribute('aria-expanded', 'true'); }
+    else { panel = evidencePanel(evidence); panel.id = id; container.append(panel); button.setAttribute('aria-expanded', 'true'); }
   });
   container.append(button);
 }
 
 export function accountAction(
-  element: HTMLElement, accountKey: string, onBlock?: () => void, evidence?: AccountEvidence,
+  element: HTMLElement, accountKey: string, onBlock?: AccountAction, evidence?: AccountEvidence,
 ): AppliedUi {
   const controls = document.createElement('div'); controls.className = 'aliveinternet-controls';
   if (onBlock) {
-    const action = document.createElement('button');
-    action.type = 'button';
+    const action = addAccountButton(controls, `Hide ${accountKey} locally`, onBlock);
     action.className = 'aliveinternet-account-action';
-    action.textContent = `Hide ${accountKey} locally`;
     action.title = 'Hide visible posts and comments from this profile locally, not on the social platform.';
-    action.addEventListener('click', event => {
-      event.preventDefault(); event.stopPropagation(); action.disabled = true; onBlock();
-    });
-    controls.append(action);
   }
   addInspectButton(controls, evidence);
   element.append(controls);
-  return { teardown: () => controls.remove(), isCurrent: () => controls.parentElement === element };
+  return {
+    teardown: () => { const hadFocus = controls.contains(document.activeElement); controls.remove(); if (hadFocus) focusContent(element); },
+    isCurrent: () => controls.parentElement === element,
+  };
 }
 
 export function collapseContent(
   element: HTMLElement, verdict: Assessment, kind: ContentKind, onReveal: () => void,
-  accountKey?: string, onBlock?: () => void, evidence?: AccountEvidence,
+  accountKey?: string, onBlock?: AccountAction, evidence?: AccountEvidence, onUnhide?: AccountAction,
 ): AppliedUi {
   const previousDisplay = element.style.display;
   const holder = document.createElement('div'); holder.className = 'aliveinternet-collapsed';
+  const title = document.createElement('strong'); title.className = 'aliveinternet-collapse-title';
+  title.textContent = 'AliveInternet · hidden locally';
+  holder.append(title);
   const explanation = document.createElement('span');
-  explanation.textContent = `AliveInternet hid ${kind === 'post' ? 'content' : 'a comment'} locally: ${verdict.reason}. `;
+  explanation.className = 'aliveinternet-reason';
+  explanation.textContent = verdict.reason;
   const reveal = document.createElement('button'); reveal.type = 'button';
   reveal.textContent = 'Show temporarily'; reveal.setAttribute('aria-label', `Reveal hidden ${kind}`);
-  reveal.addEventListener('click', () => { onReveal(); holder.remove(); element.style.display = previousDisplay; });
+  const show = () => {
+    const hadFocus = holder.contains(document.activeElement);
+    onReveal(); holder.remove(); element.style.display = previousDisplay;
+    if (hadFocus) focusContent(element);
+  };
+  reveal.addEventListener('click', show);
   holder.append(explanation, reveal);
   if (accountKey && onBlock) {
-    const block = document.createElement('button'); block.type = 'button';
-    block.textContent = `Hide ${accountKey} on this site`;
-    block.addEventListener('click', () => { block.disabled = true; onBlock(); });
-    holder.append(' ', block);
+    addAccountButton(holder, `Hide ${accountKey} on this site`, onBlock);
   }
+  if (onUnhide) addAccountButton(holder, 'Unhide account on this site', onUnhide);
   addInspectButton(holder, evidence);
   element.before(holder);
+  const hadContentFocus = element.contains(document.activeElement);
   element.style.display = 'none';
+  if (hadContentFocus) reveal.focus({ preventScroll: true });
   return {
-    teardown() { holder.remove(); element.style.display = previousDisplay; },
+    reveal: show,
+    teardown() {
+      const hadFocus = holder.contains(document.activeElement);
+      holder.remove(); element.style.display = previousDisplay;
+      if (hadFocus) focusContent(element);
+    },
     isCurrent: () => holder.parentNode === element.parentNode && holder.nextSibling === element,
   };
 }

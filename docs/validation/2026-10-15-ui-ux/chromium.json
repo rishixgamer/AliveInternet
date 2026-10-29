@@ -1,0 +1,579 @@
+{
+  "startedAt": "2026-10-15T18:09:50.578Z",
+  "status": "passed",
+  "scope": "Synthetic YouTube-shaped pages; real unpacked MV3 production build. Not live-platform selector validation.",
+  "extensionDir": "/Users/rishihaldar/Downloads/AliveInternet/.output/chrome-mv3",
+  "checks": [
+    {
+      "name": "MV3 permissions and production package boundaries",
+      "status": "passed",
+      "elapsedMs": 1
+    },
+    {
+      "name": "popup-to-settings navigation opens actual options document",
+      "status": "passed"
+    },
+    {
+      "name": "real extension worker, options and default YouTube controller",
+      "status": "passed",
+      "elapsedMs": 2673
+    },
+    {
+      "name": "local reveal restores original display and SPA/reload reset reveal",
+      "status": "passed",
+      "elapsedMs": 6943
+    },
+    {
+      "name": "options settings propagate to multiple content tabs and restore",
+      "status": "passed",
+      "elapsedMs": 4883
+    },
+    {
+      "name": "local account hide and options unhide are serialized and reversible",
+      "status": "passed",
+      "elapsedMs": 6601
+    },
+    {
+      "name": "hidden-item messages and popup review reveal current page only",
+      "status": "passed",
+      "elapsedMs": 2286
+    },
+    {
+      "name": "content edits and appended replies trigger isolated rescans",
+      "status": "passed",
+      "elapsedMs": 1024
+    },
+    {
+      "name": "settings export, preview, cancellation and explicit merge import",
+      "status": "passed",
+      "elapsedMs": 347
+    },
+    {
+      "name": "local advisory pack import is strict, escaped, opt-in and never hides benign content",
+      "status": "passed",
+      "elapsedMs": 1535
+    },
+    {
+      "name": "MV3 worker restart retains authoritative settings and resumes writes",
+      "status": "passed",
+      "elapsedMs": 55
+    },
+    {
+      "name": "options controls have labels and enable toggle supports keyboard use",
+      "status": "passed",
+      "elapsedMs": 728
+    },
+    {
+      "name": "unconsented optional site has no injected controller",
+      "status": "passed",
+      "elapsedMs": 1092
+    },
+    {
+      "name": "1400-item feed completes in batches and stays quiet while idle",
+      "status": "passed",
+      "elapsedMs": 2754
+    },
+    {
+      "name": "synthetic release screenshots and reversible demo use production UI",
+      "status": "passed",
+      "elapsedMs": 1798
+    },
+    {
+      "name": "compact toolbar state, scoped pause, review keyboard and cross-tab restoration",
+      "status": "passed",
+      "elapsedMs": 4835
+    },
+    {
+      "name": "first-run guide is skippable, reopenable and cannot enable optional sites",
+      "status": "passed",
+      "elapsedMs": 403
+    },
+    {
+      "name": "light/dark, narrow popup, responsive settings, zoom, long text and reduced motion",
+      "status": "passed",
+      "elapsedMs": 1239
+    },
+    {
+      "name": "contrast, accessible structure and injected write failure recovery",
+      "status": "passed",
+      "elapsedMs": 1485
+    },
+    {
+      "name": "optional-site pending consent; headed grant and revocation path",
+      "status": "passed",
+      "elapsedMs": 897
+    }
+  ],
+  "metrics": {
+    "workerRestart": {
+      "stoppedObserved": true,
+      "previous": {
+        "versionId": "0",
+        "registrationId": "0",
+        "scriptURL": "chrome-extension://hlpmncbfjidldofcengekkoffonbafkm/background.js",
+        "runningStatus": "running",
+        "status": "activated",
+        "scriptLastModified": 1792087767,
+        "scriptResponseTime": 0,
+        "controlledClients": [
+          "7C489BBCAEB424B340C6D825AD078235",
+          "8BA225CF7CA4A0064D02167DD65346E6"
+        ],
+        "targetId": "7620E316080C825B8595EAEA8EC03136"
+      },
+      "running": {
+        "versionId": "0",
+        "registrationId": "0",
+        "scriptURL": "chrome-extension://hlpmncbfjidldofcengekkoffonbafkm/background.js",
+        "runningStatus": "running",
+        "status": "activated",
+        "scriptLastModified": 1792087767,
+        "scriptResponseTime": 0,
+        "controlledClients": [
+          "7C489BBCAEB424B340C6D825AD078235",
+          "8BA225CF7CA4A0064D02167DD65346E6"
+        ],
+        "targetId": "7620E316080C825B8595EAEA8EC03136"
+      }
+    },
+    "largeFeed": {
+      "itemCount": 1401,
+      "hiddenCount": 1400,
+      "readyMs": 679,
+      "longTasks": [],
+      "mutations": 2801
+    },
+    "idle": {
+      "intervalMs": 1200,
+      "rendererTaskSeconds": 0.0003610000000000002,
+      "rendererScriptSeconds": 0,
+      "uiMutations": 0
+    },
+    "media": {
+      "synthetic": true,
+      "screenshots": [
+        1280,
+        800
+      ],
+      "promo": [
+        440,
+        280
+      ],
+      "demoSeconds": 10,
+      "demoBytes": 201655
+    },
+    "ui": {
+      "popupWidths": [
+        280,
+        360
+      ],
+      "settingsWidths": [
+        360,
+        1180
+      ],
+      "cssZoom": 2,
+      "themes": [
+        "light",
+        "dark",
+        "system"
+      ],
+      "reducedMotion": true,
+      "keyboardReview": true,
+      "syntheticOnly": true
+    },
+    "contrast": {
+      "light": [
+        {
+          "foreground": "--ink",
+          "background": "--ground",
+          "ratio": 14.083736213601572
+        },
+        {
+          "foreground": "--ink",
+          "background": "--surface",
+          "ratio": 15.153823676467335
+        },
+        {
+          "foreground": "--muted",
+          "background": "--ground",
+          "ratio": 5.932184976275624
+        },
+        {
+          "foreground": "--muted",
+          "background": "--surface",
+          "ratio": 6.382914574887571
+        },
+        {
+          "foreground": "--muted",
+          "background": "--accent-soft",
+          "ratio": 5.393322097928005
+        },
+        {
+          "foreground": "--accent",
+          "background": "--accent-soft",
+          "ratio": 6.002758763544959
+        },
+        {
+          "foreground": "--accent-ink",
+          "background": "--accent",
+          "ratio": 7.104173588313041
+        },
+        {
+          "foreground": "--warning",
+          "background": "--warning-soft",
+          "ratio": 6.007513445719053
+        }
+      ],
+      "dark": [
+        {
+          "foreground": "--ink",
+          "background": "--ground",
+          "ratio": 14.925275727600608
+        },
+        {
+          "foreground": "--ink",
+          "background": "--surface",
+          "ratio": 12.983173841587341
+        },
+        {
+          "foreground": "--muted",
+          "background": "--ground",
+          "ratio": 8.839550001464401
+        },
+        {
+          "foreground": "--muted",
+          "background": "--surface",
+          "ratio": 7.6893329439928335
+        },
+        {
+          "foreground": "--muted",
+          "background": "--accent-soft",
+          "ratio": 5.681574843482304
+        },
+        {
+          "foreground": "--accent",
+          "background": "--accent-soft",
+          "ratio": 6.726386569647853
+        },
+        {
+          "foreground": "--accent-ink",
+          "background": "--accent",
+          "ratio": 9.695274639224438
+        },
+        {
+          "foreground": "--warning",
+          "background": "--warning-soft",
+          "ratio": 8.332798416006268
+        }
+      ]
+    },
+    "optionalAccess": {
+      "pendingPromptUnresolved": true,
+      "headlessPromptUnresolved": true,
+      "noPreferenceEnable": true,
+      "noRegistration": true,
+      "nativePromptManuallyVerified": false
+    }
+  },
+  "console": [],
+  "errors": [],
+  "network": [
+    {
+      "url": "chrome-extension://hlpmncbfjidldofcengekkoffonbafkm/chunks/welcome-D40J3nvc.js",
+      "resourceType": "script",
+      "action": "local-extension-resource"
+    },
+    {
+      "url": "chrome-extension://hlpmncbfjidldofcengekkoffonbafkm/chunks/appearance-D3G83RfM.js",
+      "resourceType": "script",
+      "action": "local-extension-resource"
+    },
+    {
+      "url": "chrome-extension://hlpmncbfjidldofcengekkoffonbafkm/assets/welcome-DTYduxXq.css",
+      "resourceType": "stylesheet",
+      "action": "local-extension-resource"
+    },
+    {
+      "url": "chrome-extension://hlpmncbfjidldofcengekkoffonbafkm/chunks/popup-DzryXoVP.js",
+      "resourceType": "script",
+      "action": "local-extension-resource"
+    },
+    {
+      "url": "chrome-extension://hlpmncbfjidldofcengekkoffonbafkm/chunks/appearance-D3G83RfM.js",
+      "resourceType": "script",
+      "action": "local-extension-resource"
+    },
+    {
+      "url": "chrome-extension://hlpmncbfjidldofcengekkoffonbafkm/chunks/site-access-DlbicSbo.js",
+      "resourceType": "script",
+      "action": "local-extension-resource"
+    },
+    {
+      "url": "chrome-extension://hlpmncbfjidldofcengekkoffonbafkm/assets/popup-DoYW_WV5.css",
+      "resourceType": "stylesheet",
+      "action": "local-extension-resource"
+    },
+    {
+      "url": "chrome-extension://hlpmncbfjidldofcengekkoffonbafkm/chunks/options-ColCNRii.js",
+      "resourceType": "script",
+      "action": "local-extension-resource"
+    },
+    {
+      "url": "chrome-extension://hlpmncbfjidldofcengekkoffonbafkm/chunks/appearance-D3G83RfM.js",
+      "resourceType": "script",
+      "action": "local-extension-resource"
+    },
+    {
+      "url": "chrome-extension://hlpmncbfjidldofcengekkoffonbafkm/chunks/site-access-DlbicSbo.js",
+      "resourceType": "script",
+      "action": "local-extension-resource"
+    },
+    {
+      "url": "chrome-extension://hlpmncbfjidldofcengekkoffonbafkm/assets/options-BwlF_HBj.css",
+      "resourceType": "stylesheet",
+      "action": "local-extension-resource"
+    },
+    {
+      "url": "https://www.youtube.com/watch?v=aliveinternet-synthetic-first",
+      "resourceType": "document",
+      "action": "synthetic-fulfill"
+    },
+    {
+      "url": "https://www.youtube.com/watch?v=aliveinternet-synthetic-second",
+      "resourceType": "document",
+      "action": "synthetic-fulfill"
+    },
+    {
+      "url": "https://www.youtube.com/watch?v=aliveinternet-synthetic-spa",
+      "resourceType": "document",
+      "action": "synthetic-fulfill"
+    },
+    {
+      "url": "https://www.youtube.com/watch?v=aliveinternet-synthetic-spa",
+      "resourceType": "document",
+      "action": "synthetic-fulfill"
+    },
+    {
+      "url": "https://www.x.com/aliveinternet-authorized-synthetic",
+      "resourceType": "document",
+      "action": "synthetic-fulfill"
+    },
+    {
+      "url": "https://www.youtube.com/watch?v=aliveinternet-synthetic-large&large=1",
+      "resourceType": "document",
+      "action": "synthetic-fulfill"
+    },
+    {
+      "url": "https://www.youtube.com/watch?v=aliveinternet-synthetic-media",
+      "resourceType": "document",
+      "action": "synthetic-fulfill"
+    },
+    {
+      "url": "https://www.youtube.com/watch?v=aliveinternet-synthetic-spa",
+      "resourceType": "document",
+      "action": "synthetic-fulfill"
+    },
+    {
+      "url": "https://www.youtube.com/watch?v=aliveinternet-synthetic-second",
+      "resourceType": "document",
+      "action": "synthetic-fulfill"
+    },
+    {
+      "url": "https://www.youtube.com/watch?v=aliveinternet-synthetic-spa",
+      "resourceType": "document",
+      "action": "synthetic-fulfill"
+    },
+    {
+      "url": "chrome-extension://hlpmncbfjidldofcengekkoffonbafkm/chunks/welcome-D40J3nvc.js",
+      "resourceType": "script",
+      "action": "local-extension-resource"
+    },
+    {
+      "url": "chrome-extension://hlpmncbfjidldofcengekkoffonbafkm/chunks/appearance-D3G83RfM.js",
+      "resourceType": "script",
+      "action": "local-extension-resource"
+    },
+    {
+      "url": "chrome-extension://hlpmncbfjidldofcengekkoffonbafkm/assets/welcome-DTYduxXq.css",
+      "resourceType": "stylesheet",
+      "action": "local-extension-resource"
+    },
+    {
+      "url": "chrome-extension://hlpmncbfjidldofcengekkoffonbafkm/chunks/options-ColCNRii.js",
+      "resourceType": "script",
+      "action": "local-extension-resource"
+    },
+    {
+      "url": "chrome-extension://hlpmncbfjidldofcengekkoffonbafkm/chunks/appearance-D3G83RfM.js",
+      "resourceType": "script",
+      "action": "local-extension-resource"
+    },
+    {
+      "url": "chrome-extension://hlpmncbfjidldofcengekkoffonbafkm/chunks/site-access-DlbicSbo.js",
+      "resourceType": "script",
+      "action": "local-extension-resource"
+    },
+    {
+      "url": "chrome-extension://hlpmncbfjidldofcengekkoffonbafkm/assets/options-BwlF_HBj.css",
+      "resourceType": "stylesheet",
+      "action": "local-extension-resource"
+    },
+    {
+      "url": "chrome-extension://hlpmncbfjidldofcengekkoffonbafkm/chunks/welcome-D40J3nvc.js",
+      "resourceType": "script",
+      "action": "local-extension-resource"
+    },
+    {
+      "url": "chrome-extension://hlpmncbfjidldofcengekkoffonbafkm/chunks/appearance-D3G83RfM.js",
+      "resourceType": "script",
+      "action": "local-extension-resource"
+    },
+    {
+      "url": "chrome-extension://hlpmncbfjidldofcengekkoffonbafkm/assets/welcome-DTYduxXq.css",
+      "resourceType": "stylesheet",
+      "action": "local-extension-resource"
+    },
+    {
+      "url": "chrome-extension://hlpmncbfjidldofcengekkoffonbafkm/chunks/options-ColCNRii.js",
+      "resourceType": "script",
+      "action": "local-extension-resource"
+    },
+    {
+      "url": "chrome-extension://hlpmncbfjidldofcengekkoffonbafkm/chunks/appearance-D3G83RfM.js",
+      "resourceType": "script",
+      "action": "local-extension-resource"
+    },
+    {
+      "url": "chrome-extension://hlpmncbfjidldofcengekkoffonbafkm/chunks/site-access-DlbicSbo.js",
+      "resourceType": "script",
+      "action": "local-extension-resource"
+    },
+    {
+      "url": "chrome-extension://hlpmncbfjidldofcengekkoffonbafkm/assets/options-BwlF_HBj.css",
+      "resourceType": "stylesheet",
+      "action": "local-extension-resource"
+    },
+    {
+      "url": "chrome-extension://hlpmncbfjidldofcengekkoffonbafkm/chunks/welcome-D40J3nvc.js",
+      "resourceType": "script",
+      "action": "local-extension-resource"
+    },
+    {
+      "url": "chrome-extension://hlpmncbfjidldofcengekkoffonbafkm/chunks/appearance-D3G83RfM.js",
+      "resourceType": "script",
+      "action": "local-extension-resource"
+    },
+    {
+      "url": "chrome-extension://hlpmncbfjidldofcengekkoffonbafkm/assets/welcome-DTYduxXq.css",
+      "resourceType": "stylesheet",
+      "action": "local-extension-resource"
+    },
+    {
+      "url": "chrome-extension://hlpmncbfjidldofcengekkoffonbafkm/chunks/options-ColCNRii.js",
+      "resourceType": "script",
+      "action": "local-extension-resource"
+    },
+    {
+      "url": "chrome-extension://hlpmncbfjidldofcengekkoffonbafkm/chunks/appearance-D3G83RfM.js",
+      "resourceType": "script",
+      "action": "local-extension-resource"
+    },
+    {
+      "url": "chrome-extension://hlpmncbfjidldofcengekkoffonbafkm/chunks/site-access-DlbicSbo.js",
+      "resourceType": "script",
+      "action": "local-extension-resource"
+    },
+    {
+      "url": "chrome-extension://hlpmncbfjidldofcengekkoffonbafkm/assets/options-BwlF_HBj.css",
+      "resourceType": "stylesheet",
+      "action": "local-extension-resource"
+    },
+    {
+      "url": "chrome-extension://hlpmncbfjidldofcengekkoffonbafkm/chunks/welcome-D40J3nvc.js",
+      "resourceType": "script",
+      "action": "local-extension-resource"
+    },
+    {
+      "url": "chrome-extension://hlpmncbfjidldofcengekkoffonbafkm/chunks/appearance-D3G83RfM.js",
+      "resourceType": "script",
+      "action": "local-extension-resource"
+    },
+    {
+      "url": "chrome-extension://hlpmncbfjidldofcengekkoffonbafkm/assets/welcome-DTYduxXq.css",
+      "resourceType": "stylesheet",
+      "action": "local-extension-resource"
+    },
+    {
+      "url": "chrome-extension://hlpmncbfjidldofcengekkoffonbafkm/chunks/options-ColCNRii.js",
+      "resourceType": "script",
+      "action": "local-extension-resource"
+    },
+    {
+      "url": "chrome-extension://hlpmncbfjidldofcengekkoffonbafkm/chunks/appearance-D3G83RfM.js",
+      "resourceType": "script",
+      "action": "local-extension-resource"
+    },
+    {
+      "url": "chrome-extension://hlpmncbfjidldofcengekkoffonbafkm/chunks/site-access-DlbicSbo.js",
+      "resourceType": "script",
+      "action": "local-extension-resource"
+    },
+    {
+      "url": "chrome-extension://hlpmncbfjidldofcengekkoffonbafkm/assets/options-BwlF_HBj.css",
+      "resourceType": "stylesheet",
+      "action": "local-extension-resource"
+    },
+    {
+      "url": "chrome-extension://hlpmncbfjidldofcengekkoffonbafkm/chunks/options-ColCNRii.js",
+      "resourceType": "script",
+      "action": "local-extension-resource"
+    },
+    {
+      "url": "chrome-extension://hlpmncbfjidldofcengekkoffonbafkm/chunks/appearance-D3G83RfM.js",
+      "resourceType": "script",
+      "action": "local-extension-resource"
+    },
+    {
+      "url": "chrome-extension://hlpmncbfjidldofcengekkoffonbafkm/chunks/site-access-DlbicSbo.js",
+      "resourceType": "script",
+      "action": "local-extension-resource"
+    },
+    {
+      "url": "chrome-extension://hlpmncbfjidldofcengekkoffonbafkm/assets/options-BwlF_HBj.css",
+      "resourceType": "stylesheet",
+      "action": "local-extension-resource"
+    }
+  ],
+  "buildSha256": {
+    "assets/options-BwlF_HBj.css": "b2838ab40d2c7c43d730cab4ed67c4ed96b982123192e7a035642580fc94cee0",
+    "assets/popup-DoYW_WV5.css": "adb6181c5002091f70a452ed0ae07609312aa8634d8edd2b85ac27db03c2ffbe",
+    "assets/welcome-DTYduxXq.css": "bf693ddbe1c74b9133983b3bfd19e720eb3d8860ff4814493b902565e702cbd6",
+    "background.js": "4c43f7f213d30c7e88c27e13986a9f9a9cbed1bdae376306400699b429c60dba",
+    "chunks/appearance-D3G83RfM.js": "5e74005955258618f2a52a2ba12b3ce8790abe8cb4e1b291d7999a404ec8359e",
+    "chunks/options-ColCNRii.js": "895eee8dfbe4d9e29d058802c4ed534e16353b5d71b69caab001d437a181a0f5",
+    "chunks/popup-DzryXoVP.js": "ca7dd86e7c2cadfc0d60e5b7a71363beb3633076755ee2eedbd63d729236068b",
+    "chunks/site-access-DlbicSbo.js": "4e86f5f193540aae2bd35fc979ec7243b8bef49ca2566ad4688109e424c5516d",
+    "chunks/welcome-D40J3nvc.js": "54f973086fbf13ca3fcdb5e2a8f77a38e650811e7fff758b53034a327cb4fedf",
+    "content-scripts/social.css": "cef0144c9e067fb86d111b19654d32044445f6be52c50bea6d957bc1ff75b63e",
+    "content-scripts/social.js": "d9c32e5879d5e62c032bcc911197074683d4655d27b8e737e63110e54a4a6be2",
+    "icons/128.png": "a39967b7ff506f787c12fba78b8df4f9b13c63ec997063bf21675fc6c28f37d0",
+    "icons/16.png": "ac04ff58bb1dc8d0a2c20760f147a6a430b18add0a4590b838d5c17ba8c09bea",
+    "icons/32.png": "a714d69f5cada276b0f0136f01a35c5b7b3d08cac701a0b5259d8ea964027a49",
+    "icons/48.png": "9938af96f428d6e344f92fab779c4858e3e8ae5cb194bc887702d559954af499",
+    "icons/source.svg": "6c92e16803f3ccc2fcc17e04991ee2cae5f431f25235ac91bbc463cc3c569a6b",
+    "manifest.json": "c0da50a67d350b9f1acc9e8cd038a8744a1c5a0c8306664fede0bd2c802578fe",
+    "options.html": "bac850d95db628e54869b4ddce6dbcb17800c48007c49617e02dd14b88eb4eb8",
+    "popup.html": "2534cad470a14b0863e03234db05350e735b74e72fade466966c54d4a9652766",
+    "THIRD_PARTY_LICENSES.txt": "6888cc8bd7d86fc4c521ab134ba300219919d767f1a58e0ac2c11abec544cafb",
+    "welcome.html": "8da5478210ecb031cf3df8f2a3720dc5a289d1392a4b57bb44501d31ff590486"
+  },
+  "harnessSha256": "9ab46957aee71ed805cbad773e46c058cefe84f27cc3ab701eced3fc4e7fb566",
+  "profile": "/var/folders/rl/mqdfknl56h77p6bc5yjzqx2w0000gn/T/aliveinternet-browser-tcbmxP",
+  "installation": {
+    "method": "unpacked command-line flags",
+    "signed": false
+  },
+  "browserVersion": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36",
+  "extensionId": "hlpmncbfjidldofcengekkoffonbafkm",
+  "finishedAt": "2026-10-15T18:10:33.392Z"
+}

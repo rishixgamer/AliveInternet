@@ -23,34 +23,28 @@ export function createCopiedCommentAnalyzer(options: CopiedCommentOptions = DEFA
     capabilities: ['copied-comment', 'repetition'],
     async analyze(items: readonly ContentItem[]): Promise<readonly AnalyzerEvidence[]> {
       const out: AnalyzerEvidence[] = [];
-      const seen = new Map<string, { order: number; account: string }>();
-      items.forEach((item, arrayIndex) => {
-        const order = item.observedOrder ?? arrayIndex;
+      const seen = new Map<string, string>();
+      const ordered = items.map((item, index) => ({ item, index, order: item.observedOrder ?? index }))
+        .sort((a, b) => a.order - b.order || a.index - b.index);
+      for (const { item } of ordered) {
         const key = duplicateKey(item.text);
-        if (item.kind === 'post' || key.length < options.minLength) {
-          // Still record long originals so later copies can match, but never flag short items.
-          if (key.length >= options.minLength && !seen.has(key)) {
-            seen.set(key, { order, account: `${item.platform}:${item.accountKey}` });
-          }
-          return;
-        }
-        const first = seen.get(key);
+        if (item.kind === 'post' || !item.platform || !item.accountKey || key.length < options.minLength) continue;
+        const group = `${item.platform}:${key}`;
+        const first = seen.get(group);
         const account = `${item.platform}:${item.accountKey}`;
         if (!first) {
-          seen.set(key, { order, account });
-          return;
+          seen.set(group, account);
+          continue;
         }
-        const differentAccount = Boolean(item.accountKey) && first.account !== account;
-        const laterCopy = order > first.order || (order === first.order && arrayIndex > 0);
-        if (differentAccount && laterCopy) {
+        if (first !== account) {
           out.push({
             category: 'copied-comment',
-            description: 'Verbatim repost of an earlier visible comment (earliest copy stays visible)',
+            description: 'Same text as an earlier visible comment from a different account (readability advisory; not proof of copying or automation)',
             evidenceIds: [item.id],
             source: 'rules',
           });
         }
-      });
+      }
       return out;
     },
   };

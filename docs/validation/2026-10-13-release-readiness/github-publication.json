@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "verifiedAt": "2026-10-13T21:24:11.263359+00:00",
+  "repository": {
+    "url": "https://github.com/rishixgamer/AliveInternet",
+    "nameWithOwner": "rishixgamer/AliveInternet",
+    "visibility": "PUBLIC",
+    "anonymousHttpsVerified": true,
+    "sourceCommitSha": "30c847ff8041d06a35f39b63e02471878262445f",
+    "privateVulnerabilityReportingEnabled": true
+  },
+  "privacy": {
+    "url": "https://rishixgamer.github.io/AliveInternet/privacy/",
+    "anonymousHttpsVerified": true,
+    "httpStatus": 200,
+    "sha256": "7c889d7153deacf7cb037c48cd92b6f44007c05acb6d6cc41a26d81615c849c9",
+    "bytes": 3203,
+    "matchesLocalFile": "site/privacy/index.html"
+  },
+  "approval": "Maintainer explicitly approved public source snapshot and privacy policy with Rishi Haldar and rishihaldar@umass.edu; store submission excluded.",
+  "remaining": [
+    "Mailbox delivery",
+    "Store publisher ownership",
+    "Signed Firefox XPI",
+    "Representative current accuracy",
+    "Hardware GPU sampling and other devices"
+  ],
+  "hostedCi": {
+    "status": "completed",
+    "conclusion": "success",
+    "headSha": "45d299f10afd9b9193fac4eef914ff17c19c8d6f",
+    "url": "https://github.com/rishixgamer/AliveInternet/actions/runs/38470569026"
+  }
+}

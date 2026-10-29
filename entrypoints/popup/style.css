@@ -1,16 +1,20 @@
-:root { font: 13px/1.48 system-ui, sans-serif; color-scheme: light dark; }
-body { min-width: 340px; width: 340px; max-height: 580px; overflow-y: auto; margin: 0; }
-main { padding: 15px; }
-h1 { font-size: 20px; margin: 0 0 6px; }
-h1 small { font-size: 10px; font-weight: normal; opacity: .7; }
-.intro { margin: 7px 0 15px; }
-label { display: block; margin: 12px 0 6px; font-weight: 600; }
-label.toggle { display: flex; align-items: flex-start; gap: 8px; margin: 9px 0; font-weight: 400; cursor: pointer; }
-label.toggle input { margin-top: 2px; }
-fieldset { margin: 14px 0; border: 1px solid #8887; border-radius: 5px; padding: 8px 12px; }
-legend { font-weight: 650; padding: 0 5px; }
-select { width: 100%; padding: 7px; }
-.hint, .foot { font-size: 11px; opacity: .75; margin: 5px 0 9px; }
-.block-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin: 8px 0; overflow-wrap: anywhere; }
-.block-row button { font: inherit; cursor: pointer; white-space: nowrap; }
-#status { min-height: 1em; font-size: 11px; }
+@import '../../src/extension/interface.css';
+:root{font-size:13px}body{width:360px;max-width:100%}
+.popup-header{display:flex;justify-content:space-between;align-items:center;padding:16px 18px 8px;gap:8px}.popup-header .button{padding:8px;font-size:.9rem}
+main{padding:12px 20px 0}.page-card{background:var(--surface);padding:20px;border-radius:var(--radius)}
+.site-label{color:var(--muted);font-weight:600;font-size:.95rem;margin-bottom:10px;overflow-wrap:anywhere}
+h1{font-size:1.85rem;margin-bottom:10px}#pageDetail{min-height:3em}.site-toggle{width:100%;margin-top:18px}
+.page-card[data-state="active"]{background:var(--accent-soft)}.page-card[data-state="error"],.page-card[data-state="permission"]{background:var(--warning-soft)}
+.page-changes{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:24px 0 18px}.page-changes>div{display:flex;align-items:center;gap:12px}
+#pageCount{font-size:2.4rem;line-height:1;letter-spacing:-.06em;font-variant-numeric:tabular-nums}.page-changes span{max-width:100px;color:var(--muted)}
+.review-action{width:100%;justify-content:space-between;padding:13px 16px}#status{margin:10px 0;font-size:.9rem}
+.popup-footer{padding:14px 20px 18px;display:flex;justify-content:space-between;gap:12px;font-size:.85rem;color:var(--muted)}
+.review-heading{display:flex;align-items:center;justify-content:space-between;margin-top:24px}h2{font-size:1.25rem}
+#hiddenItems{margin:0;padding:0;list-style:none;max-height:240px;overflow-y:auto;overscroll-behavior:contain}
+.review-row{padding:14px;margin:8px 0;background:var(--surface);border-radius:8px;overflow-wrap:anywhere}.review-row p{margin-bottom:10px}.review-row .hint{margin:0 0 10px}
+.notice{margin-bottom:10px}.notice .hint{margin:5px 0}
+@media(max-width:320px){main{padding:10px 14px 0}.popup-header{padding:12px 14px 6px}.page-card{padding:16px}.brand{gap:6px;font-size:.94rem}.brand small{display:none}}
+
+@media(max-width:240px){.popup-header{flex-wrap:wrap}.page-changes>div{flex-wrap:wrap;gap:8px}.page-card{padding:12px}.popup-footer{flex-wrap:wrap}h1{font-size:1.6rem}main{overflow-wrap:anywhere}}
+/* CSS text zoom can narrow the layout without changing viewport media queries. */
+.popup-header{flex-wrap:wrap}.popup-header .brand{min-width:0;max-width:100%;flex-wrap:wrap}

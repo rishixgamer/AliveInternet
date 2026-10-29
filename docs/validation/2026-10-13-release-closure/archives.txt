@@ -1,0 +1,8 @@
+
+> aliveinternet@0.3.0 check:archives
+> node scripts/check-archives.mjs
+
+aliveinternet-0.3.0-chrome.zip: 148134 bytes, SHA256 b96adb01824942f73255ee2df6e9a6ba09ffaf4e8dcd67db0e88c7c43818cdfb
+aliveinternet-0.3.0-firefox.zip: 148125 bytes, SHA256 f405173713422f8496a9c54d3499498601d17e288e3d08e1409086bc3acd9794
+aliveinternet-0.3.0-edge.zip: 148134 bytes, SHA256 b96adb01824942f73255ee2df6e9a6ba09ffaf4e8dcd67db0e88c7c43818cdfb
+browser archives verified against unpacked builds

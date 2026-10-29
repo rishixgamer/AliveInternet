@@ -26,7 +26,7 @@ export function trustReason(item: ContentItem, settings: TrustSettings = DEFAULT
     if (item.isCreatorHearted) return 'creator-hearted';
   }
   const key = item.accountKey?.toLowerCase();
-  if (key && settings.allowedAccounts.some((entry) => entry.toLowerCase().endsWith(`:${key}`) || entry.toLowerCase() === key)) {
+  if (key && item.platform && settings.allowedAccounts.some((entry) => entry.toLowerCase() === `${item.platform}:${key}`)) {
     return 'allowlisted';
   }
   return undefined;

@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "recipient": "rishihaldar@umass.edu",
+  "sentAt": "2026-10-13T21:34:08.000Z",
+  "senderService": "Authenticated Gmail connector",
+  "sendAcknowledged": true,
+  "deliveryVerified": false,
+  "ownerReceiptReport": "not-arrived",
+  "ownerReportDate": "2026-10-13",
+  "testTokenSha256": "a57fc8ea73802cd0f94f835b80c9d78354db20bc44e776434f8e7238d4c5fe09",
+  "scope": "One explicitly authorized delivery test. Sender SENT acknowledgement is not recipient delivery evidence."
+}

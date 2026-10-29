@@ -1,0 +1,4 @@
+
+> aliveinternet@0.3.0 typecheck:core
+> tsc -p tsconfig.core.json
+

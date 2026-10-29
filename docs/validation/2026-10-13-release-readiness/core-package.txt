@@ -1,0 +1,10 @@
+
+> aliveinternet@0.3.0 test:package
+> npm run build:core && node scripts/test-core-package.mjs
+
+
+> aliveinternet@0.3.0 build:core
+> tsc -p packages/core/tsconfig.json && node scripts/bundle-core.mjs
+
+core ESM bundled with offline Public Suffix List; no runtime dependencies
+core package consumer passed (60 tarball entries, JavaScript and declarations verified)

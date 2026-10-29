@@ -43,21 +43,24 @@ export function createReplyChainAnalyzer(options: ReplyChainOptions = DEFAULT_RE
     async analyze(items: readonly ContentItem[]): Promise<readonly AnalyzerEvidence[]> {
       const byThread = new Map<string, ContentItem[]>();
       for (const item of items) {
-        if (!item.threadId) continue;
-        const group = byThread.get(item.threadId) ?? [];
+        if (!item.threadId || !item.platform || !item.accountKey || item.kind === 'post') continue;
+        const thread = `${item.platform}:${item.threadId}`;
+        const group = byThread.get(thread) ?? [];
         group.push(item);
-        byThread.set(item.threadId, group);
+        byThread.set(thread, group);
       }
       if (byThread.size === 0) return [];
       const out: AnalyzerEvidence[] = [];
       for (const [, group] of byThread) {
-        const top = group.find((item) => !item.parentId) ?? group[0]!;
+        const roots = group.filter(item => !item.parentId);
+        if (roots.length !== 1) continue;
+        const top = roots[0]!;
         if (!EARNINGS_RE.test(top.text) || !MONEY_CONTEXT_RE.test(top.text)) continue;
-        const replies = group.filter((item) => item.id !== top.id);
+        const replies = group.filter((item) => item.parentId === top.id);
         if (replies.length === 0) continue;
         const counts = new Map<string, { accounts: Set<string>; ids: string[] }>();
         for (const reply of replies) {
-          const account = reply.accountKey ? `${reply.platform}:${reply.accountKey}` : reply.author;
+          const account = `${reply.platform}:${reply.accountKey!.toLowerCase()}`;
           for (const endorsement of endorsements(`${reply.text} ${reply.links.join(' ')}`)) {
             const entry = counts.get(endorsement) ?? { accounts: new Set(), ids: [] };
             entry.accounts.add(account);

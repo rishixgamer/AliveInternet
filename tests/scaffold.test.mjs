@@ -59,7 +59,7 @@ test('remaining unimplemented entry points throw NotImplementedError', () => {
   assert.throws(() => redactForReport('test'), NotImplementedError);
   assert.throws(() => issueUrl({}), NotImplementedError);
   assert.throws(() => buildCreatorReview(), NotImplementedError);
-  assert.throws(() => parseDataset([]), NotImplementedError);
+  assert.throws(() => parseDataset([]), Error);
 });
 
 test('page-stats message guard', () => {
@@ -87,13 +87,13 @@ test('implemented helpers decode redirects and explain items locally', () => {
   const href = 'https://www.youtube.com/redirect?q=https%3A%2F%2Fexample.com';
   assert.equal(decodeRedirect(href), 'https://example.com');
   assert.equal(revealLink(href, 'example.com').wrapper, 'youtube-redirect');
-  assert.equal(revealLink('https://evil.example', 'good.example').textMismatch, true);
+  assert.equal(revealLink('https://evil.example.com', 'good.example.org').textMismatch, true);
   assert.equal(BRAND_DOMAINS.length, 0, 'brand list must stay empty until each entry is verified');
   assert.equal(lookalikeOf('paypa1-secure.net'), undefined);
   assert.equal(effectiveMode('balanced', undefined, [{ scopeId: 'youtube:@x', mode: 'off' }]), 'balanced');
   const parsed = parseRuleList(JSON.parse(readFileSync(new URL('../rules/examples/en/investment-testimonial.example.json', import.meta.url), 'utf8')));
   assert.equal(parsed.rules.length, 1);
-  assert.ok(toRedditAutoModerator(parsed).content.includes('action: report'));
+  assert.deepEqual(toRedditAutoModerator(parsed).skippedRuleIds, [parsed.rules[0].id]);
   assert.ok(toDiscordAutoMod(parsed).content.includes('keywords'));
   assert.equal(explainItem({ ...item, isCreator: false }).assessment.decision, 'collapse');
 });

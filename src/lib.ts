@@ -1,8 +1,9 @@
 /**
- * GROUNDWORK — feature `npm-core-package`. See docs/npm-package.md.
- * Planned public entry point for publishing the detection core to npm, so bots,
+ * Local package entrypoint — feature `npm-core-package`. See docs/npm-package.md.
+ * Public entry point for building the detection core to npm, so bots,
  * research tools and other extensions can reuse it. Exports only DOM-free,
- * network-free modules. Not built or published yet; package.json stays private.
+ * network-free modules. Built/packed locally via packages/core; the extension package stays private.
+ * No publication or stable-API claim follows from a local tarball.
  * Anything exported here becomes a semver commitment once published.
  */
 export { assessBatch } from './core/filter.ts';

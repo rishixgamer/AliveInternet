@@ -1,36 +1,26 @@
-.aliveinternet-collapsed {
-  color: inherit !important;
-  background: color-mix(in srgb, Canvas 93%, transparent);
-  border: 1px solid #8889;
-  border-radius: 8px;
-  padding: 10px;
-  margin: 8px 0;
-  font: 12px/1.5 system-ui, Arial, sans-serif;
+/* Scoped tokens: no host selectors are restyled and no remote assets are used. */
+.aliveinternet-collapsed,.aliveinternet-controls,.aliveinternet-flag{
+ --ai-ground:#f2f5f0;--ai-ink:#253329;--ai-muted:#4d6051;--ai-line:#bdcdbf;--ai-accent:#286343;--ai-focus:#326ca6;
+ font:13px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;
+ color:var(--ai-ink);text-align:start;letter-spacing:normal;overflow-wrap:anywhere;box-sizing:border-box;
 }
-.aliveinternet-collapsed button,
-.aliveinternet-account-action {
-  cursor: pointer;
-  font: 11px/1.4 system-ui, Arial, sans-serif;
-  border: 1px solid #8889;
-  border-radius: 4px;
-  padding: 3px 6px;
-  margin: 4px 4px 2px 0;
-  background: color-mix(in srgb, Canvas 90%, transparent);
-  color: CanvasText;
+.aliveinternet-collapsed{background:var(--ai-ground);border-inline-start:3px solid var(--ai-accent);border-radius:0 8px 8px 0;padding:14px 16px;margin:10px 0}
+.aliveinternet-collapse-title{display:block;font-size:12px;font-weight:650;color:var(--ai-accent);margin-bottom:5px}
+.aliveinternet-reason{display:block;margin-bottom:8px;max-width:75ch}
+.aliveinternet-collapsed button,.aliveinternet-controls button{
+ display:inline-flex;align-items:center;min-height:34px;max-width:100%;font:inherit;font-size:12px;font-weight:600;
+ color:var(--ai-accent);background:transparent;border:1px solid var(--ai-line);border-radius:5px;padding:6px 10px;margin:4px 8px 2px 0;cursor:pointer;overflow-wrap:anywhere;text-align:start;
 }
-.aliveinternet-collapsed button:focus-visible,
-.aliveinternet-account-action:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; }
-.aliveinternet-account-action { opacity: .7; display: inline-block; }
-.aliveinternet-account-action:hover { opacity: 1; }
-.aliveinternet-flag {
-  padding: 4px 8px;
-  margin-bottom: 6px;
-  border-left: 3px solid #888;
-  font: 11px/1.4 system-ui, Arial, sans-serif;
-  color: inherit;
-}
-.aliveinternet-controls { display: flex; gap: 4px; flex-wrap: wrap; align-items: center; }
-.aliveinternet-controls button, .aliveinternet-evidence button { font: 11px system-ui; cursor: pointer; }
-.aliveinternet-evidence { flex-basis: 100%; background: Canvas; color: CanvasText; border: 1px solid #8888; border-radius: 6px; padding: 8px; margin-top: 5px; font: 12px/1.5 system-ui; }
-.aliveinternet-evidence ul { margin: 6px 0 0; padding-left: 20px; }
-.aliveinternet-evidence p { margin: 5px 0; }
+.aliveinternet-collapsed button:hover,.aliveinternet-controls button:hover{background:var(--ai-line)}
+.aliveinternet-collapsed button:focus-visible,.aliveinternet-controls button:focus-visible{outline:3px solid var(--ai-focus);outline-offset:3px}
+.aliveinternet-collapsed button:disabled,.aliveinternet-controls button:disabled{opacity:.65;cursor:default}
+.aliveinternet-controls{display:flex;gap:4px;flex-wrap:wrap;align-items:center;margin-top:6px}
+.aliveinternet-controls .aliveinternet-account-action{border-color:transparent;padding-inline:0;font-size:12px}
+.aliveinternet-flag{background:var(--ai-ground);padding:8px 12px;margin-bottom:6px;border-inline-start:3px solid var(--ai-line)}
+.aliveinternet-evidence{flex-basis:100%;background:var(--ai-ground);color:var(--ai-ink);border-radius:6px;padding:14px;margin-top:8px;max-width:75ch;font:inherit}
+.aliveinternet-evidence ul{margin:8px 0 0;padding-inline-start:20px}.aliveinternet-evidence p{margin:6px 0}
+.aliveinternet-action-error{font:inherit;color:var(--ai-ink);margin:8px 0}
+@media(prefers-color-scheme:dark){.aliveinternet-collapsed,.aliveinternet-controls,.aliveinternet-flag{--ai-ground:#24322a;--ai-ink:#e5eee2;--ai-muted:#b2c7b5;--ai-line:#4b6552;--ai-accent:#b0dcbb;--ai-focus:#99c6f2}}
+:root[dark] .aliveinternet-collapsed,:root[dark] .aliveinternet-controls,:root[dark] .aliveinternet-flag{--ai-ground:#24322a;--ai-ink:#e5eee2;--ai-muted:#b2c7b5;--ai-line:#4b6552;--ai-accent:#b0dcbb;--ai-focus:#99c6f2}
+@media(prefers-reduced-motion:reduce){.aliveinternet-collapsed *,.aliveinternet-controls *{animation:none!important;transition:none!important}}
+@media(forced-colors:active){.aliveinternet-collapsed{border:1px solid CanvasText}.aliveinternet-collapsed button,.aliveinternet-controls button{border:1px solid ButtonText}}

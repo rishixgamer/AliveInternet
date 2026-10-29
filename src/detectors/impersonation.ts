@@ -36,18 +36,19 @@ function normalizeName(name: string): string {
   return foldConfusables(name).toLowerCase().replace(/^@+/, '').replace(/[^a-z0-9]/g, '');
 }
 
-const SOLICITATION_RE = /telegram|whatsapp|contact\s+me|message\s+me|\bdm\s+me|t\.me\/|wa\.me\/|giveaway|claim|prize|reward|official|support\s+team/i;
+const SOLICITATION_RE = /\b(?:contact|message|dm|text)\s+me\b|\b(?:claim|redeem|collect|verify|receive)\b.{0,24}\b(?:prize|reward|gift|winnings|payment)\b/i;
 
 export function createImpersonationAnalyzer(context: PageContext | undefined): ContentAnalyzer {
   return {
     id: 'impersonation',
     capabilities: ['impersonation', 'spam'],
     async analyze(items: readonly ContentItem[]): Promise<readonly AnalyzerEvidence[]> {
-      if (!context?.ownerDisplayName) return [];
+      if (!context?.ownerDisplayName || !context.ownerAccountKey) return [];
       const owner = normalizeName(context.ownerDisplayName);
       if (owner.length < 3) return [];
       const out: AnalyzerEvidence[] = [];
       for (const item of items) {
+        if (item.platform !== context.platform) continue;
         const candidate = normalizeName(item.author ?? '');
         if (candidate.length < 3) continue;
         const skeletonMatch = candidate === owner ||

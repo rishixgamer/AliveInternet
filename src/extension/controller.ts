@@ -10,28 +10,38 @@ import { localAction } from '../core/policy.ts';
 import type { Assessment } from '../core/types.ts';
 import { DEFAULT_SETTINGS, loadSettings, sanitizeSettings, setBlockedAccount, type Settings } from './settings.ts';
 import { annotateContent, collapseContent, accountAction, type AppliedUi } from './ui.ts';
+import { toReviewRecord, type HiddenItemRecord } from '../core/review-list.ts';
+import { HIDDEN_ITEMS_REQUEST, REVEAL_ITEM_REQUEST, REVIEW_PAGE_SIZE, isPageItemId } from './messages.ts';
+import { PAGE_STATUS_REQUEST } from './page-status.ts';
 
-interface RenderState { key: string; ui: AppliedUi[]; }
+interface RenderState { key: string; ui: AppliedUi[]; review?: HiddenItemRecord; fingerprint: string; }
 
 // Bound extraction, rule evaluation and quadratic deduplication per task. Yield
 // between batches; DOM selector discovery itself is still a page-wide operation.
 const SCAN_BATCH_SIZE = 350;
 const BATCH_DELAY_MS = 25;
+// Module lifetime exceeds a consent-driven controller restart on the same page.
+// Old popup rows must never acquire the ID of a newly managed element.
+let nextReviewId = 0;
+const reviewSession = crypto.randomUUID();
 
 export function startPlatformController(platform: Platform): () => void {
   let settings: Settings = structuredClone(DEFAULT_SETTINGS);
   let disposed = false;
   let indicatorPack: IndicatorPack | undefined;
+  let indicatorRevision = 0;
   let timer: ReturnType<typeof setTimeout> | undefined;
   let candidates: Generator<RenderableItem | undefined> | undefined;
   const active = new Set<HTMLElement>();
   let rescanRequested = false;
   let settingsLoaded = false;
+  let scanComplete = false;
   const managed = new Map<HTMLElement, RenderState>();
   const revealed = new Set<string>();
   let lastUrl = location.href;
 
   function clearManaged() {
+    scanComplete = false;
     for (const state of managed.values()) for (const ui of state.ui) ui.teardown();
     managed.clear();
   }
@@ -42,13 +52,12 @@ export function startPlatformController(platform: Platform): () => void {
     rescanRequested = false;
   }
 
-  function block(key: string): void {
-    void setBlockedAccount(platform, key, true).catch((error: unknown) => {
+  async function block(key: string): Promise<void> {
+    try { await setBlockedAccount(platform, key, true); }
+    catch (error: unknown) {
       console.warn('[AliveInternet] Could not save local block:', String(error));
-      clearManaged();
-      resetPass();
-      schedule();
-    });
+      throw error;
+    }
   }
 
   function scan() {
@@ -95,7 +104,7 @@ export function startPlatformController(platform: Platform): () => void {
       const kindEnabled = item.kind === 'comment' ? settings.filterComments : settings.filterPosts;
       // Duplicate collapsing is a *readability preference*, not bot detection.
       // Never hide the anchor copy or override a user's disabled content surface.
-      const duplicate = !actionResult.hide && kindEnabled && item.kind === 'comment'
+      const duplicate = !actionResult.hide && actionResult.reason !== 'trusted' && kindEnabled && item.kind === 'comment'
         ? duplicates.get(i) : undefined;
       const shouldCollapse = actionResult.hide || Boolean(duplicate);
       const baseReason: Assessment = userBlocked
@@ -122,12 +131,16 @@ export function startPlatformController(platform: Platform): () => void {
       if (old?.key === key && old.ui.every(part => part.isCurrent())) continue;
       if (old) for (const ui of old.ui) ui.teardown();
       const ui: AppliedUi[] = [];
+      let review: HiddenItemRecord | undefined;
       const action = item.accountKey ? () => block(item.accountKey!) : undefined;
       if (shouldCollapse && !revealed.has(item.fingerprint)) {
+        review = toReviewRecord(item, reason.reason,
+          duplicate ? 'duplicate' : actionResult.hide && actionResult.reason !== 'none' ? actionResult.reason : 'content-rule', `${reviewSession}:${++nextReviewId}`);
         ui.push(collapseContent(item.element, reason, item.kind, () => {
           revealed.add(item.fingerprint);
           managed.delete(item.element);
-        }, showAction ? item.accountKey : undefined, showAction ? action : undefined, inspector));
+        }, showAction ? item.accountKey : undefined, showAction ? action : undefined, inspector,
+        userBlocked && item.accountKey ? async () => { await setBlockedAccount(platform, item.accountKey!, false); } : undefined));
       } else {
         if (actionResult.annotate) {
           ui.push(annotateContent(item.element, verdict));
@@ -142,7 +155,7 @@ export function startPlatformController(platform: Platform): () => void {
         if ((showAction || showInspector) && item.accountKey)
           ui.push(accountAction(item.element, item.accountKey, showAction ? action : undefined, inspector));
       }
-      managed.set(item.element, { key, ui });
+      managed.set(item.element, { key, ui, review, fingerprint: item.fingerprint });
     }
     if (!finished) { schedule(BATCH_DELAY_MS); return; }
     // Only a complete pass can say that a previously managed item is no longer
@@ -154,6 +167,7 @@ export function startPlatformController(platform: Platform): () => void {
       }
     }
     const again = rescanRequested;
+    scanComplete = true;
     resetPass();
     if (again) schedule();
   }
@@ -194,6 +208,7 @@ export function startPlatformController(platform: Platform): () => void {
     if (area !== 'local') return;
     if (changes.settings) { settings = sanitizeSettings(changes.settings.newValue); settingsLoaded = true; }
     if (changes.indicatorPack) {
+      indicatorRevision++;
       try { indicatorPack = parseIndicatorPack(changes.indicatorPack.newValue); }
       catch { indicatorPack = undefined; }
     }
@@ -203,7 +218,55 @@ export function startPlatformController(platform: Platform): () => void {
   window.addEventListener('popstate', onNavigation);
   window.addEventListener('pageshow', onNavigation);
   browser.storage.onChanged.addListener(onChanged);
+  // Only the extension popup can request excerpts or reveal local content.
+  // No background copy, persistent review history or on-platform action.
+  const onMessage = (message: unknown, sender: { id?: string; url?: string }, respond: (value: unknown) => void) => {
+    if (!message || typeof message !== 'object' || Array.isArray(message)) return;
+    const input = message as Record<string, unknown>;
+    if (input.type !== HIDDEN_ITEMS_REQUEST && input.type !== REVEAL_ITEM_REQUEST && input.type !== PAGE_STATUS_REQUEST) return;
+    if (sender.id !== browser.runtime.id || sender.url !== browser.runtime.getURL('/popup.html')) return;
+    if (disposed || location.href !== lastUrl) { respond({ items: [], total: 0, truncated: false, ok: false }); return; }
+    if (input.type === PAGE_STATUS_REQUEST) {
+      if (Object.keys(input).length !== 1) return;
+      const total = [...managed.entries()].filter(([element, state]) => element.isConnected && state.review &&
+        state.ui.every(part => part.isCurrent())).length;
+      respond({ platform, enabled: settings.enabled && settings.platforms[platform], ready: settingsLoaded && scanComplete, total });
+      return;
+    }
+    if (input.type === HIDDEN_ITEMS_REQUEST) {
+      if (!scanComplete) { respond({ ok: false }); return; }
+      if (Object.keys(input).some(key => !['type', 'offset'].includes(key)) ||
+          (input.offset !== undefined && (!Number.isSafeInteger(input.offset) || (input.offset as number) < 0))) return;
+      const records = [...managed.entries()].filter(([element, state]) => element.isConnected && state.review &&
+        state.ui.every(part => part.isCurrent())).map(([, state]) => state.review!);
+      const offset = (input.offset as number | undefined) ?? 0;
+      const items = records.slice(offset, offset + REVIEW_PAGE_SIZE);
+      respond({ items, total: records.length, truncated: offset + items.length < records.length });
+      return;
+    }
+    if (Object.keys(input).some(key => !['type', 'pageItemId'].includes(key)) ||
+        !isPageItemId(input.pageItemId)) return;
+    const match = [...managed.entries()].find(([, state]) => state.review?.pageItemId === input.pageItemId);
+    if (!match) { respond({ ok: false }); return; }
+    const [element, state] = match;
+    // A renderer can recycle a node between scans. Never reveal a different
+    // item on the strength of an obsolete popup row.
+    let current: RenderableItem | undefined;
+    if (element.isConnected && element.parentNode) {
+      for (const candidate of iteratePlatformItems(platform, element.parentNode)) {
+        if (candidate?.element === element) { current = candidate; break; }
+      }
+    }
+    const reveal = state.ui.find(part => part.reveal)?.reveal;
+    if (!current || current.fingerprint !== state.fingerprint || !reveal || !state.ui.every(part => part.isCurrent())) {
+      respond({ ok: false }); return;
+    }
+    reveal(); respond({ ok: true }); schedule();
+  };
+  browser.runtime.onMessage.addListener(onMessage);
+  const initialIndicatorRevision = indicatorRevision;
   void browser.storage.local.get('indicatorPack').then(stored => {
+    if (disposed || initialIndicatorRevision !== indicatorRevision) return;
     try { indicatorPack = parseIndicatorPack(stored.indicatorPack); } catch { indicatorPack = undefined; }
     if (!disposed) { clearManaged(); resetPass(); schedule(); }
   }).catch(() => { /* Advisory packs fail open. */ });
@@ -222,6 +285,7 @@ export function startPlatformController(platform: Platform): () => void {
     window.removeEventListener('popstate', onNavigation);
     window.removeEventListener('pageshow', onNavigation);
     browser.storage.onChanged.removeListener(onChanged);
+    browser.runtime.onMessage.removeListener(onMessage);
     clearManaged();
   };
 }

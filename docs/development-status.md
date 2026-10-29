@@ -1,5 +1,11 @@
 # Development report — 2026-10-12
 
+Current continuation: [October 13 release evidence](release-readiness.md) records licensed historical labels, the zero-collapse-recall result, signed branded Chrome/Edge integration, repeated Mac measurements and the approved public GitHub source/privacy policy. Earlier sections below retain their historical scope.
+
+Latest release prerequisites: [dependency resolution](dependency-resolution.md), including 216 tests, offline evaluation, synthetic release media and expanded live reply attribution.
+
+Latest continuation: see [completion evidence](completion-report.md) for the current 207-test suite, three MV3 builds, Chromium integration fixtures, progressive permissions, backups and hidden review. Earlier counts and warnings below describe historical checkpoints; they are preserved as development history. [Muse review and continuation](continuation-review.md) records the inherited safety fixes.
+
 ## Repository assessment
 
 The v0.3 architecture separates DOM adapters, pure filtering/policy, local
@@ -165,3 +171,7 @@ detector, commit or push was added by this implementation.
 API references used for the background wiring: [Chrome message responses](https://developer.chrome.com/docs/extensions/develop/concepts/messaging#responses),
 [extension service-worker lifecycle](https://developer.chrome.com/docs/extensions/develop/concepts/service-workers/lifecycle)
 and [WXT background entrypoints](https://wxt.dev/guide/essentials/entrypoints.html).
+
+## October 15 interface continuation
+
+The compact popup, dedicated settings tab, skip/reopen guide and refined reversible controls are implemented. The [UI milestone](ui-ux.md) records current source/build/screenshot hashes and the new production fixtures. It supersedes historical UI/build receipts for these artifacts without changing their original scope or closing the external release gates.

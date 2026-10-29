@@ -1,0 +1,7 @@
+{
+  "error": {
+    "code": "E404",
+    "summary": "Not Found - GET https://registry.npmjs.org/@aliveinternet%2fcore - Not found",
+    "detail": "The requested resource '@aliveinternet/core@*' could not be found or you do not have permission to access it.\n\nNote that you can also install from a\ntarball, folder, http url, or git url."
+  }
+}

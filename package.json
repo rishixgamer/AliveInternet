@@ -2,6 +2,8 @@
   "name": "aliveinternet",
   "version": "0.3.0",
   "private": true,
+  "author": "Rishi Haldar",
+  "repository": { "type": "git", "url": "git+https://github.com/rishixgamer/AliveInternet.git" },
   "type": "module",
   "description": "Privacy-first, cross-platform filtering and explainable public-indicator analysis.",
   "scripts": {
@@ -20,8 +22,22 @@
     "test": "node --experimental-strip-types --test tests/*.test.mjs",
     "embedding:poc": "node scripts/embedding-poc.mjs",
     "investigate:fixture": "node --experimental-strip-types scripts/analyze-fixture.mjs",
+    "benchmark": "node --experimental-strip-types scripts/benchmark.mjs",
+    "benchmark:device": "node scripts/benchmark-device.mjs",
     "intel:rdap": "node scripts/rdap-domain.mjs",
-    "benchmark": "node --experimental-strip-types scripts/benchmark.mjs"
+    "test:browser": "node scripts/test-browser.mjs",
+    "test:firefox": "node scripts/test-firefox.mjs",
+    "build:core": "tsc -p packages/core/tsconfig.json && node scripts/bundle-core.mjs",
+    "test:package": "npm run build:core && node scripts/test-core-package.mjs",
+    "pack:core": "npm run build:core && node scripts/pack-core.mjs",
+    "check:ui": "node scripts/check-ui-evidence.mjs",
+    "check:release": "node scripts/check-release.mjs",
+    "generate:icons": "node scripts/generate-icons.mjs",
+    "test:live": "node scripts/test-live-youtube.mjs",
+    "check:archives": "node scripts/check-archives.mjs",
+    "check:dependencies": "node scripts/check-dependencies.mjs",
+    "check:release-evidence": "node scripts/check-release-evidence.mjs",
+    "check:release-closure": "node scripts/check-release-closure.mjs"
   },
   "engines": {
     "node": ">=22.16"
@@ -29,10 +45,15 @@
   "devDependencies": {
     "@types/node": "^22.15.0",
     "jsdom": "^26.1.0",
+    "playwright": "^1.64.0",
+    "rolldown": "1.2.13",
     "typescript": "^7.0.2",
     "wxt": "^0.21.4"
   },
   "optionalDependencies": {
     "@huggingface/transformers": "^4.3.0"
+  },
+  "dependencies": {
+    "tldts": "7.4.18"
   }
 }

@@ -1,0 +1,45 @@
+{
+  "schemaVersion": 1,
+  "product": "AliveInternet",
+  "publisher": {
+    "name": "Rishi Haldar",
+    "githubLogin": "rishixgamer",
+    "profileUrl": "https://github.com/rishixgamer",
+    "githubIdentityVerified": true,
+    "storeIdentityVerified": false
+  },
+  "repository": {
+    "url": "https://github.com/rishixgamer/AliveInternet",
+    "visibility": "public",
+    "permission": "ADMIN",
+    "sourceUploaded": true,
+    "approvedSourceCommitSha": "30c847ff8041d06a35f39b63e02471878262445f"
+  },
+  "privacy": {
+    "contact": "rishihaldar@umass.edu",
+    "contactSource": "Authenticated GitHub profile; maintainer requested defaults",
+    "mailboxDeliveryVerified": false,
+    "proposedPolicyUrl": "https://rishixgamer.github.io/AliveInternet/privacy/",
+    "hostedPolicyVerified": true,
+    "policyUrl": "https://rishixgamer.github.io/AliveInternet/privacy/",
+    "policySha256": "7c889d7153deacf7cb037c48cd92b6f44007c05acb6d6cc41a26d81615c849c9",
+    "mailboxTestStatus": "sent-awaiting-receipt",
+    "mailboxTestReceipt": "docs/validation/2026-10-13-release-closure/mailbox-test.json"
+  },
+  "stores": {
+    "chrome": {
+      "publisherAccountVerified": false,
+      "registrationStatus": "not-registered-owner-confirmed"
+    },
+    "edge": {
+      "publisherAccountVerified": false,
+      "registrationStatus": "not-registered-owner-confirmed"
+    },
+    "firefox": {
+      "publisherAccountVerified": false,
+      "signedXpiVerified": false,
+      "registrationStatus": "not-registered-owner-confirmed"
+    }
+  },
+  "publicationAuthorized": true
+}

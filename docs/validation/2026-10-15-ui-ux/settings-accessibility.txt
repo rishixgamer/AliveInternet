@@ -1,0 +1,144 @@
+- link "Skip to settings":
+  - /url: "#main"
+- banner:
+  - link "AliveInternet 0.3 alpha":
+    - /url: "#main"
+  - link "How it works":
+    - /url: /welcome.html
+- navigation "Settings sections":
+  - link "Filtering":
+    - /url: "#filtering"
+  - link "Websites & access":
+    - /url: "#websites"
+  - link "Words & exceptions":
+    - /url: "#words"
+  - link "Hidden accounts":
+    - /url: "#accounts"
+  - link "Backup & restore":
+    - /url: "#backup"
+  - link "Experimental":
+    - /url: "#experimental"
+  - text: Stored on this device. No account required.
+- main:
+  - heading "Your feed, your call." [level=1]
+  - paragraph: Local settings. Clear choices. Nothing permanent on the platform.
+  - region "Appearance":
+    - text: Appearance
+    - combobox "Appearance":
+      - option "Use system theme"
+      - option "Light"
+      - option "Dark" [selected]
+  - region "Filtering":
+    - heading "Filtering" [level=2]
+    - paragraph: Choose what changes in your feed.
+    - checkbox "Enable filtering on all enabled websites" [checked]
+    - text: Enable filtering on all enabled websites
+    - group "What to filter":
+      - text: What to filter
+      - checkbox "Comments and replies" [checked]
+      - text: Comments and replies
+      - checkbox "Posts and feed content" [checked]
+      - text: Posts and feed content
+      - checkbox "Locally blocked accounts" [checked]
+      - text: Locally blocked accounts
+      - checkbox "Show local account-hide buttons" [checked]
+      - text: Show local account-hide buttons
+      - checkbox "Show visible-page account evidence" [checked]
+      - text: Show visible-page account evidence
+    - text: Rule filtering strength
+    - combobox "Rule filtering strength":
+      - option "Conservative — fewer automatic collapses"
+      - option "Balanced" [selected]
+      - option "Aggressive — more false-positive risk"
+    - checkbox "Mark suspicious items without hiding them"
+    - text: Mark suspicious items without hiding them
+  - region "Websites & access":
+    - heading "Websites & access" [level=2]
+    - paragraph: You choose where AliveInternet can run.
+    - group "Websites":
+      - text: Websites
+      - paragraph: Only YouTube is enabled by default. Other adapters are experimental, may miss content, and need real-browser verification. Turning off an optional website also removes its browser access.
+      - checkbox "YouTube (initial adapter)" [checked]
+      - text: YouTube (initial adapter)
+      - checkbox "X / Twitter (experimental; enable to grant site access)"
+      - text: X / Twitter (experimental; enable to grant site access)
+      - checkbox "Instagram (experimental; enable to grant site access)"
+      - text: Instagram (experimental; enable to grant site access)
+      - checkbox "Reddit (experimental; enable to grant site access)"
+      - text: Reddit (experimental; enable to grant site access)
+      - checkbox "TikTok (experimental; enable to grant site access)"
+      - text: TikTok (experimental; enable to grant site access)
+      - checkbox "Facebook (experimental; enable to grant site access)"
+      - text: Facebook (experimental; enable to grant site access)
+      - checkbox "Threads (experimental; enable to grant site access)"
+      - text: Threads (experimental; enable to grant site access)
+      - checkbox "Bluesky (experimental; enable to grant site access)"
+      - text: Bluesky (experimental; enable to grant site access)
+      - checkbox "LinkedIn (experimental; enable to grant site access)"
+      - text: LinkedIn (experimental; enable to grant site access)
+      - checkbox "Twitch (experimental; enable to grant site access)"
+      - text: Twitch (experimental; enable to grant site access)
+  - region "Words & exceptions":
+    - heading "Words & exceptions" [level=2]
+    - paragraph: Make the feed fit your preferences.
+    - group "Personal mute words":
+      - text: Personal mute words Words or phrases, one per line
+      - paragraph: Applied to comments and posts on enabled sites. These are your preferences, not spam claims. Maximum 200 entries, 2–80 characters each.
+      - textbox "Words or phrases, one per line"
+      - button "Save mute words" [disabled]
+    - group "Never automatically hide these accounts":
+      - text: Never automatically hide these accounts Account IDs, one per line
+      - paragraph: Use the site and profile key, for example youtube:@creator or x:@creator. Each entry applies only to that site. Maximum 500 entries. Explicit local account hides still take priority.
+      - textbox "Account IDs, one per line"
+      - button "Save allowlist" [disabled]
+  - region "Hidden accounts":
+    - heading "Hidden accounts" [level=2]
+    - paragraph: Your local choices, always reversible.
+    - group "Locally hidden accounts (3)":
+      - text: Locally hidden accounts (3)
+      - paragraph: Hides matching visible accounts on this device. It does not press the platforms' own Block buttons or change server-side account settings.
+      - text: YouTube · @concurrent-a
+      - button "Unhide @concurrent-a on YouTube": Unhide
+      - text: YouTube · @concurrent-b
+      - button "Unhide @concurrent-b on YouTube": Unhide
+      - text: YouTube · @imported
+      - button "Unhide @imported on YouTube": Unhide
+  - region "Backup & restore":
+    - heading "Backup & restore" [level=2]
+    - paragraph: Keep a private copy of your preferences.
+    - group "Settings backup and restore":
+      - text: Settings backup and restore
+      - paragraph: Export includes your local account lists, mute words and preferences. Keep it private. Site access is granted separately by your browser.
+      - button "Export settings"
+      - text: Import behavior
+      - combobox "Import behavior":
+        - option "Merge lists (keep preferences)" [selected]
+        - option "Replace all preferences and lists"
+      - text: Preview a settings file (maximum 200 KB)
+      - button "Preview a settings file (maximum 200 KB)"
+      - status
+      - button "Confirm import" [disabled]
+      - button "Cancel preview" [disabled]
+  - region "Experimental":
+    - heading "Experimental" [level=2]
+    - paragraph: Optional tools with important limitations.
+    - paragraph: These tools are off by default. Observations do not establish bot identity or detection accuracy.
+    - checkbox "Collapse near-duplicate long comments (opt-in)"
+    - text: Collapse near-duplicate long comments (opt-in)
+    - 'checkbox "Experimental: temporarily hide visible content from repeated high-evidence spam accounts"'
+    - text: "Experimental: temporarily hide visible content from repeated high-evidence spam accounts"
+    - paragraph: This heuristic does not prove an account is a bot. It never adds accounts to your permanent blocklist.
+    - group "Imported advisory packs (opt-in)":
+      - text: Imported advisory packs (opt-in)
+      - checkbox "Annotate exact public-indicator matches"
+      - text: Annotate exact public-indicator matches
+      - paragraph: Matches come from a user-imported JSON pack. This is not automatic threat attribution and NEVER auto-hides an account or post.
+      - button "Import local indicator pack"
+      - button "Remove pack"
+      - paragraph: No valid pack loaded
+  - paragraph: No comment uploads. No telemetry. Every hide can be undone.
+  - paragraph: Experimental alpha, focused on YouTube. Rules can miss spam or hide legitimate content. Scores are not bot probabilities.
+  - link "Reopen the guide":
+    - /url: /welcome.html
+  - button "Reload settings"
+- status: Appearance saved

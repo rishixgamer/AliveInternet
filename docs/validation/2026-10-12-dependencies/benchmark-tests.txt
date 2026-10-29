@@ -1,0 +1,13 @@
+✔ dataset requires provenance, strict fields, bounded content and matching item count (1.113917ms)
+✔ parent references must exist in same platform/thread (0.219708ms)
+✔ metrics count flags as visible, use null for absent denominators (0.292834ms)
+✔ benchmark preserves platform isolation, dimensions and <=350 batches (9.221042ms)
+✔ aggregate CLI has source/data hashes, no raw row text or IDs; refuses overwrite (131.668084ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 213.293917

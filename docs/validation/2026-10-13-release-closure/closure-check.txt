@@ -1,0 +1,5 @@
+
+> aliveinternet@0.3.0 check:release-closure
+> node scripts/check-release-closure.mjs
+
+Preparation evidence integrity passed. Current external gates: {"mailboxDeliveryVerified":false,"storePublisherVerified":{"chrome":false,"edge":false,"firefox":false},"signedFirefoxVerified":false,"representativeAccuracyVerified":false}

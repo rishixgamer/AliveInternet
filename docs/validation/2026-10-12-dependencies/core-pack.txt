@@ -1,0 +1,83 @@
+
+> aliveinternet@0.3.0 pack:core
+> npm run build:core && node scripts/pack-core.mjs
+
+
+> aliveinternet@0.3.0 build:core
+> tsc -p packages/core/tsconfig.json && node scripts/bundle-core.mjs
+
+core ESM bundled with offline Public Suffix List; no runtime dependencies
+npm notice
+npm notice 📦  @aliveinternet/core@0.3.0
+npm notice Tarball Contents
+npm notice 11.4kB LICENSE
+npm notice 1.1kB README.md
+npm notice 2.5kB THIRD_PARTY_LICENSES.txt
+npm notice 1.2kB dist/core/analyzer-ports.d.ts
+npm notice 11B dist/core/analyzer-ports.js
+npm notice 525B dist/core/behavior.d.ts
+npm notice 2.2kB dist/core/behavior.js
+npm notice 195B dist/core/cluster.d.ts
+npm notice 670B dist/core/cluster.js
+npm notice 781B dist/core/dedupe.d.ts
+npm notice 2.5kB dist/core/dedupe.js
+npm notice 729B dist/core/domains.d.ts
+npm notice 2.0kB dist/core/domains.js
+npm notice 940B dist/core/explain.d.ts
+npm notice 1.6kB dist/core/explain.js
+npm notice 158B dist/core/filter.d.ts
+npm notice 4.8kB dist/core/filter.js
+npm notice 664B dist/core/links.d.ts
+npm notice 3.2kB dist/core/links.js
+npm notice 732B dist/core/mute.d.ts
+npm notice 639B dist/core/mute.js
+npm notice 123B dist/core/normalize.d.ts
+npm notice 296B dist/core/normalize.js
+npm notice 916B dist/core/obfuscation.d.ts
+npm notice 3.4kB dist/core/obfuscation.js
+npm notice 612B dist/core/page-context.d.ts
+npm notice 11B dist/core/page-context.js
+npm notice 717B dist/core/platforms.d.ts
+npm notice 5.1kB dist/core/platforms.js
+npm notice 960B dist/core/policy.d.ts
+npm notice 2.0kB dist/core/policy.js
+npm notice 951B dist/core/portability.d.ts
+npm notice 4.6kB dist/core/portability.js
+npm notice 1.8kB dist/core/preferences.d.ts
+npm notice 5.8kB dist/core/preferences.js
+npm notice 965B dist/core/review-list.d.ts
+npm notice 343B dist/core/review-list.js
+npm notice 883B dist/core/scopes.d.ts
+npm notice 534B dist/core/scopes.js
+npm notice 1.2kB dist/core/stats.d.ts
+npm notice 1.1kB dist/core/stats.js
+npm notice 983B dist/core/trust.d.ts
+npm notice 709B dist/core/trust.js
+npm notice 1.5kB dist/core/types.d.ts
+npm notice 11B dist/core/types.js
+npm notice 998B dist/intel/indicators.d.ts
+npm notice 3.8kB dist/intel/indicators.js
+npm notice 753B dist/intel/lookalike-domains.d.ts
+npm notice 3.1kB dist/intel/lookalike-domains.js
+npm notice 2.0kB dist/lib.d.ts
+npm notice 377.2kB dist/lib.js
+npm notice 931B dist/network/campaigns.d.ts
+npm notice 2.0kB dist/network/campaigns.js
+npm notice 505B dist/research/metrics.d.ts
+npm notice 629B dist/research/metrics.js
+npm notice 911B dist/rules/export-automod.d.ts
+npm notice 3.4kB dist/rules/export-automod.js
+npm notice 2.6kB dist/rules/schema.d.ts
+npm notice 8.4kB dist/rules/schema.js
+npm notice 598B package.json
+npm notice Tarball Details
+npm notice name: @aliveinternet/core
+npm notice version: 0.3.0
+npm notice filename: aliveinternet-core-0.3.0.tgz
+npm notice package size: 165.1 kB
+npm notice unpacked size: 481.7 kB
+npm notice shasum: a980eb9e93d9e7429270d71b0b805d036281a369
+npm notice integrity: sha512-QP74ty56TApOS[...]CJ9+TE5TwKjVA==
+npm notice total files: 60
+npm notice
+aliveinternet-core-0.3.0.tgz

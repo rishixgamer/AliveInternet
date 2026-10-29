@@ -1,0 +1,61 @@
+{
+  "schemaVersion": 1,
+  "archiveSha256": "bd6182891adb3cfc8334b82c062176dfbebc563bf0ba07e31c2645f916865a0a",
+  "sourceUrl": "https://archive.ics.uci.edu/dataset/380/youtube+spam+collection",
+  "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+  "sourceRows": 1956,
+  "normalizedGroups": 1741,
+  "sourceDateSpan": {
+    "min": "2013-07-12T22:33:27.916000",
+    "max": "2015-06-05T20:01:23",
+    "missingRows": 245
+  },
+  "conflictingLabelRowsExcluded": 0,
+  "duplicateRowsExcluded": 243,
+  "emptyOrOversizeRowsExcluded": 0,
+  "contactRedactions": 211,
+  "retainedRows": 1713,
+  "labels": {
+    "spam": 810,
+    "legitimate": 903
+  },
+  "sourceLabels": {
+    "Youtube01-Psy.csv": {
+      "1": 175,
+      "0": 175
+    },
+    "Youtube02-KatyPerry.csv": {
+      "1": 175,
+      "0": 175
+    },
+    "Youtube03-LMFAO.csv": {
+      "0": 202,
+      "1": 236
+    },
+    "Youtube04-Eminem.csv": {
+      "1": 245,
+      "0": 203
+    },
+    "Youtube05-Shakira.csv": {
+      "0": 196,
+      "1": 174
+    }
+  },
+  "retainedBySource": {
+    "Youtube01-Psy.csv": 344,
+    "Youtube02-KatyPerry.csv": 332,
+    "Youtube03-LMFAO.csv": 329,
+    "Youtube04-Eminem.csv": 398,
+    "Youtube05-Shakira.csv": 310
+  },
+  "limitations": [
+    "Five older popular music videos; no current-feed sampling",
+    "Source binary spam labels are not scam or bot identity labels",
+    "Independent dual annotation/adjudication not established",
+    "Locale unknown; no language or identity inference",
+    "Redaction changes content; results apply to transformed text",
+    "Residual personal information may occur in local free text"
+  ],
+  "datasetSha256": "cd77656c8159d95dac6054847992058fbf9d7cd4e06b35f30b2f50792202607c",
+  "converterSha256": "fa3336f1b6855cd73ce72ccae2cf120db0c73229a8db9f08adde8bfd392919f5"
+}

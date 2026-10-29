@@ -1,0 +1,20 @@
+- banner:
+  - text: AliveInternet alpha
+  - link "Settings":
+    - /url: /options.html
+- main:
+  - region "YouTube":
+    - paragraph: YouTube
+    - heading "Filtering is active" [level=1]
+    - paragraph: Local rules and your preferences changed this page. Review any hide and undo it.
+    - button "Pause on YouTube"
+  - region "Page changes":
+    - strong: "2"
+    - text: hidden on this page
+    - button "Refresh"
+  - button "Review hidden items"
+  - status
+- contentinfo:
+  - text: Local processing. Reversible hides.
+  - link "Guide":
+    - /url: /welcome.html

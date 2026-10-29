@@ -1,0 +1,80 @@
+{
+  "schemaVersion": 1,
+  "createdAt": "2026-10-13T21:48:06.307983+00:00",
+  "scope": "Local preparation and evidence integrity only. No store registration, payment, agreement acceptance, signing submission, current-data collection, publication or gate closure.",
+  "gates": {
+    "mailboxDeliveryVerified": false,
+    "storePublisherVerified": {
+      "chrome": false,
+      "edge": false,
+      "firefox": false
+    },
+    "signedFirefoxVerified": false,
+    "representativeAccuracyVerified": false
+  },
+  "firefox": {
+    "version": "0.3.0",
+    "minimumDesktopVersion": "142.0",
+    "androidDistributionEnabled": false,
+    "webExtVersion": "10.7.0",
+    "lintReceipt": "docs/validation/2026-10-13-release-closure/firefox-lint-final.json",
+    "fixtureReceipt": "docs/validation/2026-10-13-release-closure/firefox-fixture.json",
+    "temporaryFixtureGroups": 6,
+    "signedInstallTested": false
+  },
+  "annotation": {
+    "protocol": "benchmark/annotation/README.md",
+    "tool": "scripts/prepare-annotation.mjs",
+    "workflowTestsPassed": 4,
+    "currentIndependentCorpusSupplied": false,
+    "acceptedThresholdsSupplied": false,
+    "naturalAndEnrichedDatasetsSeparated": true
+  },
+  "owner": {
+    "accountsStatusSource": "Maintainer reply: accounts are not registered yet",
+    "mailboxStatusSource": "Maintainer reply: test has not arrived yet",
+    "wizard": "scripts/release-owner-wizard.sh",
+    "wizardRunByAgent": false,
+    "ownerReportsAreIndependentVerification": false
+  },
+  "verification": {
+    "testsPassed": 220,
+    "testsFailed": 0,
+    "typechecksPassed": true,
+    "browserBuilds": [
+      "chrome",
+      "edge",
+      "firefox"
+    ],
+    "archivesVerified": true,
+    "inheritedChromiumEvidenceExactHashesPreserved": true
+  },
+  "fileSha256": {
+    "package.json": "b0ba5dfca8404826198ce0254839101eb111ebe1c8102f0296b36c518a612f89",
+    "package-lock.json": "b4d7686494d587ea0b08c6ea14654a9ed3f341f18d2da5be79a32687cbe1f126",
+    "wxt.config.ts": "163e766fd6a4b70145ca61ee0e7bc930d1d2fe3d60c9f76651faad654867ebf7",
+    "release/publisher.json": "c9820dd3f3ff824e5efbf9c6f7611ad6268e53232926f602359cc3786eb3293a",
+    "scripts/prepare-annotation.mjs": "5037a114968ca2056a27bd098fc625d5c79c14bf7649d98416294a4fac037135",
+    "tests/annotation-package.test.mjs": "a43c09bc1004504ab4522cd4b28c166607d6974b0615e0aabf1f7639ea0125fb",
+    "scripts/release-owner-wizard.sh": "c8ca1d4b732f0e559918aaa43aa0ab3e68e87c7cd860ccab9f61c193ae86829c",
+    "scripts/test-firefox.mjs": "99bb58fd1ec519f1030e378f800d12c096cecdd3caf51bbd276646ab25fd1a27",
+    "scripts/check-release.mjs": "16b2bf68d8e7082093cc55b319a4fde9a8f907a61610fcabcbc0533a1d989177",
+    "scripts/check-dependencies.mjs": "0e0e9fda0f056a61abe9dc70ed8945a702d2506f79d6a9f703c37b00b36e2658",
+    "scripts/check-release-evidence.mjs": "14b186e6814bddad09c2f8ea7c3f3a5de4569c7d07feff92e5ed68b919deb5cd",
+    "scripts/check-release-closure.mjs": "991a4975c046706eee5343fcdfe592b0f642a63f47d7c342cc1fc99614790b61",
+    "benchmark/annotation/input.example.json": "ea2cece5cda0a52732874813bd575c9cfbf17c4c635a4c933896d6e213d7d018",
+    "benchmark/annotation/README.md": "d34eaac982ffbb15b3700f028ba84d77ae1ca73b14e2de1829c6e6d6830dda68",
+    "docs/release-closure.md": "86928955e6450c95b2142c60eb381a82ab9b79b1e9120c9419e1eb8128f41a47",
+    ".output/aliveinternet-0.3.0-firefox.zip": "f405173713422f8496a9c54d3499498601d17e288e3d08e1409086bc3acd9794",
+    ".output/aliveinternet-0.3.0-sources.zip": "1914c0614cf5973bb37d136a7f0471c87969d35614f9166cc7b7be5a61916a9a",
+    "docs/validation/2026-10-13-release-closure/firefox-lint-final.json": "9a906e99b3b76d5aa5907bf648b838de21f26d36438bc3ace52c71729afca383",
+    "docs/validation/2026-10-13-release-closure/firefox-fixture.json": "c13b5602112d64d7c2a93e5df46ae1b18c39abd466fe8714c40f163ae177390d",
+    "docs/validation/2026-10-13-release-closure/mailbox-test.json": "b6e0b523b48a6cb8e4c230e9c3f4ccda2e0daad38904210585fd8512637ebbf9",
+    "docs/validation/2026-10-13-release-closure/tests-final.txt": "e9eb1137c20ab44f148c8eb89a85a8d734e88431a15869ab1ae4c84ff289acd8",
+    "docs/validation/2026-10-13-release-closure/typecheck.txt": "967de057458e09c27026e0096846c4e629dd3ce09c989b89278be9c1c519b1d5",
+    "docs/validation/2026-10-13-release-closure/core-types.txt": "88a14d688d0c41f3f449b4f0dcd6d5d845a91efff07267b46021af3461979e7e",
+    "docs/validation/2026-10-13-release-closure/archives-final.txt": "9a27481f7562b86e1862694e0d6bcb5e36eb777c534e14c04c1920aa387202e7",
+    "docs/validation/2026-10-13-release-closure/dependencies.txt": "17d80267c6cf0b28303716c247b5ba510c047e7022cce9c85b397a46f579fc05",
+    "docs/validation/2026-10-13-release-closure/inherited-evidence-final.txt": "7d4177fe2895c301f28074b08a9b9690d673d75b8eaf09d7a0c2f01a26a144ec"
+  }
+}

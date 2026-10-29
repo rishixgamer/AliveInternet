@@ -21,7 +21,7 @@ export interface MonthlyStats {
 }
 export interface ShareCardData {
   month: string;
-  headline: string; // e.g. "AliveInternet hid 1,284 scam comments this month"
+  headline: string; // Counts of reversible local hides, not verified scam identities.
   topCategories: { category: HideCategory; count: number }[];
 }
 
@@ -47,7 +47,7 @@ export function shareCard(stats: MonthlyStats): ShareCardData {
     .sort((a, b) => b.count - a.count).slice(0, 3);
   return {
     month: stats.month,
-    headline: `AliveInternet hid ${stats.hidden} scam comments in ${stats.month}`,
+    headline: `AliveInternet hid ${stats.hidden} items locally in ${stats.month}`,
     topCategories,
   };
 }

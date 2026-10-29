@@ -1,0 +1,6 @@
+@import '../../src/extension/interface.css';
+.welcome-header{max-width:1040px;margin:auto;padding:28px 32px;display:flex;justify-content:space-between;align-items:center;gap:20px}
+main{max-width:900px;margin:24px auto 40px;padding:0 32px}.welcome-kicker{color:var(--accent);font-weight:600;margin-bottom:20px}h1{font-size:clamp(2.5rem,5vw,4rem);line-height:1.02;letter-spacing:-.065em}.welcome-intro{font-size:1.15rem;color:var(--muted);max-width:47ch;margin:20px 0 28px}
+.principles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px;margin:28px 0}h2{font-size:1.15rem;letter-spacing:-.025em}.principles p{font-size:.9rem;color:var(--muted);margin-top:12px}
+.demo{padding:24px;background:var(--surface);border-radius:var(--radius);margin:28px 0}.demo-comment{padding:18px;background:var(--soft);border-radius:7px}.finish{display:flex;align-items:center;justify-content:space-between;gap:32px}.finish .hint{margin-bottom:0}.finish button{flex-shrink:0}footer{max-width:900px;padding:0 32px 32px;margin:auto;color:var(--muted);font-size:.85rem}
+@media(max-width:600px){.welcome-header{padding:20px}main{padding:0 20px;margin-top:28px}.principles{grid-template-columns:1fr;gap:24px}.finish{display:block}.finish button{width:100%;margin-top:24px}.demo{padding:18px}}

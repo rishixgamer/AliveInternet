@@ -2,7 +2,15 @@
 
 Agent coding tasks should be self-contained branches, with tests, reproducible measurements, and explicit verified/unverified status.
 
+## Current continuation — 2026-10-12
+
+The alpha release paths are implemented: optional-site consent and dynamic registration, bounded settings backup/preview/import, current-tab hidden review, reliable advisory import/remove, standalone core packaging, icons and Firefox MV3 metadata. Production Chromium fixtures verify multi-tab settings, worker restart, navigation/reload, permission denial, advisory-only annotations and large feeds. See [completion evidence](completion-report.md) for exact results and live-test limits.
+
+Remaining work: live selector/layout coverage (especially X, Reddit and other opt-in sites), positive native permission prompts/revocation in Firefox/Edge, real-device CPU/GPU/memory, representative permissioned false-positive evaluation, verified relationship/creator fields, store assets and maintainer submission. Research classifiers/subscriptions remain inactive. The historical P0 entries below retain their original evidence and are superseded where the completion report records a later check.
+
 ## P0: build and user reliability (Codex)
+
+- **Continuation, 2026-10-12:** reviewed Muse's latest helpers, fixed platform-scoped trust/dedupe, list mutation snapshots, import defaults and advisory evidence/export validation; added mute-word and allowlist popup editors. 132 synthetic tests pass. See [continuation review](continuation-review.md) for remaining browser gates and unwired helper limitations.
 
 - **Fixed in source, 2026-10-12:** YouTube parent comments and expanded replies are extracted independently, without collapsing the enclosing thread. Nine synthetic DOM regressions cover modern/legacy markup, reply discovery, attribution, safe link extraction and reversible hiding. Live Chrome verification and `threadId`/`parentId` remain outstanding; see [development report](development-status.md).
 - **Fixed in source, 2026-10-12:** large-page processing reaches later comments and posts in successive batches of at most 350 candidates. Earlier reversible UI survives; recycled nodes, navigation, disabled sites and observer loops have 15 synthetic controller regressions. Repetition/account evidence is batch-scoped; DOM discovery, dirty-item indexing and real-browser overhead remain validation work. See [development report](development-status.md).

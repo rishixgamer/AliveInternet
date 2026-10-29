@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="AliveInternet">
+  <rect width="128" height="128" rx="28" fill="#145e58"/>
+  <path d="M28 25h72v61H61L37 106V86h-9z" fill="#f5faf8"/>
+  <path d="M44 67l17-25h9l17 25h-12l-3-5H58l-3 5zM62 53h6l-3-6z" fill="#145e58" fill-rule="evenodd"/>
+  <path d="M48 75h34" stroke="#54b999" stroke-width="6" stroke-linecap="round"/>
+</svg>

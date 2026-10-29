@@ -1,7 +1,10 @@
 import { browser } from 'wxt/browser';
 import { PLATFORMS, PLATFORM_LABELS, type Platform } from '../core/platforms.ts';
 import { loadSettings, sanitizeSettings, setBlockedAccount, updateSettings, type Settings } from './settings.ts';
+import { setSiteAccess } from './site-access-popup.ts';
+import { SITE_ORIGINS } from './site-access.ts';
 import { BOOLEAN_SETTINGS } from './settings-protocol.ts';
+import { parseSettingsLists } from '../core/preferences.ts';
 
 /** Settings controls send individual intents, never snapshots of the whole form. */
 export function initializeSettingsPopup(root: Document = document): () => void {
@@ -13,12 +16,20 @@ export function initializeSettingsPopup(root: Document = document): () => void {
   const blocked = root.querySelector<HTMLElement>('#blockedAccounts')!;
   const count = root.querySelector<HTMLElement>('#blockCount')!;
   const siteInputs = new Map<Platform, HTMLInputElement>();
+  const siteLabels = new Map<Platform, HTMLElement>();
+  const siteGranted = new Map<Platform, boolean>();
+  const lists = (['mutedWords', 'allowedAccounts'] as const).map(key => ({
+    key, input: root.querySelector<HTMLTextAreaElement>(`#${key}`)!,
+    save: root.querySelector<HTMLButtonElement>(key === 'mutedWords' ? '#saveMutedWords' : '#saveAllowedAccounts')!,
+    dirty: false, pending: false,
+  }));
   const pending = new Set<HTMLInputElement | HTMLSelectElement>();
   const pendingBlocks = new Set<string>();
   const detach: (() => void)[] = [];
   let current: Settings | undefined;
   let renderedBlocks: string | undefined;
   let revision = 0;
+  let refreshVersion = 0;
   let disposed = false;
 
   function listen(element: HTMLElement, handler: () => void): void {
@@ -62,33 +73,77 @@ export function initializeSettingsPopup(root: Document = document): () => void {
     }
     if (!pending.has(mode)) { mode.value = current.mode; mode.disabled = false; }
     for (const [platform, input] of siteInputs) {
-      if (!pending.has(input)) { input.checked = current.platforms[platform]; input.disabled = false; }
+      if (!pending.has(input)) {
+        input.checked = current.platforms[platform] && siteGranted.get(platform) === true; input.disabled = false;
+      }
+      const info = siteLabels.get(platform);
+      const kind = platform === 'youtube' ? 'initial adapter' : 'experimental';
+      if (info) info.textContent = `${PLATFORM_LABELS[platform]} (${kind}${siteGranted.get(platform)
+        ? '' : '; enable to grant site access'})`;
+    }
+    for (const list of lists) {
+      if (!list.dirty && !list.pending) list.input.value = current[list.key].join('\n');
+      list.input.disabled = list.pending;
+      list.save.disabled = list.pending || !list.dirty;
     }
     renderBlocks(current);
   }
 
   async function refresh(): Promise<void> {
     const before = revision;
-    const settings = await loadSettings();
+    const version = ++refreshVersion;
+    const [settings, grants] = await Promise.all([loadSettings(), Promise.all(PLATFORMS.map(async platform =>
+      [platform, await browser.permissions.contains({ origins: SITE_ORIGINS[platform] })] as const))]);
+    if (disposed || version !== refreshVersion) return;
+    for (const [platform, granted] of grants) siteGranted.set(platform, granted);
     // A storage event arriving during the read contains newer authoritative state.
     if (!disposed && before === revision) current = settings;
     render();
   }
 
-  async function persist(action: () => Promise<Settings>, message: string): Promise<void> {
+  async function persist(action: () => Promise<Settings>, message: string): Promise<boolean> {
     try {
       await action();
       await refresh();
       if (!disposed) status.textContent = message;
+      return true;
     } catch {
-      if (!disposed) status.textContent = 'Could not save settings; retry the action';
+      if (!disposed) status.textContent = 'Could not save settings or grant site access; retry the action';
+      return false;
     }
   }
 
-  function change(control: HTMLInputElement | HTMLSelectElement, action: () => Promise<Settings>): void {
+  for (const list of lists) {
+    const edit = () => { list.dirty = true; render(); };
+    const save = () => {
+      if (!current || disposed || list.pending || !list.dirty) return;
+      let values: string[];
+      try {
+        const draft = list.input.value.split(/\r?\n/).map(line => line.trim()).filter(Boolean);
+        values = parseSettingsLists({ [list.key]: draft })[list.key]!;
+      } catch (error) {
+        status.textContent = error instanceof Error ? error.message : 'Invalid list';
+        return;
+      }
+      list.pending = true; render();
+      void persist(() => updateSettings({ [list.key]: values }), 'List saved').then(success => {
+        if (success) list.dirty = false;
+      }).finally(() => { list.pending = false; render(); });
+    };
+    list.input.disabled = true; list.save.disabled = true;
+    list.input.addEventListener('input', edit);
+    list.save.addEventListener('click', save);
+    detach.push(() => { list.input.removeEventListener('input', edit); list.save.removeEventListener('click', save); });
+  }
+
+  function change(control: HTMLInputElement | HTMLSelectElement, action: () => Promise<Settings>, message = 'Settings saved'): void {
     if (!current || disposed || pending.has(control)) return;
+    const hadFocus = root.activeElement === control;
     pending.add(control); control.disabled = true;
-    void persist(action, 'Settings saved').finally(() => { pending.delete(control); render(); });
+    void persist(action, message).finally(() => {
+      pending.delete(control); render();
+      if (!disposed && hadFocus && root.activeElement === root.body) control.focus();
+    });
   }
 
   for (const id of BOOLEAN_SETTINGS) {
@@ -110,10 +165,11 @@ export function initializeSettingsPopup(root: Document = document): () => void {
     input.dataset.platform = platform;
     const info = root.createElement('span');
     info.textContent = `${PLATFORM_LABELS[platform]}${platform === 'youtube' ? ' (initial adapter)' : ' (experimental)'}`;
-    label.append(input, info); platforms.append(label); siteInputs.set(platform, input);
+    label.append(input, info); platforms.append(label); siteInputs.set(platform, input); siteLabels.set(platform, info);
     listen(input, () => {
       const checked = input.checked;
-      change(input, () => updateSettings({ platforms: { [platform]: checked } }));
+      change(input, () => setSiteAccess(platform, checked), checked
+        ? 'Site enabled; reload open site tabs to start filtering' : 'Site settings saved');
     });
   }
 
@@ -123,11 +179,18 @@ export function initializeSettingsPopup(root: Document = document): () => void {
     current = sanitizeSettings(changes.settings.newValue);
     render();
   };
+  const onPermissionsChanged = (): void => {
+    void refresh().catch(() => { if (!disposed) status.textContent = 'Could not check site access'; });
+  };
+  browser.permissions.onAdded.addListener(onPermissionsChanged);
+  browser.permissions.onRemoved.addListener(onPermissionsChanged);
   browser.storage.onChanged.addListener(onChanged);
   void refresh().catch(() => { if (!disposed) status.textContent = 'Could not load settings'; });
   return () => {
     disposed = true;
     browser.storage.onChanged.removeListener(onChanged);
+    browser.permissions.onAdded.removeListener(onPermissionsChanged);
+    browser.permissions.onRemoved.removeListener(onPermissionsChanged);
     for (const remove of detach) remove();
   };
 }

@@ -1,6 +1,7 @@
 import { browser } from 'wxt/browser';
 import { DEFAULT_SETTINGS, sanitizeSettings, withAccountBlock, type Settings } from '../core/preferences.ts';
 import type { Platform } from '../core/platforms.ts';
+import type { ImportMode } from '../core/portability.ts';
 import { SETTINGS_MUTATION_MESSAGE, type SettingsMutation, type SettingsPatch } from './settings-protocol.ts';
 export { DEFAULT_SETTINGS, sanitizeSettings, withAccountBlock, type Settings };
 export type { SettingsPatch };
@@ -23,4 +24,10 @@ export async function updateSettings(patch: SettingsPatch): Promise<Settings> {
 }
 export async function setBlockedAccount(platform: Platform, accountKey: string, blocked: boolean): Promise<Settings> {
   return mutateSettings({ kind: 'account', platform, accountKey, blocked });
+}
+/** Imports share the background writer with all popup preferences and tab hides. */
+export async function importSettingsSnapshot(payload: Settings, mode: ImportMode, expectedSettings?: Settings): Promise<Settings> {
+  return mutateSettings(mode === 'replace-all'
+    ? { kind: 'import', mode, payload, expectedSettings }
+    : { kind: 'import', mode, payload });
 }

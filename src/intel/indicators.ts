@@ -22,28 +22,33 @@ export interface IndicatorMatch {
   source: string;
 }
 const MAX_INDICATORS = 250;
+export const MAX_INDICATOR_PACK_BYTES = 100_000;
 const HOST = /^(?=.{4,253}$)(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]{2,63}$/;
 const VALID_PLATFORMS = new Set<string>(PLATFORMS);
 
 function webLink(value: unknown): value is string {
   if (typeof value !== 'string' || value.length > 500) return false;
-  try { const u = new URL(value); return u.protocol === 'https:'; } catch { return false; }
+  try { const u = new URL(value); return u.protocol === 'https:' && !u.username && !u.password; } catch { return false; }
 }
 function isRecord(value: unknown): value is Record<string, unknown> {
   return Boolean(value) && typeof value === 'object' && !Array.isArray(value);
 }
 /** Strict schema and size validation. Embedded code and arbitrary URLs are not executable. */
 export function parseIndicatorPack(value: unknown): IndicatorPack {
+  const encoded = JSON.stringify(value);
+  if (!encoded || new TextEncoder().encode(encoded).length > MAX_INDICATOR_PACK_BYTES) throw new Error('Oversized or invalid indicator pack');
   if (!isRecord(value) || value.schemaVersion !== 1 || typeof value.title !== 'string' ||
     value.title.length > 100 || !value.title || typeof value.publisher !== 'string' ||
     value.publisher.length > 100 || !value.publisher || !webLink(value.sourceUrl) ||
-    !Array.isArray(value.indicators) || value.indicators.length > MAX_INDICATORS) {
+    !Array.isArray(value.indicators) || value.indicators.length > MAX_INDICATORS ||
+    Object.keys(value).some(key => !['schemaVersion', 'title', 'publisher', 'sourceUrl', 'indicators'].includes(key))) {
     throw new Error('Invalid indicator pack header or size');
   }
   const indicators: Indicator[] = value.indicators.map((entry: unknown) => {
     if (!isRecord(entry) || (entry.kind !== 'domain' && entry.kind !== 'account') ||
       typeof entry.value !== 'string' || typeof entry.note !== 'string' || entry.note.length > 240 ||
-      !webLink(entry.evidenceUrl)) throw new Error('Invalid indicator entry');
+      !webLink(entry.evidenceUrl) || Object.keys(entry).some(key =>
+        !['kind', 'value', 'platform', 'evidenceUrl', 'note'].includes(key))) throw new Error('Invalid indicator entry');
     const normalized = entry.value.trim().toLowerCase();
     if (entry.kind === 'domain') {
       if (!HOST.test(normalized) || entry.platform !== undefined) throw new Error('Invalid domain indicator');

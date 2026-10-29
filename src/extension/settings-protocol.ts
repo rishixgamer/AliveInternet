@@ -1,5 +1,6 @@
 import { PLATFORMS, type Platform } from '../core/platforms.ts';
-import { sanitizeSettings, withAccountBlock, type Settings } from '../core/preferences.ts';
+import { parseSettingsLists, sanitizeSettings, withAccountBlock, type Settings } from '../core/preferences.ts';
+import { importSettings, parseSettingsImport, type ImportMode } from '../core/portability.ts';
 
 export const SETTINGS_MUTATION_MESSAGE = 'aliveinternet/settings-mutation' as const;
 export class AccountHideLimitError extends Error {
@@ -19,7 +20,8 @@ export type SettingsPatch = Partial<Pick<Settings, typeof BOOLEAN_SETTINGS[numbe
 };
 export type SettingsMutation =
   | { kind: 'preferences'; patch: SettingsPatch }
-  | { kind: 'account'; platform: Platform; accountKey: string; blocked: boolean };
+  | { kind: 'account'; platform: Platform; accountKey: string; blocked: boolean }
+  | { kind: 'import'; mode: ImportMode; payload: Settings; expectedSettings?: Settings };
 export interface SettingsMutationMessage {
   type: typeof SETTINGS_MUTATION_MESSAGE;
   mutation: SettingsMutation;
@@ -39,6 +41,17 @@ function exactKeys(value: Record<string, unknown>, keys: readonly string[]): voi
 /** Reject malformed messages instead of resetting missing fields to defaults. */
 export function parseSettingsMutation(value: unknown): SettingsMutation {
   const mutation = record(value);
+  if (mutation.kind === 'import') {
+    exactKeys(mutation, ['kind', 'mode', 'payload', 'expectedSettings']);
+    if (mutation.mode !== 'merge-blocklist' && mutation.mode !== 'replace-all') throw new Error('Invalid import mode');
+    const payload = parseSettingsImport(mutation.payload, mutation.mode);
+    if (mutation.mode === 'replace-all') {
+      return { kind: 'import', mode: mutation.mode, payload,
+        expectedSettings: parseSettingsImport(mutation.expectedSettings, 'replace-all') };
+    }
+    if (Object.hasOwn(mutation, 'expectedSettings')) throw new Error('Unexpected import snapshot');
+    return { kind: 'import', mode: mutation.mode, payload };
+  }
   if (mutation.kind === 'account') {
     exactKeys(mutation, ['kind', 'platform', 'accountKey', 'blocked']);
     if (!PLATFORMS.includes(mutation.platform as Platform) || typeof mutation.blocked !== 'boolean' ||
@@ -76,19 +89,8 @@ export function parseSettingsMutation(value: unknown): SettingsMutation {
       patch.platforms[platform] = platforms[platform];
     }
   }
-  // List replacements are validated again in sanitizeSettings; reject wrong shapes here.
-  if (Object.hasOwn(input, 'mutedWords')) {
-    if (!Array.isArray(input.mutedWords)) throw new Error('Invalid mute list');
-    patch.mutedWords = input.mutedWords;
-  }
-  if (Object.hasOwn(input, 'allowedAccounts')) {
-    if (!Array.isArray(input.allowedAccounts)) throw new Error('Invalid allowlist');
-    patch.allowedAccounts = input.allowedAccounts;
-  }
-  if (Object.hasOwn(input, 'scopeOverrides')) {
-    if (!Array.isArray(input.scopeOverrides)) throw new Error('Invalid scope overrides');
-    patch.scopeOverrides = input.scopeOverrides;
-  }
+  // Strictly validate and copy arrays and nested entries before queueing.
+  Object.assign(patch, parseSettingsLists(input));
   if (Object.keys(patch).length === 0 ||
       (Object.keys(patch).length === 1 && patch.platforms && Object.keys(patch.platforms).length === 0)) {
     throw new Error('Empty settings patch');
@@ -97,6 +99,13 @@ export function parseSettingsMutation(value: unknown): SettingsMutation {
 }
 
 export function applySettingsMutation(settings: Settings, mutation: SettingsMutation): Settings {
+  if (mutation.kind === 'import') {
+    if (mutation.mode === 'replace-all' &&
+        JSON.stringify(sanitizeSettings(settings)) !== JSON.stringify(mutation.expectedSettings)) {
+      throw new Error('Settings changed; review the new preview and confirm again');
+    }
+    return importSettings(settings, mutation.payload, mutation.mode);
+  }
   if (mutation.kind === 'account') {
     const next = withAccountBlock(settings, mutation.platform, mutation.accountKey, mutation.blocked);
     // Never silently drop a user's hide when the persisted list is full.

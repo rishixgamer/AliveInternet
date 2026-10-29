@@ -42,8 +42,8 @@ export function collapseSpacedLetters(text: string): string {
 }
 
 const EMAIL_RE = /[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}/g;
-const TELEGRAM_LINK_RE = /(?:https?:\/\/)?(?:t\.me|telegram\.me)\/[A-Za-z0-9_]{3,64}(?:\/[A-Za-z0-9_]+)*/gi;
-const WHATSAPP_LINK_RE = /(?:https?:\/\/)?(?:wa\.me|api\.whatsapp\.com\/send)[^\s]*/gi;
+const TELEGRAM_LINK_RE = /(?<![a-z\d.-])(?:https?:\/\/)?(?:t\.me|telegram\.me)\/[A-Za-z0-9_]{3,64}(?:\/[A-Za-z0-9_]+)*/gi;
+const WHATSAPP_LINK_RE = /(?<![a-z\d.-])(?:https?:\/\/)?(?:wa\.me\/|api\.whatsapp\.com\/send(?:\?|$))[^\s]*/gi;
 const PHONE_RE = /(?:\+\d[\d\s().-]{6,}\d|\b\d[\d\s().-]{8,}\d\b)/g;
 const HANDLE_RE = /@[A-Za-z0-9_]{3,30}/g;
 const MESSAGING_CONTEXT_RE = /telegram|whatsapp|contact\s+me|message\s+me|\bdm\s+me|\btext\s+me/i;

@@ -8,3 +8,9 @@ node_modules/
 .env.*
 !.env.example
 coverage/
+packages/core/dist/
+*.tgz
+# Local-only evidence, downloaded browser runtimes and licensed data.
+artifacts/
+__pycache__/
+*.pyc

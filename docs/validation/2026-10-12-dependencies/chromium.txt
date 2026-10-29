@@ -1,0 +1,21 @@
+
+> aliveinternet@0.3.0 test:browser
+> node scripts/test-browser.mjs
+
+PASS MV3 permissions and production package boundaries
+PASS real extension worker, popup and default YouTube controller
+PASS local reveal restores original display and SPA/reload reset reveal
+PASS popup settings propagate to multiple content tabs and restore
+PASS local account hide and popup unhide are serialized and reversible
+PASS hidden-item messages and popup review reveal current page only
+PASS content edits and appended replies trigger isolated rescans
+PASS settings export, preview, cancellation and explicit merge import
+PASS local advisory pack import is strict, escaped, opt-in and never hides benign content
+PASS MV3 worker restart retains authoritative settings and resumes writes
+PASS popup controls have labels and enable toggle supports keyboard use
+PASS unconsented optional site has no injected controller
+PASS 1400-item feed completes in batches and stays quiet while idle
+PASS synthetic release screenshots and reversible demo use production UI
+PASS optional-site pending consent; headed grant and revocation path
+browser fixtures passed (15 checks); evidence: /Users/rishihaldar/Downloads/AliveInternet/artifacts/browser/2026-10-13T03-32-58-406Z
+Browser receipt: /Users/rishihaldar/Downloads/AliveInternet/artifacts/browser/2026-10-13T03-32-58-406Z/receipt.json

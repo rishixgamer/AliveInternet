@@ -1,0 +1,5 @@
+
+> aliveinternet@0.3.0 check:release-evidence
+> node scripts/check-release-evidence.mjs
+
+Release evidence integrity verified: licensed-corpus provenance, exact branded builds, repeated device samples and repository/policy publication state. Representative accuracy, hardware GPU, signed Firefox, mailbox delivery and store ownership remain unresolved.

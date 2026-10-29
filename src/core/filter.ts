@@ -13,6 +13,9 @@ const CLAIM = /\b(?:claim|redeem|collect|verify|receive)\b.{0,24}\b(?:prize|rewa
 const OFFICIAL = /\b(?:official|support team|administrator|moderator)\b/iu;
 const URGENCY = /\b(?:act now|limited slots?|hurry|before it expires?|only today)\b/iu;
 const RISKY_HOST = /(?:^|\/\/)(?:t\.me|wa\.me|bit\.ly|tinyurl\.com|cutt\.ly)(?:\/|$)/iu;
+// Explicit cautions are counterexamples, not solicitations. Stop at a sentence
+// or contrasting clause so an appended sales pitch still gets assessed.
+const CONTACT_WARNING = /\b(?:never|do not|don['’]t|avoid)\s+(?:contact(?:ing)?|messag(?:e|ing)|dm(?:ing)?|text(?:ing)?)\b(?:(?!\b(?:but|instead|however)\b)[^.!?]){0,160}\b(?:telegram|whats\s?app)\b(?:(?!\b(?:but|instead|however)\b)[^.!?]){0,160}/giu;
 
 export function assessBatch(comments: Comment[], mode: FilterMode = 'balanced'): Assessment[] {
   const repeats = repeatedCampaigns(comments);
@@ -22,10 +25,18 @@ export function assessBatch(comments: Comment[], mode: FilterMode = 'balanced'):
     const rawCombined = `${comment.text} ${comment.links.join(' ')}`;
     // Normalize look-alike characters and spaced-letter evasion before matching.
     const combined = collapseSpacedLetters(foldConfusables(rawCombined));
+    const text = collapseSpacedLetters(foldConfusables(comment.text));
+    const outsideWarning = text.replace(CONTACT_WARNING, ' ');
+    if (outsideWarning !== text && !CONTACT.test(outsideWarning) && !PROMISE.test(outsideWarning) && !CLAIM.test(outsideWarning)) {
+      return { id: comment.id, score: 0, decision: 'allow', signals: [], reason: 'Explicit caution against off-platform solicitation' };
+    }
     const decodedLinks = comment.links.map((link) => decodeRedirect(link) ?? link);
     const signals: string[] = [];
     let score = 0;
-    const contact = CONTACT.test(combined) || extractContactHandles(combined).length > 0;
+    const handles = extractContactHandles(combined);
+    // A reference number or email address alone is not a contact solicitation.
+    const contact = CONTACT.test(combined) || handles.some(handle => ['telegram', 'whatsapp', 'social-handle'].includes(handle.kind)) ||
+      (/\b(?:call|email|reach|contact|message|text)\s+(?:me|us|at)\b/iu.test(combined) && handles.length > 0);
     const money = MONEY.test(combined);
     const promise = PROMISE.test(combined) && !NEGATED_PROMISE.test(combined);
     const prize = PRIZE.test(combined);

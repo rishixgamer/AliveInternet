@@ -1,0 +1,39 @@
+import assert from 'node:assert/strict';
+import { createHash } from 'node:crypto';
+import { readFile, readdir } from 'node:fs/promises';
+import { fileURLToPath } from 'node:url';
+import path from 'node:path';
+
+// Checks preparation receipts, not external account/signing/accuracy readiness.
+const root = fileURLToPath(new URL('../', import.meta.url));
+const read = file => readFile(path.join(root, file));
+const json = async file => JSON.parse(await read(file));
+const hash = async file => createHash('sha256').update(await read(file)).digest('hex');
+async function inventory(directory, prefix = '') {
+  const result = [];
+  for (const entry of await readdir(path.join(root, directory), { withFileTypes: true })) {
+    if (entry.isDirectory()) result.push(...await inventory(directory + '/' + entry.name, prefix + entry.name + '/'));
+    else if (entry.isFile()) result.push(prefix + entry.name);
+  }
+  return result.sort();
+}
+const receipt = await json('docs/validation/2026-10-13-release-closure/preparation.json');
+const publisher = await json('release/publisher.json');
+for (const [file, expected] of Object.entries(receipt.fileSha256)) assert.equal(await hash(file), expected, file);
+const fixture = await json(receipt.firefox.fixtureReceipt);
+assert.equal(fixture.status, 'passed');
+assert.equal(fixture.checks.length, 6);
+assert.deepEqual(Object.keys(fixture.buildSha256).sort(), await inventory('.output/firefox-mv3'));
+for (const [file, expected] of Object.entries(fixture.buildSha256)) assert.equal(await hash('.output/firefox-mv3/' + file), expected, file);
+const lint = await json(receipt.firefox.lintReceipt);
+assert.deepEqual(lint.summary, { errors: 0, notices: 0, warnings: 0 });
+const manifest = await json('.output/firefox-mv3/manifest.json');
+assert.equal(manifest.browser_specific_settings.gecko.strict_min_version, '142.0');
+assert.equal(manifest.browser_specific_settings.gecko_android, undefined);
+assert.equal(lint.metadata.id, manifest.browser_specific_settings.gecko.id);
+assert.equal(lint.metadata.version, manifest.version);
+assert.equal(publisher.privacy.mailboxDeliveryVerified, receipt.gates.mailboxDeliveryVerified);
+assert.equal(publisher.stores.firefox.signedXpiVerified, receipt.gates.signedFirefoxVerified);
+for (const store of ['chrome', 'edge', 'firefox']) assert.equal(publisher.stores[store].publisherAccountVerified, receipt.gates.storePublisherVerified[store]);
+assert.equal(receipt.gates.representativeAccuracyVerified, false, 'No current independent corpus has been supplied');
+console.log('Preparation evidence integrity passed. Current external gates: ' + JSON.stringify(receipt.gates));

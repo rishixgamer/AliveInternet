@@ -1,0 +1,8 @@
+
+> aliveinternet@0.3.0 check:release
+> node scripts/check-release.mjs
+
+chrome manifest/icons verified; SHA256 c3cc9a2f3e8e55f03bdae3bcc420a7efaa62e1af3ad863f67acf3b90f6610277
+firefox manifest/icons verified; SHA256 8a8a55a764c4872e1d4448f314c39a4b60567b5f6a3c3c7aec09d39061ef40d6
+edge manifest/icons verified; SHA256 c3cc9a2f3e8e55f03bdae3bcc420a7efaa62e1af3ad863f67acf3b90f6610277
+release packages verified

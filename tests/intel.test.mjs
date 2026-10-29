@@ -27,3 +27,14 @@ test('public URL extraction does not accept data or javascript URLs', () => {
  assert.equal(hostFromUrl('data:text/html,a'),undefined);
  assert.equal(hostFromUrl('https://localhost/'),undefined);
 });
+
+test('indicator packs reject unknown fields, credential-bearing provenance and UTF-8 overflow', () => {
+  const valid = { schemaVersion: 1, title: 'Synthetic', publisher: 'Test', sourceUrl: 'https://example.org/source', indicators: [] };
+  for (const value of [{ ...valid, executable: 'ignored payload' },
+    { ...valid, sourceUrl: 'https://user:secret@example.org/source' },
+    { ...valid, indicators: [{ kind: 'domain', value: 'example.com', note: 'Test', evidenceUrl: 'https://example.org/source', unknown: true }] },
+    { ...valid, indicators: Array.from({ length: 240 }, () => ({ kind: 'domain', value: 'example.com', evidenceUrl: 'https://example.org/source', note: '多'.repeat(240) })) }]) {
+    assert.throws(() => parseIndicatorPack(value));
+  }
+  assert.equal(parseIndicatorPack(valid).indicators.length, 0);
+});

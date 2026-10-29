@@ -1,0 +1,12 @@
+
+> aliveinternet@0.3.0 test:firefox
+> node scripts/test-firefox.mjs
+
+PASS production MV3 package temporarily installed in Firefox
+PASS two content tabs filter independently and preserve benign replies
+PASS popup disabling restores both tabs and enabling resumes filtering
+PASS temporary reveal is isolated and reload resets it
+PASS real background serializes concurrent mutations and popup unhide restores content
+PASS optional origin remains ungranted with no content UI
+Firefox fixtures passed (6 checks)
+Firefox receipt: /Users/rishihaldar/Downloads/AliveInternet/artifacts/release-readiness/closure/firefox-fixture-unsandboxed/receipt.json

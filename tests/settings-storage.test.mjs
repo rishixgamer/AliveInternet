@@ -20,11 +20,19 @@ const extensionId = 'aliveinternet-fixture';
 globalThis.chrome = {
   runtime: {
     id: extensionId,
+    getURL: path => `chrome-extension://${extensionId}/${path.replace(/^\//, '')}`,
     onMessage: {
       addListener(listener) { messageListeners.add(listener); },
       removeListener(listener) { messageListeners.delete(listener); },
     },
     sendMessage(message) { return dispatch(message); },
+  },
+  permissions: {
+    async contains() { return true; },
+    async request() { return true; },
+    async remove() { return true; },
+    onAdded: { addListener() {}, removeListener() {} },
+    onRemoved: { addListener() {}, removeListener() {} },
   },
   storage: {
     local: {
@@ -51,7 +59,7 @@ const { registerSettingsWriter } = await import('../src/extension/settings-backg
 const { setBlockedAccount, updateSettings } = await import('../src/extension/settings.ts');
 const { initializeSettingsPopup } = await import('../src/extension/popup-settings.ts');
 const { startPlatformController } = await import('../src/extension/controller.ts');
-const popupHtml = await readFile(new URL('../entrypoints/popup/index.html', import.meta.url), 'utf8');
+const popupHtml = await readFile(new URL('../entrypoints/options/index.html', import.meta.url), 'utf8');
 
 function deferred() {
   let resolve;
@@ -62,6 +70,9 @@ function emitSettings(settings) {
   for (const listener of storageListeners) listener({ settings: { newValue: structuredClone(settings) } }, 'local');
 }
 function dispatch(message, sender = { id: extensionId }) {
+  // This suite isolates settings transport. Site consent/registration has its
+  // own production-background tests in site-access.test.mjs.
+  if (message.type === 'aliveinternet/site-access-sync') return Promise.resolve({ ok: true });
   messages.push(structuredClone(message));
   return new Promise((resolve, reject) => {
     let responded = false;
@@ -101,6 +112,85 @@ async function withPopup(run, settings) {
     finally { stop(); dom.window.close(); assert.equal(storageListeners.size, 0); }
   }, settings);
 }
+
+function editList(document, id, text) {
+  const input = document.querySelector(`#${id}`);
+  input.value = text;
+  input.dispatchEvent(new document.defaultView.Event('input', { bubbles: true }));
+}
+
+test('popup list saves use serialized patches and preserve a concurrent account hide', async () => {
+  await withPopup(async ({ document }) => {
+    editList(document, 'mutedWords', 'Crypto\n cooking \n');
+    document.querySelector('#saveMutedWords').click();
+    await setBlockedAccount('youtube', '@retained', true);
+    await settle();
+    assert.deepEqual(saved.mutedWords, ['crypto', 'cooking']);
+    assert.deepEqual(saved.blockedAccounts, ['youtube:@retained']);
+    assert.equal(document.querySelector('#mutedWords').value, 'crypto\ncooking');
+    editList(document, 'allowedAccounts', 'youtube:@Sam\nx:@Sam');
+    document.querySelector('#saveAllowedAccounts').click();
+    await settle();
+    assert.deepEqual(saved.allowedAccounts, ['youtube:@sam', 'x:@sam']);
+    assert.equal(document.querySelector('#saveAllowedAccounts').disabled, true);
+  });
+});
+
+test('popup list drafts survive external settings events and failed saves can be retried', async () => {
+  await withPopup(async ({ document }) => {
+    editList(document, 'mutedWords', 'cooking');
+    await updateSettings({ mutedWords: ['external'], annotateFlagged: false });
+    await settle();
+    assert.equal(document.querySelector('#mutedWords').value, 'cooking');
+    beforeWrite = async () => { throw new Error('Storage unavailable'); };
+    document.querySelector('#saveMutedWords').click();
+    await settle();
+    assert.deepEqual(saved.mutedWords, ['external']);
+    assert.equal(document.querySelector('#mutedWords').value, 'cooking');
+    assert.equal(document.querySelector('#saveMutedWords').disabled, false);
+    assert.match(document.querySelector('#status').textContent, /Could not save/);
+    beforeWrite = undefined;
+    document.querySelector('#saveMutedWords').click();
+    await settle();
+    assert.deepEqual(saved.mutedWords, ['cooking']);
+    assert.equal(saved.annotateFlagged, false);
+  });
+});
+
+test('popup rejects malformed lists before messaging and clearing a list is explicit', async () => {
+  await withPopup(async ({ document }) => {
+    for (const [id, button, text] of [['allowedAccounts', 'saveAllowedAccounts', '@unscoped'],
+      ['mutedWords', 'saveMutedWords', 'x'], ['mutedWords', 'saveMutedWords', 'a'.repeat(81)]]) {
+      editList(document, id, text);
+      document.querySelector(`#${button}`).click();
+      await settle();
+      assert.equal(messages.length, 0);
+      assert.match(document.querySelector('#status').textContent, /Invalid/);
+    }
+    editList(document, 'mutedWords', '');
+    document.querySelector('#saveMutedWords').click();
+    await settle();
+    assert.deepEqual(saved.mutedWords, []);
+    assert.deepEqual(saved.allowedAccounts, ['youtube:@trusted']);
+  }, { ...DEFAULT_SETTINGS, mutedWords: ['cooking'], allowedAccounts: ['youtube:@trusted'] });
+});
+
+test('pending popup list saves disable only that editor and synchronize clean editors', async () => {
+  await withPopup(async ({ document }) => {
+    const hold = deferred(); beforeWrite = () => hold.promise;
+    editList(document, 'mutedWords', 'cooking');
+    document.querySelector('#saveMutedWords').click();
+    await settle();
+    assert.equal(document.querySelector('#mutedWords').disabled, true);
+    assert.equal(document.querySelector('#allowedAccounts').disabled, false);
+    assert.equal(document.querySelector('#enabled').disabled, false);
+    hold.resolve(); await settle(); beforeWrite = undefined;
+    await updateSettings({ allowedAccounts: ['x:@known'] });
+    await settle();
+    assert.equal(document.querySelector('#allowedAccounts').value, 'x:@known');
+    assert.equal(document.querySelector('#mutedWords').disabled, false);
+  });
+});
 
 test('background serializes overlapping tab hides, popup unhide and preference edits', async () => {
   await withBackground(async () => {
@@ -270,7 +360,7 @@ test('popup sends individual captured changes while a tab hide is awaiting stora
     assert.equal(document.querySelector('#enabled').disabled, false);
     assert.equal(document.querySelector('#mode').value, 'conservative');
     assert.equal(document.querySelector('#blockCount').textContent, '1');
-    assert.equal(document.querySelector('#status').textContent, 'Settings saved');
+    assert.equal(document.querySelector('#status').textContent, 'Site enabled; reload open site tabs to start filtering');
   });
 });
 

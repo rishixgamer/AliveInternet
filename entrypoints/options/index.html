@@ -1,0 +1,73 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><meta name="manifest.open_in_tab" content="true"/><title>Settings · AliveInternet</title></head><body>
+<a class="skip" href="#main">Skip to settings</a>
+<header class="app-header"><a class="brand" href="#main"><span class="brand-mark" aria-hidden="true">a</span>AliveInternet <small>0.3 alpha</small></a><a href="/welcome.html">How it works</a></header>
+<div class="settings-layout"><nav aria-label="Settings sections"><a href="#filtering">Filtering</a><a href="#websites">Websites & access</a><a href="#words">Words & exceptions</a><a href="#accounts">Hidden accounts</a><a href="#backup">Backup & restore</a><a href="#experimental">Experimental</a><div class="nav-note">Stored on this device.<br>No account required.</div></nav><main id="main">
+<div class="page-heading"><h1>Your feed, your call.</h1><p>Local settings. Clear choices. Nothing permanent on the platform.</p></div>
+<section class="appearance-row" aria-label="Appearance"><label for="appearance">Appearance</label><select id="appearance"><option value="system">Use system theme</option><option value="light">Light</option><option value="dark">Dark</option></select></section>
+<section class="settings-section" id="filtering" aria-labelledby="filteringTitle"><h2 id="filteringTitle">Filtering</h2><p class="section-intro">Choose what changes in your feed.</p>      <label class="toggle"><input id="enabled" type="checkbox" /> Enable filtering on all enabled websites</label>
+
+      <fieldset>
+        <legend>What to filter</legend>
+        <label class="toggle"><input id="filterComments" type="checkbox" /> Comments and replies</label>
+        <label class="toggle"><input id="filterPosts" type="checkbox" /> Posts and feed content</label>
+        <label class="toggle"><input id="filterAccounts" type="checkbox" /> Locally blocked accounts</label>
+        <label class="toggle"><input id="showBlockControls" type="checkbox" /> Show local account-hide buttons</label>
+        <label class="toggle"><input id="inspectAccounts" type="checkbox" /> Show visible-page account evidence</label>
+      </fieldset>      <label for="mode">Rule filtering strength</label>
+      <select id="mode">
+        <option value="conservative">Conservative — fewer automatic collapses</option>
+        <option value="balanced">Balanced</option>
+        <option value="aggressive">Aggressive — more false-positive risk</option>
+      </select>
+      <label class="toggle"><input id="annotateFlagged" type="checkbox" /> Mark suspicious items without hiding them</label>
+</section><section class="settings-section" id="websites" aria-labelledby="websitesTitle"><h2 id="websitesTitle">Websites & access</h2><p class="section-intro">You choose where AliveInternet can run.</p>      <fieldset>
+        <legend>Websites</legend>
+        <p class="hint">Only YouTube is enabled by default. Other adapters are experimental, may miss content, and need real-browser verification. Turning off an optional website also removes its browser access.</p>
+        <div id="platforms"></div>
+      </fieldset></section><section class="settings-section" id="words" aria-labelledby="wordsTitle"><h2 id="wordsTitle">Words & exceptions</h2><p class="section-intro">Make the feed fit your preferences.</p>      <fieldset>
+        <legend>Personal mute words</legend>
+        <label for="mutedWords">Words or phrases, one per line</label>
+        <p id="muteHelp" class="hint">Applied to comments and posts on enabled sites. These are your preferences, not spam claims. Maximum 200 entries, 2–80 characters each.</p>
+        <textarea id="mutedWords" rows="4" aria-describedby="muteHelp" disabled></textarea>
+        <button id="saveMutedWords" type="button" disabled>Save mute words</button>
+      </fieldset>      <fieldset>
+        <legend>Never automatically hide these accounts</legend>
+        <label for="allowedAccounts">Account IDs, one per line</label>
+        <p id="allowHelp" class="hint">Use the site and profile key, for example youtube:@creator or x:@creator. Each entry applies only to that site. Maximum 500 entries. Explicit local account hides still take priority.</p>
+        <textarea id="allowedAccounts" rows="4" aria-describedby="allowHelp" spellcheck="false" disabled></textarea>
+        <button id="saveAllowedAccounts" type="button" disabled>Save allowlist</button>
+      </fieldset></section><section class="settings-section" id="accounts" aria-labelledby="accountsTitle"><h2 id="accountsTitle">Hidden accounts</h2><p class="section-intro">Your local choices, always reversible.</p>      <fieldset>
+        <legend>Locally hidden accounts (<span id="blockCount">0</span>)</legend>
+        <p class="hint">Hides matching visible accounts on this device. It does not press the platforms' own Block buttons or change server-side account settings.</p>
+        <div id="blockedAccounts"><em>None</em></div>
+      </fieldset></section><section class="settings-section" id="backup" aria-labelledby="backupTitle"><h2 id="backupTitle">Backup & restore</h2><p class="section-intro">Keep a private copy of your preferences.</p>      <fieldset>
+        <legend>Settings backup and restore</legend>
+        <p class="hint">Export includes your local account lists, mute words and preferences. Keep it private. Site access is granted separately by your browser.</p>
+        <button id="exportSettings" type="button">Export settings</button>
+        <label for="importMode">Import behavior</label>
+        <select id="importMode">
+          <option value="merge-blocklist">Merge lists (keep preferences)</option>
+          <option value="replace-all">Replace all preferences and lists</option>
+        </select>
+        <label for="importSettings">Preview a settings file (maximum 200 KB)</label>
+        <input id="importSettings" type="file" accept="application/json,.json" />
+        <pre id="importPreview" role="status" aria-live="polite"></pre>
+        <div class="button-row">
+          <button id="confirmImport" type="button" disabled>Confirm import</button>
+          <button id="cancelImport" type="button" disabled>Cancel preview</button>
+        </div>
+      </fieldset></section><section class="settings-section" id="experimental" aria-labelledby="experimentalTitle"><h2 id="experimentalTitle">Experimental</h2><p class="section-intro">Optional tools with important limitations.</p><p class="notice">These tools are off by default. Observations do not establish bot identity or detection accuracy.</p>        <label class="toggle"><input id="dedupeComments" type="checkbox" /> Collapse near-duplicate long comments (opt-in)</label>
+      <label class="toggle"><input id="autoCampaignAccounts" type="checkbox" /> Experimental: temporarily hide visible content from repeated high-evidence spam accounts</label>
+      <p class="hint">This heuristic does not prove an account is a bot. It never adds accounts to your permanent blocklist.</p>
+
+      <fieldset>
+        <legend>Imported advisory packs (opt-in)</legend>
+        <label class="toggle"><input id="intelAdvisories" type="checkbox" /> Annotate exact public-indicator matches</label>
+        <p class="hint">Matches come from a user-imported JSON pack. This is not automatic threat attribution and NEVER auto-hides an account or post.</p>
+        <input type="file" id="importPack" accept="application/json,.json" aria-label="Import local indicator pack" />
+        <button type="button" id="removePack">Remove pack</button>
+        <p id="packStatus" class="hint" aria-live="polite">No pack loaded</p>
+      </fieldset></section>
+<footer class="settings-footer"><p>No comment uploads. No telemetry. Every hide can be undone.</p><p class="hint">Experimental alpha, focused on YouTube. Rules can miss spam or hide legitimate content. Scores are not bot probabilities.</p><a href="/welcome.html">Reopen the guide</a><button class="quiet" id="retrySettings" type="button">Reload settings</button></footer>
+</main></div><div class="save-status"><p id="status" role="status" aria-live="polite">Changes save automatically. Lists use their Save button.</p></div>
+<script type="module" src="./main.ts"></script></body></html>

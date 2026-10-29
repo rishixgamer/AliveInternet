@@ -42,6 +42,43 @@ export const DEFAULT_SETTINGS: Settings = {
   scopeOverrides: [],
 };
 
+/** Strict user input validation; storage recovery remains tolerant via sanitizeSettings. */
+export function parseSettingsLists(input: Record<string, unknown>): Partial<Pick<Settings,
+  'blockedAccounts' | 'allowedAccounts' | 'mutedWords' | 'scopeOverrides'>> {
+  const result: Partial<Pick<Settings, 'blockedAccounts' | 'allowedAccounts' | 'mutedWords' | 'scopeOverrides'>> = {};
+  const validAccount = (value: unknown): value is string => {
+    if (typeof value !== 'string') return false;
+    const colon = value.indexOf(':');
+    return colon > 0 && PLATFORMS.includes(value.slice(0, colon).toLowerCase() as Platform) &&
+      /^[a-z\d@._:/-]{2,140}$/i.test(value.slice(colon + 1));
+  };
+  for (const key of ['blockedAccounts', 'allowedAccounts', 'mutedWords', 'scopeOverrides'] as const) {
+    if (!Object.hasOwn(input, key)) continue;
+    const value = input[key];
+    const limit = key === 'mutedWords' ? 200 : key === 'scopeOverrides' ? 300 : 500;
+    if (!Array.isArray(value) || value.length > limit) throw new Error(`Invalid ${key}: maximum ${limit} entries`);
+    if (key === 'scopeOverrides') {
+      result.scopeOverrides = value.map((entry: unknown) => {
+        if (!entry || typeof entry !== 'object' || Array.isArray(entry)) throw new Error('Invalid scope override');
+        const scope = entry as Record<string, unknown>;
+        if (Object.keys(scope).some(field => !['scopeId', 'mode'].includes(field)) ||
+            !validAccount(scope.scopeId) || !['off', 'conservative', 'balanced', 'aggressive'].includes(scope.mode as string)) {
+          throw new Error('Invalid scope override');
+        }
+        return { scopeId: scope.scopeId.toLowerCase(), mode: scope.mode as ScopeOverride['mode'] };
+      });
+    } else {
+      result[key] = [...new Set(value.map((entry: unknown) => {
+        if (typeof entry !== 'string' || (key === 'mutedWords'
+          ? entry.trim().length < 2 || entry.trim().length > 80
+          : !validAccount(entry))) throw new Error(`Invalid ${key} entry`);
+        return key === 'mutedWords' ? entry.trim().toLowerCase() : entry.toLowerCase();
+      }))];
+    }
+  }
+  return result;
+}
+
 export function sanitizeSettings(value: unknown): Settings {
   const options: Record<string, unknown> = value && typeof value === 'object' && !Array.isArray(value)
     ? value as Record<string, unknown> : {};

@@ -1,0 +1,8 @@
+/Users/rishihaldar/Downloads/AliveInternet/GATES.md: 11 gates
+/Users/rishihaldar/Downloads/AliveInternet/gates/browser.md: 2 gates
+/Users/rishihaldar/Downloads/AliveInternet/gates/dependencies.md: 6 gates
+/Users/rishihaldar/Downloads/AliveInternet/gates/domains.md: 3 gates
+/Users/rishihaldar/Downloads/AliveInternet/gates/intel-ui.md: 2 gates
+/Users/rishihaldar/Downloads/AliveInternet/gates/portability.md: 3 gates
+/Users/rishihaldar/Downloads/AliveInternet/gates/site-access.md: 3 gates
+ALL MET (30 met)

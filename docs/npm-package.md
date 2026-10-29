@@ -1,23 +1,39 @@
-# Publishing the core as an npm package — groundwork
+# Local core package
 
-Feature `npm-core-package`. Entry point: `src/lib.ts`.
+October 13 update: the verified GitHub repository `rishixgamer/AliveInternet` is public with the maintainer-approved source snapshot, and both package manifests reference it with maintainer name Rishi Haldar. Source/policy publication is complete; npm scope/trusted-publishing ownership remains unverified and no npm publication occurred. See [publisher verification](publisher-details.md). The October 12 lookup below remains historical evidence.
 
-## Plan
+The extension remains `private: true`. `packages/core` builds the implemented
+public API from `src/lib.ts` as ESM JavaScript plus TypeScript declarations.
+The runtime entry bundles its offline Public Suffix List parser; consumers need
+no runtime dependencies. Third-party license notices ship in the tarball.
+Inert report, creator, dataset, model and adapter scaffolds are not exported.
 
-- Publish only DOM-free, network-free modules (`src/core`, `src/intel`, `src/network`, `src/research`) as an ESM library with type declarations.
-- Separate `package.json` or a workspace (e.g. `packages/core`) so the extension stays `private: true`.
-- Build with `tsc` emitting `.js` + `.d.ts` (`rewriteRelativeImportExtensions` for the `.ts` import specifiers).
-- Name: check availability on npm first (e.g. `aliveinternet` or `@aliveinternet/core`).
-- Publish from CI with npm provenance enabled (see docs/supply-chain.md).
+```sh
+npm run test:package  # build, npm tarball, isolated JS + TypeScript consumer
+npm run pack:core     # local tarball in .output; never publishes
+```
 
-## Stability
-
-Everything exported from `src/lib.ts` becomes public API at 1.0. Keep the scaffolded/inert modules **out** of it until implemented. Document that `Assessment.score` is uncalibrated and not a bot probability.
-
-## Example (target)
+The consumer gate executes an actual packed artifact in a new temporary package
+installation, verifies benign/scam decisions and offline helpers, forbids DOM
+and network access, and typechecks against the packed declarations. Building
+alone does not count as package-consumer verification.
 
 ```js
 import { assessBatch } from '@aliveinternet/core';
-const [result] = assessBatch([{ id: '1', author: 'a', text: 'DM me on Telegram for guaranteed crypto profit', links: [] }]);
+const [result] = assessBatch([
+  { id: '1', author: 'a', text: 'Contact me on Telegram for guaranteed crypto profit', links: [] }
+]);
 console.log(result.decision, result.reason);
 ```
+
+An official unauthenticated registry lookup on October 12, 2026 returned E404
+for `@aliveinternet/core`. This does not prove scope ownership or reserve it.
+This checkout has no configured Git remote; repository/provenance metadata must
+come from the maintainer. See [release review](release-review.md). No publication
+was performed. The 0.3 API is experimental; a future publication needs owner
+credentials, availability verification, provenance and an explicit release
+action. `Assessment.score` remains uncalibrated and is never a bot probability.
+Lookalike/link helpers use bounded offline lexical comparisons; they do not
+verify brand identity, reputation or domain ownership. Their browser UI remains
+unwired, the default brand list is empty, and unsupported IDN/IP/unknown suffix
+inputs yield no advisory. Private suffix tenants remain separate.

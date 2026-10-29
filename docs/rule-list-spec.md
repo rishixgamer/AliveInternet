@@ -1,6 +1,6 @@
 # Community rule list format — draft v1
 
-Features `community-rule-lists`, `language-rule-packs`. Types: `src/rules/schema.ts`. Status: **scaffolded**; the extension does not load rule lists yet.
+Features `community-rule-lists`, `language-rule-packs`. Parser/matcher: `src/rules/schema.ts`. Status: implemented local helpers with synthetic tests; the extension does not load rule lists yet.
 
 ## Goals
 
@@ -45,10 +45,10 @@ Features `community-rule-lists`, `language-rule-packs`. Types: `src/rules/schema
 
 ## Semantics
 
-- Text is normalized with `duplicateKey` and (once implemented) `foldConfusables` + `collapseSpacedLetters` before matching. Terms match on word boundaries.
+- Text is normalized with `duplicateKey`, `foldConfusables` and `collapseSpacedLetters` before matching. Terms match on normalized word boundaries.
 - `allOf`: every group must have at least one term present. `noneOf`: any hit cancels the rule.
 - `action: "collapse-candidate"` only contributes evidence; `policy.ts` still decides, and trusted-content exemptions still apply. `flag` never hides.
-- Limits: 500 rules, 50 terms per group, 80 chars per term, 250 KB per list.
+- Limits: 500 rules, 20 groups per condition, 50 terms per group, 80 chars per term, 20 examples per type, 10,000 chars per example, 250,000 UTF-8 bytes per list. Unknown fields, invalid categories/platforms, duplicate rule IDs and malformed metadata are rejected. Platform-restricted rules do not match without site context.
 
 ## Distribution (later)
 

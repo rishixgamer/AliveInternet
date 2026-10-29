@@ -60,7 +60,7 @@ test('links: offline redirect decoding without network', () => {
   assert.equal(decodeRedirect('https://l.facebook.com/l.php?u=https%3A%2F%2Fexample.com'), 'https://example.com');
   assert.equal(decodeRedirect('https://out.reddit.com/t3_abc?url=https://example.com'), 'https://example.com');
   assert.equal(decodeRedirect('https://t.co/abc123'), undefined);
-  assert.equal(revealLink('https://evil.example/login', 'good.example/login').textMismatch, true);
+  assert.equal(revealLink('https://evil.example.com/login', 'good.example.org/login').textMismatch, true);
   assert.equal(revealLink('https://example.com/a', 'example.com/a').textMismatch, false);
 });
 
@@ -159,7 +159,8 @@ test('rule lists parse, self-test examples, match and export for review', async 
   assert.equal(list.rules.length, 1);
   assert.equal(matchRuleList(list, base({ text: 'I met Mrs. Jane Example, her trading strategy earned me $40k in a month' })).length, 1);
   assert.equal(matchRuleList(list, base({ text: 'Beware of comments saying Mrs. X earned me money, it is a scam' })).length, 0);
-  assert.ok(toRedditAutoModerator(list).content.includes('action: report'));
+  assert.deepEqual(toRedditAutoModerator(list).skippedRuleIds, [list.rules[0].id]);
+  assert.deepEqual(toDiscordAutoMod(list).skippedRuleIds, [list.rules[0].id]);
   assert.ok(toDiscordAutoMod(list).content.includes('keywords'));
   assert.throws(() => parseRuleList({}), Error);
 });

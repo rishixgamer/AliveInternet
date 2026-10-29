@@ -1,0 +1,6 @@
+
+> aliveinternet@0.3.0 check:ui
+> node scripts/check-ui-evidence.mjs
+
+UI evidence verified: 87 pinned files, three builds, Chromium and Firefox fixtures.
+Scope: synthetic unpacked/temporary installs. Live/native toolbar, signed installs, representative accuracy and other-device validation remain separate. Historical release/archive receipts were not rewritten.

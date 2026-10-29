@@ -1,19 +1,17 @@
 /**
- * Feature `lookalike-domains` — implemented matcher over a verified list.
- *
- * Detects domains imitating well-known brands (binance-support.co,
- * paypa1-secure.net) by comparing against a bundled, reviewed list of official
- * brand domains: confusable skeletons (src/core/obfuscation.ts), small edit
- * distance on the registrable label, and brand-name-plus-keyword patterns.
- * Local only; no DNS, WHOIS or reputation lookups. A match is evidence for
- * policy.ts, never an automatic block on its own. The bundled list stays
- * empty until each entry is verified against the brand's own site.
+ * Feature `lookalike-domains` — offline, advisory lexical comparison against a
+ * supplied reviewed list. Domain boundaries include PRIVATE suffix tenants.
+ * A similar spelling never proves impersonation, ownership or maliciousness.
+ * The bundled list stays empty until each entry has authoritative verification.
+ * IDNs/confusable homographs remain unsupported and produce no advisory.
  */
+import { domainBoundary, type DomainBoundary } from '../core/domains.ts';
+
 export interface BrandDomain {
   brand: string;
   /** Official registrable domains, e.g. ["paypal.com", "paypal.me"]. */
   officialDomains: string[];
-  /** Source used to verify the official domains (CLAUDE.md: authoritative verification). */
+  /** Caller-reviewed authoritative source; a valid URL alone does not verify it. */
   verifiedFrom: string;
 }
 export interface LookalikeMatch {
@@ -22,20 +20,10 @@ export interface LookalikeMatch {
   technique: 'confusable' | 'edit-distance' | 'brand-plus-keyword';
 }
 
-import { foldConfusables } from '../core/obfuscation.ts';
-
 /** Empty until each entry is verified against the brand's own site. */
 export const BRAND_DOMAINS: readonly BrandDomain[] = [];
-
-function registrable(host: string): string {
-  const normalized = host.toLowerCase().replace(/\.+$/, '');
-  const parts = normalized.split('.').filter(Boolean);
-  return parts.length >= 2 ? parts.slice(-2).join('.') : normalized;
-}
-
-function labelOf(host: string): string {
-  return registrable(host).split('.')[0] ?? '';
-}
+const KEYWORDS = new Set(['support', 'secure', 'login', 'verify', 'verification', 'account',
+  'wallet', 'payment', 'official', 'help', 'service']);
 
 function editDistance(a: string, b: string): number {
   const prev = Array.from({ length: b.length + 1 }, (_, j) => j);
@@ -51,34 +39,32 @@ function editDistance(a: string, b: string): number {
   return prev[b.length]!;
 }
 
-/** Compares an observed host against verified brand domains (empty by default). */
+function keywordVariant(observed: string, official: string): boolean {
+  // Compare to the verified domain label, not arbitrary words in a brand title.
+  const other = observed.startsWith(`${official}-`) ? observed.slice(official.length + 1) :
+    observed.endsWith(`-${official}`) ? observed.slice(0, -(official.length + 1)) : undefined;
+  return other !== undefined && other.split('-').every(token => KEYWORDS.has(token));
+}
+
+/** Compares a bare DNS hostname against a caller-reviewed list (empty by default). */
 export function lookalikeOf(host: string, brands: readonly BrandDomain[] = BRAND_DOMAINS): LookalikeMatch | undefined {
-  const observed = host.toLowerCase().trim();
+  const observed = domainBoundary(host);
   if (!observed || brands.length === 0) return undefined;
-  const observedRegistrable = registrable(observed);
-  const observedLabel = labelOf(observed);
-  const observedSkeleton = foldConfusables(observedLabel);
-  for (const brand of brands) {
-    const brandKey = brand.brand.toLowerCase();
-    for (const official of brand.officialDomains) {
-      const officialRegistrable = registrable(official);
-      if (observedRegistrable === officialRegistrable) return undefined;
-      const officialLabel = labelOf(official);
-      // Confusable skeleton match (e.g. Cyrillic 'а' for Latin 'a').
-      if (officialLabel && observedSkeleton === foldConfusables(officialLabel) &&
-          observedLabel !== officialLabel) {
-        return { observedHost: observed, brand: brand.brand, technique: 'confusable' };
+  const reviewed = brands.map(brand => ({ brand, domains: brand.officialDomains
+    .map(official => domainBoundary(official))
+    .filter((domain): domain is DomainBoundary => Boolean(domain && domain.hostname === domain.domain)) }));
+  // Exempt every reviewed official domain before spelling comparisons. Otherwise
+  // an earlier list entry could falsely accuse a later entry's legitimate domain.
+  if (reviewed.some(entry => entry.domains.some(domain => domain.domain === observed.domain))) return undefined;
+  for (const { brand, domains } of reviewed) {
+    for (const official of domains) {
+      if (official.label.length < 4 || observed.label.length < 4) continue;
+      const maxDistance = Math.min(official.label.length, observed.label.length) >= 7 ? 2 : 1;
+      if (observed.label !== official.label && editDistance(observed.label, official.label) <= maxDistance) {
+        return { observedHost: observed.hostname, brand: brand.brand, technique: 'edit-distance' };
       }
-      // Confusable skeleton: dynamic import avoided here; caller normalizes first.
-      // Edit distance on the registrable label (typosquats like paypa1).
-      if (officialLabel && observedLabel.length >= 4 &&
-          editDistance(observedLabel, officialLabel) <= 2 && observedLabel !== officialLabel) {
-        return { observedHost: observed, brand: brand.brand, technique: 'edit-distance' };
-      }
-      // Brand-plus-keyword: "paypal-secure", "binance-support".
-      if (observedLabel.includes(brandKey) && observedRegistrable !== officialRegistrable &&
-          observedLabel.length > brandKey.length) {
-        return { observedHost: observed, brand: brand.brand, technique: 'brand-plus-keyword' };
+      if (keywordVariant(observed.label, official.label)) {
+        return { observedHost: observed.hostname, brand: brand.brand, technique: 'brand-plus-keyword' };
       }
     }
   }

@@ -1,0 +1,37 @@
+[
+  {
+    "command": "ALIVE_CHECK_MANIFESTS=1 npm test",
+    "exitCode": 0,
+    "log": "docs/validation/2026-10-15-ui-ux/tests.txt"
+  },
+  {
+    "command": "npm run typecheck:core",
+    "exitCode": 0,
+    "log": "docs/validation/2026-10-15-ui-ux/typecheck-core.txt"
+  },
+  {
+    "command": "npm run typecheck",
+    "exitCode": 0,
+    "log": "docs/validation/2026-10-15-ui-ux/typecheck.txt"
+  },
+  {
+    "command": "npm run check:release",
+    "exitCode": 0,
+    "log": "docs/validation/2026-10-15-ui-ux/manifests.txt"
+  },
+  {
+    "command": "git diff --check",
+    "exitCode": 0,
+    "log": "docs/validation/2026-10-15-ui-ux/whitespace.txt"
+  },
+  {
+    "command": "npm run build:all",
+    "exitCode": 0,
+    "log": "docs/validation/2026-10-15-ui-ux/builds.txt"
+  },
+  {
+    "command": "node /Users/rishihaldar/.codex/skills/design-taste-frontend/scripts/lint.mjs entrypoints/popup entrypoints/options entrypoints/welcome",
+    "exitCode": 0,
+    "log": "docs/validation/2026-10-15-ui-ux/taste-lint.txt"
+  }
+]
