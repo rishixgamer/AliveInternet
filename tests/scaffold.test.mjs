@@ -6,11 +6,7 @@ import { scaffoldedAnalyzers } from '../src/detectors/index.ts';
 import { foldConfusables, collapseSpacedLetters, extractContactHandles } from '../src/core/obfuscation.ts';
 import { trustReason } from '../src/core/trust.ts';
 import { mutedWordMatch } from '../src/core/mute.ts';
-import { NotImplementedError } from '../src/core/scaffold.ts';
 import { parseRuleList } from '../src/rules/schema.ts';
-import { isPageStatsMessage, PAGE_STATS_MESSAGE } from '../src/extension/messages.ts';
-import { redactForReport, issueUrl } from '../src/feedback/report.ts';
-import { buildCreatorReview } from '../src/creator/review.ts';
 import { parseDataset } from '../src/research/dataset.ts';
 
 const item = { id: '1', author: 'a', text: 'Contact me on T e l e g r a m for guaranteed profit', links: [], platform: 'youtube', kind: 'comment', accountKey: '@a', isCreator: true };
@@ -54,18 +50,9 @@ test('trust exemptions cover creator content; mute stays silent by default', () 
   assert.equal(mutedWordMatch(item), undefined);
 });
 
-test('remaining unimplemented entry points throw NotImplementedError', () => {
+test('malformed rule lists and datasets are rejected', () => {
   assert.throws(() => parseRuleList({}), Error);
-  assert.throws(() => redactForReport('test'), NotImplementedError);
-  assert.throws(() => issueUrl({}), NotImplementedError);
-  assert.throws(() => buildCreatorReview(), NotImplementedError);
   assert.throws(() => parseDataset([]), Error);
-});
-
-test('page-stats message guard', () => {
-  assert.equal(isPageStatsMessage({ type: PAGE_STATS_MESSAGE, tally: { hidden: 0, byCategory: {} } }), true);
-  assert.equal(isPageStatsMessage({ type: 'other' }), false);
-  assert.equal(isPageStatsMessage(null), false);
 });
 
 test('example rule list keeps the documented shape', () => {
@@ -109,4 +96,27 @@ test('npm entry point exports implemented DOM-free core APIs', () => {
 test('staged UI translations stay out of the build folder', () => {
   assert.equal(existsSync(new URL('../public/_locales', import.meta.url)), false);
   JSON.parse(readFileSync(new URL('../locales/en/messages.json', import.meta.url), 'utf8'));
+});
+
+test('every catalog entry has a v1.0 disposition recorded in the docs', () => {
+  const doc = readFileSync(new URL('../docs/feature-groundwork.md', import.meta.url), 'utf8');
+  const section = (name) => {
+    const start = doc.indexOf(`### ${name}`);
+    assert.ok(start >= 0, `${name} section missing`);
+    const next = doc.indexOf('\n#', start + 4);
+    return doc.slice(start, next < 0 ? undefined : next);
+  };
+  const ship = section('Ship'); const defer = section('Defer');
+  for (const f of FEATURES) {
+    assert.ok(f.v1 === 'ship' || f.v1 === 'defer', `${f.id}: v1 disposition missing`);
+    assert.ok((f.v1 === 'ship' ? ship : defer).includes(`(\`${f.id}\`)`), `${f.id}: not listed under ${f.v1} in feature-groundwork.md`);
+    assert.ok(!(f.v1 === 'ship' ? defer : ship).includes(`(\`${f.id}\`)`), `${f.id}: listed under the wrong disposition`);
+  }
+});
+
+test('removed features leave no stubs behind', () => {
+  for (const id of ['report-feedback', 'creator-mode']) assert.equal(FEATURES.some(f => f.id === id), false, id);
+  for (const path of ['src/feedback/report.ts', 'src/creator/review.ts', 'src/core/scaffold.ts']) {
+    assert.equal(existsSync(new URL(`../${path}`, import.meta.url)), false, path);
+  }
 });

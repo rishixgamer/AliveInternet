@@ -4,7 +4,7 @@ Last updated: October 13, 2026. Applies to the browser extension, version 0.3.
 
 AliveInternet reads rendered posts, comments, public profile links and content links on enabled supported browser pages. It processes them in browser memory to explain or reversibly hide content. The extension does not send this content to us or other servers, collect telemetry, or keep a browsing-history database. It does not access private messages, passwords, authentication cookies or session tokens.
 
-Your preferences, personal mute words, allowlisted profiles, explicit local account hides and scope overrides stay in the browser's local extension storage. A public-indicator pack is also stored locally if you import one. Pack provenance is self-declared; the extension does not fetch its sources. Browser profile storage is not encrypted by AliveInternet. Other people or software with access to your browser profile may read these preferences.
+Your preferences, personal mute words, allowlisted profiles and explicit local account hides stay in the browser's local extension storage. A public-indicator pack is also stored locally if you import one. Pack provenance is self-declared; the extension does not fetch its sources. Browser profile storage is not encrypted by AliveInternet. Other people or software with access to your browser profile may read these preferences.
 
 Hidden-item review excerpts exist only in page and popup memory. They are not saved. Settings export creates a local JSON download that may include sensitive profile preferences. Anyone you choose to share that file with can read it; AliveInternet does not upload it.
 

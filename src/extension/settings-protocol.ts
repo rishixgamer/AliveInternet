@@ -16,7 +16,6 @@ export type SettingsPatch = Partial<Pick<Settings, typeof BOOLEAN_SETTINGS[numbe
   platforms?: Partial<Settings['platforms']>;
   mutedWords?: string[];
   allowedAccounts?: string[];
-  scopeOverrides?: Settings['scopeOverrides'];
 };
 export type SettingsMutation =
   | { kind: 'preferences'; patch: SettingsPatch }
@@ -66,7 +65,7 @@ export function parseSettingsMutation(value: unknown): SettingsMutation {
   if (mutation.kind !== 'preferences') throw new Error('Unknown settings mutation');
   exactKeys(mutation, ['kind', 'patch']);
   const input = record(mutation.patch);
-  exactKeys(input, [...BOOLEAN_SETTINGS, 'mode', 'platforms', 'mutedWords', 'allowedAccounts', 'scopeOverrides']);
+  exactKeys(input, [...BOOLEAN_SETTINGS, 'mode', 'platforms', 'mutedWords', 'allowedAccounts']);
   const patch: SettingsPatch = {};
   for (const key of BOOLEAN_SETTINGS) {
     if (!Object.hasOwn(input, key)) continue;

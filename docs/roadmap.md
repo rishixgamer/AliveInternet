@@ -2,6 +2,8 @@
 
 Legend: **Implemented** = source logic with tests, not necessarily verified on live platforms; **Scaffolded** = API/design foundation; **Future** = no operational implementation.
 
+Per-feature v1.0 ship/defer/remove decisions are in [feature-groundwork](feature-groundwork.md#v10-disposition-catalog-triage-ticket-11); deferred entries below are post-1.0.
+
 | Feature | Status | Next validation |
 |---|---|---|
 | Manual account blocking + per-surface filtering | Implemented; serialized settings mutations have synthetic tests | Chromium production fixtures pass; broader live/browser coverage pending |
@@ -23,13 +25,13 @@ Legend: **Implemented** = source logic with tests, not necessarily verified on l
 | Chrome / Firefox / Edge store listings + builds | Three MV3 builds, progressive permissions, stable Firefox ID and icons implemented; unpublished | Firefox/Edge execution, listing assets and store review |
 | Toolbar badge count + shareable monthly stats card | Counts-only helpers implemented, background/popup wiring pending | Stats handling in settings-only background; counts-only storage review |
 | Community rule lists + language rule packs | Parser/matcher implemented, import UI pending (`src/rules/`, `rules/`, spec) | Local import UI; signed subscriptions later |
-| Report a miss / wrongly hidden | Scaffolded (`src/feedback/`, issue templates) | Redaction + preview UI |
+| Report a miss / wrongly hidden | Removed for v1.0 (stub deleted; issue templates remain, manual) | New design and privacy review if revived |
 | Public scam-comment benchmark | Scaffolded (`benchmark/`, `src/research/dataset.ts`) | Permissioned labelled data |
 | Reply-chain, impersonation, copied-comment, profile-bait, generic-filler analyzers | Logic + tests done, unwired (`src/detectors/`, in-progress) | Adapter thread/owner data; benchmark; wire via policy |
 | Obfuscation normalization (look-alikes, spaced letters, handles) | Implemented (`src/core/obfuscation.ts`, fed into filter.ts) | Browser false-positive spot-checks |
 | Trusted-content exemptions and mute words | Policy + storage + validated popup editors; dedup respects platform-scoped allowlists | Verified creator flags; browser E2E |
 | Settings export/import | Local download, bounded preview/cancel, merge and confirmed replacement implemented | Broader browser usability |
-| Creator mode | Scaffolded (`src/creator/`) | Review panel, no moderation API |
+| Creator mode | Removed for v1.0 (stub deleted) | New adapter surface needed if revived |
 | Link destination reveal, look-alike domains, fake verification badges, fake giveaway streams | Links implemented; lookalike/badge/giveaway logic done unwired | Offline only; verified brand list; benchmark before wiring |
 | YouTube live chat + Twitch chat | Scaffolded (`src/core/live-chat.ts`) | live_chat iframe adapter, Twitch adapter, rate budget |
 | AutoModerator / Discord AutoMod export | Copy-paste exporter implemented; UI unwired | Official platform-limit verification before use |
