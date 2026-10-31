@@ -13,7 +13,7 @@ Build a privacy-first open-source browser extension that **locally** reduces spa
 - ML: EmbeddingGemma 2 **Node proof of concept only**; browser integration remains research. See `docs/architecture-v0.3.md` and `docs/roadmap.md`.
 - Browser WXT compilation and live website selectors have NOT been verified in the generation environment.
 
-- **Scaffolded features** (v0.4 planning): 34 features have groundwork only, listed in `src/core/features.ts` and `docs/feature-groundwork.md`. Stubs must stay inert and default-off until implemented with tests; never wire a stub into the controller.
+- **Scaffolded features** (v0.4 planning): 32 catalog features (11 ship, 21 deferred for v1.0; two stubs removed) are listed in `src/core/features.ts` and `docs/feature-groundwork.md`; deferred ones are groundwork only. Stubs must stay inert and default-off until implemented with tests; never wire a stub into the controller.
 
 ## Non-negotiable product and security rules
 

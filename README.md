@@ -96,7 +96,7 @@ src/network/                Shared-domain campaign candidates and evidence-label
 src/research/               Classification evaluation metrics, benchmark dataset types
 src/detectors/              Scaffolded analyzers (reply chains, impersonation, ...); inert
 src/rules/                  Community rule-list schema (scaffolded)
-src/feedback/  src/creator/ src/ml/   Report drafts, creator mode, on-device classifier ports (scaffolded)
+src/ml/                     On-device classifier ports (scaffolded, deferred)
 rules/  benchmark/          Community rule lists and benchmark datasets (empty / examples)
 src/lib.ts  packages/core/   Built local npm entry point for the offline detection core
 locales/                    Staged UI translations (not yet in the build)

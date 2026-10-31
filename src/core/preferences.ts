@@ -1,6 +1,5 @@
 import { PLATFORMS, blockId, type Platform } from './platforms.ts';
 import type { FilterMode } from './types.ts';
-import type { ScopeOverride } from './scopes.ts';
 
 export interface Settings {
   enabled: boolean;
@@ -25,8 +24,6 @@ export interface Settings {
   mutedWords: string[];
   /** Never auto-hide these accounts (`platform:key` ids). */
   allowedAccounts: string[];
-  /** Per-channel filtering strength, keyed by page owner (never demographics). */
-  scopeOverrides: ScopeOverride[];
 }
 
 export const DEFAULT_SETTINGS: Settings = {
@@ -39,42 +36,29 @@ export const DEFAULT_SETTINGS: Settings = {
   blockedAccounts: [],
   mutedWords: [],
   allowedAccounts: [],
-  scopeOverrides: [],
 };
 
 /** Strict user input validation; storage recovery remains tolerant via sanitizeSettings. */
 export function parseSettingsLists(input: Record<string, unknown>): Partial<Pick<Settings,
-  'blockedAccounts' | 'allowedAccounts' | 'mutedWords' | 'scopeOverrides'>> {
-  const result: Partial<Pick<Settings, 'blockedAccounts' | 'allowedAccounts' | 'mutedWords' | 'scopeOverrides'>> = {};
+  'blockedAccounts' | 'allowedAccounts' | 'mutedWords'>> {
+  const result: Partial<Pick<Settings, 'blockedAccounts' | 'allowedAccounts' | 'mutedWords'>> = {};
   const validAccount = (value: unknown): value is string => {
     if (typeof value !== 'string') return false;
     const colon = value.indexOf(':');
     return colon > 0 && PLATFORMS.includes(value.slice(0, colon).toLowerCase() as Platform) &&
       /^[a-z\d@._:/-]{2,140}$/i.test(value.slice(colon + 1));
   };
-  for (const key of ['blockedAccounts', 'allowedAccounts', 'mutedWords', 'scopeOverrides'] as const) {
+  for (const key of ['blockedAccounts', 'allowedAccounts', 'mutedWords'] as const) {
     if (!Object.hasOwn(input, key)) continue;
     const value = input[key];
-    const limit = key === 'mutedWords' ? 200 : key === 'scopeOverrides' ? 300 : 500;
+    const limit = key === 'mutedWords' ? 200 : 500;
     if (!Array.isArray(value) || value.length > limit) throw new Error(`Invalid ${key}: maximum ${limit} entries`);
-    if (key === 'scopeOverrides') {
-      result.scopeOverrides = value.map((entry: unknown) => {
-        if (!entry || typeof entry !== 'object' || Array.isArray(entry)) throw new Error('Invalid scope override');
-        const scope = entry as Record<string, unknown>;
-        if (Object.keys(scope).some(field => !['scopeId', 'mode'].includes(field)) ||
-            !validAccount(scope.scopeId) || !['off', 'conservative', 'balanced', 'aggressive'].includes(scope.mode as string)) {
-          throw new Error('Invalid scope override');
-        }
-        return { scopeId: scope.scopeId.toLowerCase(), mode: scope.mode as ScopeOverride['mode'] };
-      });
-    } else {
-      result[key] = [...new Set(value.map((entry: unknown) => {
-        if (typeof entry !== 'string' || (key === 'mutedWords'
-          ? entry.trim().length < 2 || entry.trim().length > 80
-          : !validAccount(entry))) throw new Error(`Invalid ${key} entry`);
-        return key === 'mutedWords' ? entry.trim().toLowerCase() : entry.toLowerCase();
-      }))];
-    }
+    result[key] = [...new Set(value.map((entry: unknown) => {
+      if (typeof entry !== 'string' || (key === 'mutedWords'
+        ? entry.trim().length < 2 || entry.trim().length > 80
+        : !validAccount(entry))) throw new Error(`Invalid ${key} entry`);
+      return key === 'mutedWords' ? entry.trim().toLowerCase() : entry.toLowerCase();
+    }))];
   }
   return result;
 }
@@ -107,14 +91,6 @@ export function sanitizeSettings(value: unknown): Settings {
     ? [...new Set(options.mutedWords.filter((v): v is string => typeof v === 'string')
       .map(s => s.trim().toLowerCase()).filter(s => s.length >= 2 && s.length <= 80))].slice(0, 200)
     : [];
-  const scopeOverrides: ScopeOverride[] = Array.isArray(options.scopeOverrides)
-    ? options.scopeOverrides.filter((v): v is ScopeOverride =>
-      Boolean(v) && typeof v === 'object' && typeof (v as ScopeOverride).scopeId === 'string' &&
-      accountId((v as ScopeOverride).scopeId.toLowerCase()) &&
-      ((v as ScopeOverride).mode === 'off' || (v as ScopeOverride).mode === 'conservative' ||
-       (v as ScopeOverride).mode === 'balanced' || (v as ScopeOverride).mode === 'aggressive'))
-      .map(v => ({ scopeId: v.scopeId.toLowerCase(), mode: v.mode })).slice(0, 300)
-    : [];
   return {
     enabled: bool('enabled'),
     mode: options.mode === 'conservative' || options.mode === 'balanced' || options.mode === 'aggressive'
@@ -125,7 +101,7 @@ export function sanitizeSettings(value: unknown): Settings {
     dedupeComments: bool('dedupeComments'), inspectAccounts: bool('inspectAccounts'),
     intelAdvisories: bool('intelAdvisories'),
     platforms: normalizedPlatforms, blockedAccounts,
-    mutedWords, allowedAccounts, scopeOverrides,
+    mutedWords, allowedAccounts,
   };
 }
 

@@ -10,5 +10,5 @@
     "skipLibCheck": true,
     "lib": ["ES2022", "DOM"]
   },
-  "include": ["src/core/**/*.ts", "src/intel/**/*.ts", "src/network/**/*.ts", "src/research/**/*.ts", "src/detectors/**/*.ts", "src/rules/**/*.ts", "src/feedback/**/*.ts", "src/creator/**/*.ts", "src/ml/**/*.ts", "src/lib.ts"]
+  "include": ["src/core/**/*.ts", "src/intel/**/*.ts", "src/network/**/*.ts", "src/research/**/*.ts", "src/detectors/**/*.ts", "src/rules/**/*.ts", "src/ml/**/*.ts", "src/lib.ts"]
 }

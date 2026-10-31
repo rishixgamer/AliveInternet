@@ -21,23 +21,21 @@ test('allowlists require exact platform and validated account identity', () => {
   assert.equal(trustReason(item(), { ...settings, allowedAccounts: ['@sam'] }), undefined);
 });
 
-test('queued list preferences capture arrays and nested scope intent', async () => {
+test('queued list preferences capture arrays', async () => {
   let saved = structuredClone(DEFAULT_SETTINGS);
   let release;
   const gate = new Promise(resolve => { release = resolve; });
   const mutate = createSettingsWriter({ async read() { await gate; return saved; }, async write(next) { saved = next; } });
-  const patch = { mutedWords: ['crypto'], allowedAccounts: ['youtube:@sam'], scopeOverrides: [{ scopeId: 'youtube:@owner', mode: 'off' }] };
+  const patch = { mutedWords: ['crypto'], allowedAccounts: ['youtube:@sam'] };
   const pending = mutate({ kind: 'preferences', patch });
-  patch.mutedWords[0] = 'cooking'; patch.allowedAccounts.push('x:@other'); patch.scopeOverrides[0].mode = 'aggressive';
+  patch.mutedWords[0] = 'cooking'; patch.allowedAccounts.push('x:@other');
   release(); await pending;
   assert.deepEqual(saved.mutedWords, ['crypto']);
   assert.deepEqual(saved.allowedAccounts, ['youtube:@sam']);
-  assert.equal(saved.scopeOverrides[0].mode, 'off');
 });
 
 test('list mutations reject invalid entries and overflow instead of silently clearing preferences', () => {
   for (const patch of [{ mutedWords: [null] }, { allowedAccounts: ['@sam'] }, { allowedAccounts: ['youtubex'] },
-    { scopeOverrides: [{ scopeId: 'youtube:@owner', mode: 'invalid' }] },
     { mutedWords: Array.from({ length: 201 }, (_, i) => `word${i}`) }]) {
     assert.throws(() => parseSettingsMutation({ kind: 'preferences', patch }));
   }
@@ -45,10 +43,9 @@ test('list mutations reject invalid entries and overflow instead of silently cle
 
 test('default settings import merges lists while preserving unrelated preferences', () => {
   const current = { ...structuredClone(DEFAULT_SETTINGS), enabled: false, mode: 'aggressive',
-    scopeOverrides: [{ scopeId: 'youtube:@owner', mode: 'off' }], blockedAccounts: ['youtube:@mine'] };
+    blockedAccounts: ['youtube:@mine'] };
   const merged = importSettings(current, { settings: { blockedAccounts: ['youtube:@theirs'] } });
   assert.equal(merged.enabled, false); assert.equal(merged.mode, 'aggressive');
-  assert.deepEqual(merged.scopeOverrides, current.scopeOverrides);
   assert.deepEqual(merged.blockedAccounts, ['youtube:@mine', 'youtube:@theirs']);
 });
 

@@ -3,15 +3,15 @@ import { exportSettings, importSettings, MAX_SETTINGS_IMPORT_BYTES, parseSetting
 import { sanitizeSettings, type Settings } from '../core/preferences.ts';
 import { importSettingsSnapshot, loadSettings } from './settings.ts';
 
-const LISTS = ['blockedAccounts', 'allowedAccounts', 'mutedWords', 'scopeOverrides'] as const;
+const LISTS = ['blockedAccounts', 'allowedAccounts', 'mutedWords'] as const;
 
 function previewText(current: Settings, next: Settings, mode: ImportMode): string {
   const lines = [mode === 'replace-all'
     ? 'Replace all preferences and lists. Review removals before confirming.'
     : 'Merge local hides, allowed accounts and muted words. Keep other preferences.'];
   for (const key of LISTS) {
-    const before = current[key].map(entry => typeof entry === 'string' ? entry : `${entry.scopeId}: ${entry.mode}`);
-    const after = next[key].map(entry => typeof entry === 'string' ? entry : `${entry.scopeId}: ${entry.mode}`);
+    const before = current[key];
+    const after = next[key];
     const added = after.filter(entry => !before.includes(entry));
     const removed = before.filter(entry => !after.includes(entry));
     lines.push(`${key}: ${before.length} → ${after.length} (+${added.length}, −${removed.length})`);

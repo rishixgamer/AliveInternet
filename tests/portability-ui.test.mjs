@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { JSDOM } from 'jsdom';
-import { DEFAULT_SETTINGS } from '../src/core/preferences.ts';
+import { DEFAULT_SETTINGS, sanitizeSettings } from '../src/core/preferences.ts';
 import { exportSettings, importSettings, parseSettingsImport, MAX_SETTINGS_IMPORT_BYTES } from '../src/core/portability.ts';
 import { createSettingsWriter } from '../src/extension/settings-writer.ts';
 import { parseSettingsMutation } from '../src/extension/settings-protocol.ts';
@@ -260,15 +260,15 @@ test('disposal while a read or write is pending prevents later UI updates', asyn
   });
 });
 
-test('queued import snapshots defensively copy arrays, scopes and replacement baseline', async () => {
+test('queued import snapshots defensively copy arrays and replacement baseline', async () => {
   const gate = deferred(); let durable = structuredClone(DEFAULT_SETTINGS);
   const write = createSettingsWriter({ async read() { await gate.promise; return durable; }, async write(next) { durable = next; } });
-  const incoming = { ...structuredClone(DEFAULT_SETTINGS), blockedAccounts: ['x:@copied'], scopeOverrides: [{ scopeId: 'youtube:@owner', mode: 'off' }] };
+  const incoming = { ...structuredClone(DEFAULT_SETTINGS), blockedAccounts: ['x:@copied'] };
   const baseline = structuredClone(DEFAULT_SETTINGS);
   const pending = write({ kind: 'import', payload: incoming, mode: 'replace-all', expectedSettings: baseline });
-  incoming.blockedAccounts[0] = 'x:@changed'; incoming.scopeOverrides[0].mode = 'aggressive'; baseline.enabled = false;
+  incoming.blockedAccounts[0] = 'x:@changed'; baseline.enabled = false;
   gate.resolve(); await pending;
-  assert.deepEqual(durable.blockedAccounts, ['x:@copied']); assert.equal(durable.scopeOverrides[0].mode, 'off');
+  assert.deepEqual(durable.blockedAccounts, ['x:@copied']);
 });
 
 test('import protocol rejects invalid mode, missing replacement baseline and unexpected fields', () => {
@@ -288,9 +288,28 @@ test('export never produces a backup that its import byte limit rejects', () => 
     blockedAccounts: Array.from({ length: 500 }, (_, i) => `youtube:${key(i)}`),
     allowedAccounts: Array.from({ length: 500 }, (_, i) => `youtube:${key(i + 500)}`),
     mutedWords: Array.from({ length: 200 }, (_, i) => `word${i}`.padEnd(80, 'a')),
-    scopeOverrides: Array.from({ length: 300 }, (_, i) => ({ scopeId: `youtube:${key(i)}`, mode: 'aggressive' })),
   };
-  assert.throws(() => exportSettings(large), /backup exceeds/);
-  const backup = exportSettings({ ...DEFAULT_SETTINGS, blockedAccounts: large.blockedAccounts });
+  // With per-channel overrides removed, even maximal lists fit within the import limit.
+  const backup = exportSettings(large);
+  assert.ok(new TextEncoder().encode(JSON.stringify(backup)).length <= MAX_SETTINGS_IMPORT_BYTES);
   assert.deepEqual(parseSettingsImport(JSON.stringify(backup), 'replace-all'), backup.settings);
+});
+
+test('settings protocol and storage sanitizer no longer carry per-channel overrides', () => {
+  assert.throws(() => parseSettingsMutation({ kind: 'preferences', patch: { scopeOverrides: [] } }));
+  assert.ok(!('scopeOverrides' in sanitizeSettings({ scopeOverrides: [{ scopeId: 'youtube:@owner', mode: 'off' }] })));
+  assert.ok(!('scopeOverrides' in DEFAULT_SETTINGS));
+});
+
+test('backups from earlier builds that carry the removed scopeOverrides key still import', () => {
+  const { scopeOverrides: _, ...modern } = { ...structuredClone(DEFAULT_SETTINGS), blockedAccounts: ['youtube:@kept'] };
+  for (const legacy of [[], [{ scopeId: 'youtube:@owner', mode: 'off' }]]) {
+    const old = { format: 'aliveinternet-settings', version: 1, exportedAt: '2026-10-20T00:00:00.000Z', settings: { ...modern, scopeOverrides: legacy } };
+    for (const mode of ['merge-blocklist', 'replace-all']) {
+      const parsed = parseSettingsImport(JSON.stringify(old), mode);
+      assert.deepEqual(parsed.blockedAccounts, ['youtube:@kept']);
+      assert.ok(!('scopeOverrides' in parsed));
+    }
+  }
+  assert.throws(() => parseSettingsImport({ settings: { notASetting: true } }), /unknown/);
 });
