@@ -1,10 +1,14 @@
 import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
 import { readFile, readdir } from 'node:fs/promises';
+import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
+import { EVIDENCE_PATH, verifyClosure } from './lib/release-closure.mjs';
 
-// Checks preparation receipts, not external account/signing/accuracy readiness.
+// Default: preparation-receipt integrity plus verification of any gate already marked closed.
+// With --require-closed: additionally fails unless all five owner gates are closed with evidence.
+// Representative accuracy is a separate gate and is never closed by this script.
 const root = fileURLToPath(new URL('../', import.meta.url));
 const read = file => readFile(path.join(root, file));
 const json = async file => JSON.parse(await read(file));
@@ -32,8 +36,11 @@ assert.equal(manifest.browser_specific_settings.gecko.strict_min_version, '142.0
 assert.equal(manifest.browser_specific_settings.gecko_android, undefined);
 assert.equal(lint.metadata.id, manifest.browser_specific_settings.gecko.id);
 assert.equal(lint.metadata.version, manifest.version);
-assert.equal(publisher.privacy.mailboxDeliveryVerified, receipt.gates.mailboxDeliveryVerified);
-assert.equal(publisher.stores.firefox.signedXpiVerified, receipt.gates.signedFirefoxVerified);
-for (const store of ['chrome', 'edge', 'firefox']) assert.equal(publisher.stores[store].publisherAccountVerified, receipt.gates.storePublisherVerified[store]);
+const evidence = await read(EVIDENCE_PATH).then(b => JSON.parse(b), () => undefined);
+const closure = verifyClosure({
+  publisher, evidence, firefoxManifest: manifest, requireClosed: process.argv.includes('--require-closed'),
+  readFile: file => { try { return readFileSync(path.join(root, file)); } catch { return undefined; } },
+});
 assert.equal(receipt.gates.representativeAccuracyVerified, false, 'No current independent corpus has been supplied');
-console.log('Preparation evidence integrity passed. Current external gates: ' + JSON.stringify(receipt.gates));
+assert.deepEqual(closure.errors, [], 'Owner-gate closure evidence:\n' + closure.errors.join('\n'));
+console.log('Preparation evidence integrity passed. Owner gates still open: ' + (closure.open.join(', ') || 'none') + '. Representative accuracy remains open.');

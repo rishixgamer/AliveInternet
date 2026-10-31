@@ -55,3 +55,14 @@ The executable [collection and annotation package](../benchmark/annotation/READM
 Do not collect comments through hidden extension uploads or bulk scraping. No public-source tuning or broad detection claims can close the current-data gate. Use the proposed collection workload as a starting plan, approve the target claim and acceptance thresholds before viewing the test results, and retain missing strata and failed outcomes.
 
 Local receipts are under `docs/validation/2026-10-13-release-closure/`; the initial lint warnings and failed sandbox Firefox attempt are preserved. Run `npm run check:release-closure` to verify the pinned preparation files, Firefox inventory and recorded open gates. This command checks evidence integrity and deliberately does not pass the four external gates. No store registration, payment, agreement acceptance, signing submission or publication occurred in this continuation. These local changes have not been committed or pushed; the previously approved public snapshot is unchanged.
+
+## Closure evidence format (ticket 12)
+
+Once the owner steps are done, record them in `docs/validation/owner-gates/closure-evidence.json` and only then set the matching flags in `release/publisher.json`. `npm run check:release-closure` verifies every flag that is `true`; `npm run check:release-closure -- --require-closed` additionally fails while any of the five gates (`mailbox`, `chrome`, `edge`, `firefox`, `signedXpi`) is open. Rules are in `scripts/lib/release-closure.mjs` and tested by `tests/release-closure.test.mjs`.
+
+- Every section lists `evidence: [{ path, sha256 }]` files under `docs/validation/` (screenshots, dashboard exports, install logs). Hashes must match; no credentials, tokens or cookies (credential-like field names are rejected).
+- `mailbox`: `contact` equals the publisher contact, `testToken` hashes to the sent-test receipt's `testTokenSha256`, both published policy files contain the contact, and `policySha256` matches `site/privacy/index.html` (republish and update it if the contact changes).
+- `stores.chrome`: `dashboardState: "registered"`, `agreementAccepted: true`. `stores.edge`: `accountType: "personal-msa"`, `verificationState: "verified"` (pending or enrolled does not count). `stores.firefox`: `emailConfirmed` and `agreementReviewed` true.
+- `signedXpi`: `candidateSha256` and `signedXpiSha256` (different), `addonId` and `version` matching the Firefox manifest, `unsignedEntriesIdentical: true`, `differingEntries` only under `META-INF/`, `install` (release channel, fresh profile, signature enforcement, restarted, enabled after restart) and `smoke` (popup off/on, reversible restore, local account hide/unhide, optional sites ungranted), all true.
+
+Known issue: the Oct 13 preparation receipt pins pre-Oct-15 bytes (`package.json`, Firefox payload), so `check:release-closure` already fails before reaching this logic until ticket #14 replaces those checks.
