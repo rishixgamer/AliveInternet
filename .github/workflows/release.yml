@@ -11,9 +11,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
+      - name: Tag commit must be on main
+        run: git merge-base --is-ancestor "$GITHUB_SHA" origin/main
       - name: Tag must match package version
         run: test "${GITHUB_REF_NAME}" = "v$(node -p "require('./package.json').version")"
       - run: npm ci --ignore-scripts
@@ -25,6 +29,11 @@ jobs:
       - run: npm run build:all
       - run: npm run zip:all
       - run: npm run check:release
+      - run: npm run test:package
+      - run: npx playwright install --with-deps chromium firefox
+      - run: sudo apt-get update && sudo apt-get install -y ffmpeg
+      - run: npm run test:browser
+      - run: npm run test:firefox
       - name: Verify the exact release build and write SHA256SUMS
         run: npm run check:release-build
       - name: SBOM (CycloneDX)
@@ -35,7 +44,7 @@ jobs:
         run: |
           gh release create "${GITHUB_REF_NAME}" \
             --title "AliveInternet ${GITHUB_REF_NAME} (experimental beta, YouTube only)" \
-            --notes-file docs/RELEASE-v0.4.0.md \
+            --notes-file "docs/RELEASE-${GITHUB_REF_NAME}.md" \
             --prerelease \
             .output/aliveinternet-*-chrome.zip \
             .output/aliveinternet-*-firefox.zip \

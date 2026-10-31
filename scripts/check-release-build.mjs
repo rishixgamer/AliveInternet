@@ -21,7 +21,7 @@ async function files(directory, prefix = '') {
   return result.sort();
 }
 const unzipNames = archive => execFileSync('unzip', ['-Z1', archive], { encoding: 'utf8' }).trim().split('\n');
-const unzipFile = (archive, name) => execFileSync('unzip', ['-p', archive, name], { maxBuffer: 1 << 28 });
+const unzipFile = (archive, name) => execFileSync('unzip', ['-p', archive, name], { maxBuffer: 256 * 1024 * 1024 } /* 256 MiB per file */);
 
 export async function verifyReleaseBuild({ root }) {
   const out = path.join(root, '.output');

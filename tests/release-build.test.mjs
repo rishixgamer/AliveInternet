@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { execFileSync } from 'node:child_process';
-import { mkdtempSync, mkdirSync, writeFileSync, rmSync } from 'node:fs';
+import { mkdtempSync, mkdirSync, writeFileSync, rmSync, readFileSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
@@ -46,7 +46,6 @@ test('a consistent 0.4.0 build verifies and reports a checksum for every archive
       'aliveinternet-0.4.0-edge.zip', 'aliveinternet-0.4.0-sources.zip',
     ]);
     // Independent source of truth: hash the file ourselves.
-    const { readFileSync } = await import('node:fs');
     for (const archive of result.archives) {
       assert.equal(archive.sha256, createHash('sha256').update(readFileSync(path.join(root, '.output', archive.name))).digest('hex'));
     }
