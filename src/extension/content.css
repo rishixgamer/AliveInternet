@@ -34,3 +34,16 @@
 .aliveinternet-evidence { flex-basis: 100%; background: Canvas; color: CanvasText; border: 1px solid #8888; border-radius: 6px; padding: 8px; margin-top: 5px; font: 12px/1.5 system-ui; }
 .aliveinternet-evidence ul { margin: 6px 0 0; padding-left: 20px; }
 .aliveinternet-evidence p { margin: 5px 0; }
+.aliveinternet-report-action {
+  cursor: pointer;
+  font: 11px/1.4 system-ui, Arial, sans-serif;
+  border: 1px solid #8889;
+  border-radius: 4px;
+  padding: 3px 6px;
+  margin: 4px 4px 2px 0;
+  background: color-mix(in srgb, Canvas 90%, transparent);
+  color: CanvasText;
+  opacity: .7;
+}
+.aliveinternet-report-action:hover,
+.aliveinternet-report-action:focus-visible { opacity: 1; outline: 2px solid currentColor; outline-offset: 2px; }

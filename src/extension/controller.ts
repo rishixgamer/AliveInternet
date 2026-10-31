@@ -9,9 +9,10 @@ import type { Platform } from '../core/platforms.ts';
 import { localAction } from '../core/policy.ts';
 import type { Assessment } from '../core/types.ts';
 import { DEFAULT_SETTINGS, loadSettings, sanitizeSettings, setBlockedAccount, type Settings } from './settings.ts';
-import { annotateContent, collapseContent, accountAction, type AppliedUi } from './ui.ts';
+import { annotateContent, collapseContent, accountAction, reportMissAction, type AppliedUi } from './ui.ts';
+import { buildDraft, type ReportDraft, type ReportKind } from '../feedback/report.ts';
 import { toReviewRecord, type HiddenItemRecord } from '../core/review-list.ts';
-import { HIDDEN_ITEMS_REQUEST, REVEAL_ITEM_REQUEST, REVIEW_PAGE_SIZE, isPageItemId } from './messages.ts';
+import { HIDDEN_ITEMS_REQUEST, REVEAL_ITEM_REQUEST, REPORT_DRAFT_REQUEST, REPORT_PENDING_REQUEST, REVIEW_PAGE_SIZE, isPageItemId } from './messages.ts';
 
 interface RenderState { key: string; ui: AppliedUi[]; review?: HiddenItemRecord; fingerprint: string; }
 
@@ -37,6 +38,37 @@ export function startPlatformController(platform: Platform): () => void {
   const managed = new Map<HTMLElement, RenderState>();
   const revealed = new Set<string>();
   let lastUrl = location.href;
+  // The one staged report draft. Memory only; handed to the popup once, never stored or sent.
+  let pendingReport: ReportDraft | undefined;
+
+  /** Re-extract the element now; a recycled node must never be reported or revealed as another item. */
+  function currentItem(element: HTMLElement, fingerprint: string): RenderableItem | undefined {
+    if (!element.isConnected || !element.parentNode) return undefined;
+    for (const candidate of iteratePlatformItems(platform, element.parentNode)) {
+      if (candidate?.element === element) return candidate.fingerprint === fingerprint ? candidate : undefined;
+    }
+    return undefined;
+  }
+
+  /** Replace the staged draft only if a new one could be built; reports whether staging worked. */
+  function stage(kind: ReportKind, element: HTMLElement, reason: string): boolean {
+    const draft = draftFor(kind, element, reason);
+    if (!draft) return false;
+    pendingReport = draft;
+    return true;
+  }
+
+  function draftFor(kind: ReportKind, element: HTMLElement, reason: string): ReportDraft | undefined {
+    const state = managed.get(element);
+    const item = state && currentItem(element, state.fingerprint);
+    if (!item) return undefined;
+    let version: string | undefined;
+    try { version = browser.runtime.getManifest().version; } catch { /* optional field */ }
+    return buildDraft({
+      kind, platform, text: item.text, links: item.links, author: item.author,
+      accountKey: item.accountKey, reason, mode: settings.mode, version,
+    });
+  }
 
   function clearManaged() {
     for (const state of managed.values()) for (const ui of state.ui) ui.teardown();
@@ -63,6 +95,7 @@ export function startPlatformController(platform: Platform): () => void {
     if (location.href !== lastUrl) {
       lastUrl = location.href;
       revealed.clear();
+      pendingReport = undefined;
       clearManaged();
       resetPass();
     }
@@ -120,8 +153,9 @@ export function startPlatformController(platform: Platform): () => void {
       const inspector = item.accountKey ? evidence.get(`${platform}:${item.accountKey}`) : undefined;
       const showAction = settings.filterAccounts && settings.showBlockControls && Boolean(item.accountKey) && !userBlocked;
       const showInspector = settings.inspectAccounts && Boolean(item.accountKey);
+      const showReport = settings.showReportControls && item.kind === 'comment';
       const key = [item.fingerprint, item.links.join('|'), reason.decision, reason.reason,
-        settings.mode, String(settings.annotateFlagged), String(kindEnabled), String(shouldCollapse), String(showAction), String(showInspector),
+        settings.mode, String(settings.annotateFlagged), String(kindEnabled), String(shouldCollapse), String(showAction), String(showInspector), String(showReport),
         String(settings.inspectAccounts), String(settings.dedupeComments),
         ...intelHits.map(hit => hit.observedValue + ':' + hit.source),
         JSON.stringify(inspector)].join('\u001f');
@@ -137,7 +171,8 @@ export function startPlatformController(platform: Platform): () => void {
         ui.push(collapseContent(item.element, reason, item.kind, () => {
           revealed.add(item.fingerprint);
           managed.delete(item.element);
-        }, showAction ? item.accountKey : undefined, showAction ? action : undefined, inspector));
+        }, showAction ? item.accountKey : undefined, showAction ? action : undefined, inspector,
+        () => stage('wrongly-hidden', item.element, reason.reason)));
       } else {
         if (actionResult.annotate) {
           ui.push(annotateContent(item.element, verdict));
@@ -149,6 +184,7 @@ export function startPlatformController(platform: Platform): () => void {
             reason: `User-imported advisory pack “${indicator.source}” matched ${indicator.indicator.kind} ${indicator.observedValue}. Not a verified bot claim. Review provenance: ${indicator.indicator.evidenceUrl}`,
           }));
         }
+        if (showReport) ui.push(reportMissAction(item.element, () => stage('missed', item.element, '')));
         if ((showAction || showInspector) && item.accountKey)
           ui.push(accountAction(item.element, item.accountKey, showAction ? action : undefined, inspector));
       }
@@ -199,7 +235,7 @@ export function startPlatformController(platform: Platform): () => void {
 
   // URL changes are common in social media SPAs; remount through WXT on invalidation
   // and re-scan on browser history/navigation events without scraping history.
-  const onNavigation = () => { revealed.clear(); clearManaged(); resetPass(); schedule(); };
+  const onNavigation = () => { revealed.clear(); pendingReport = undefined; clearManaged(); resetPass(); schedule(); };
   const onChanged = (changes: { [key: string]: { newValue?: unknown } }, area: string) => {
     if (area !== 'local') return;
     if (changes.settings) { settings = sanitizeSettings(changes.settings.newValue); settingsLoaded = true; }
@@ -219,9 +255,21 @@ export function startPlatformController(platform: Platform): () => void {
   const onMessage = (message: unknown, sender: { id?: string; url?: string }, respond: (value: unknown) => void) => {
     if (!message || typeof message !== 'object' || Array.isArray(message)) return;
     const input = message as Record<string, unknown>;
-    if (input.type !== HIDDEN_ITEMS_REQUEST && input.type !== REVEAL_ITEM_REQUEST) return;
+    if (input.type !== HIDDEN_ITEMS_REQUEST && input.type !== REVEAL_ITEM_REQUEST &&
+        input.type !== REPORT_DRAFT_REQUEST && input.type !== REPORT_PENDING_REQUEST) return;
     if (sender.id !== browser.runtime.id || sender.url !== browser.runtime.getURL('/popup.html')) return;
     if (disposed || location.href !== lastUrl) { respond({ items: [], total: 0, truncated: false, ok: false }); return; }
+    if (input.type === REPORT_PENDING_REQUEST) {
+      if (Object.keys(input).length !== 1) return;
+      const draft = pendingReport; pendingReport = undefined;
+      respond({ ok: Boolean(draft), draft }); return;
+    }
+    if (input.type === REPORT_DRAFT_REQUEST) {
+      if (Object.keys(input).some(key => !['type', 'pageItemId'].includes(key)) || !isPageItemId(input.pageItemId)) return;
+      const hit = [...managed.entries()].find(([, state]) => state.review?.pageItemId === input.pageItemId);
+      const draft = hit ? draftFor('wrongly-hidden', hit[0], hit[1].review!.reason) : undefined;
+      respond({ ok: Boolean(draft), draft }); return;
+    }
     if (input.type === HIDDEN_ITEMS_REQUEST) {
       if (Object.keys(input).some(key => !['type', 'offset'].includes(key)) ||
           (input.offset !== undefined && (!Number.isSafeInteger(input.offset) || (input.offset as number) < 0))) return;
@@ -239,14 +287,9 @@ export function startPlatformController(platform: Platform): () => void {
     const [element, state] = match;
     // A renderer can recycle a node between scans. Never reveal a different
     // item on the strength of an obsolete popup row.
-    let current: RenderableItem | undefined;
-    if (element.isConnected && element.parentNode) {
-      for (const candidate of iteratePlatformItems(platform, element.parentNode)) {
-        if (candidate?.element === element) { current = candidate; break; }
-      }
-    }
+    const current = currentItem(element, state.fingerprint);
     const reveal = state.ui.find(part => part.reveal)?.reveal;
-    if (!current || current.fingerprint !== state.fingerprint || !reveal || !state.ui.every(part => part.isCurrent())) {
+    if (!current || !reveal || !state.ui.every(part => part.isCurrent())) {
       respond({ ok: false }); return;
     }
     reveal(); respond({ ok: true }); schedule();
@@ -266,6 +309,7 @@ export function startPlatformController(platform: Platform): () => void {
 
   return () => {
     disposed = true;
+    pendingReport = undefined;
     resetPass();
     if (timer !== undefined) clearTimeout(timer);
     observer.disconnect();

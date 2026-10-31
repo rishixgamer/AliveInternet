@@ -63,9 +63,9 @@ Proposed rule: ship only features that are `implemented` in `src/core/features.t
 
 | Ship in v1.0 (proposed) | Defer or exclude |
 |---|---|
-| Deterministic rule engine, manual account hide, reversible hiding, visible-page evidence | All `scaffolded` features: community rule lists subscriptions, report-feedback UI, creator mode, live-chat filtering, local classifier, i18n wiring, toolbar badge, stats card |
+| Deterministic rule engine, manual account hide, reversible hiding, visible-page evidence | All `scaffolded` features: community rule lists subscriptions, creator mode, live-chat filtering, local classifier, i18n wiring, toolbar badge, stats card |
 | Settings export/import, trusted-content exemptions, mute words and allowlist | All `in-progress` detectors until wired and benchmarked: reply-chain, impersonation, copied-comment, profile-bait, generic-filler, look-alike domains, fake badges, giveaway streams, check-this-comment, per-channel strictness |
-| Hidden-items review list, link destination reveal, obfuscation normalization (only after it is inside the evaluated rule source) | Manual OSINT pack import stays advisory and opt-in; it is not part of the accuracy claim |
+| Hidden-items review list, redacted report drafts (user-reviewed, opened only by click; ticket 13), link destination reveal, obfuscation normalization (only after it is inside the evaluated rule source) | Manual OSINT pack import stays advisory and opt-in; it is not part of the accuracy claim |
 | Opt-in long-comment near-duplicate collapse (default off, outside the accuracy claim unless evaluated) | AutoMod export and npm core package: non-claim extras, not release gates |
 
 The catalog-triage ticket makes the final per-entry call.

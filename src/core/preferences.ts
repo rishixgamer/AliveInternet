@@ -15,6 +15,8 @@ export interface Settings {
   /** Opt-in advisories from manually imported indicator pack; never auto-block. */
   intelAdvisories: boolean;
   showBlockControls: boolean;
+  /** Opt-in "Report a miss" button on visible comments; reports are always user-reviewed first. */
+  showReportControls: boolean;
   /** Opt-in: collapse other visible content from accounts with 3+ distinct high-evidence spam items. */
   autoCampaignAccounts: boolean;
   platforms: Record<Platform, boolean>;
@@ -30,7 +32,7 @@ export const DEFAULT_SETTINGS: Settings = {
   enabled: true, mode: 'balanced', annotateFlagged: false,
   filterComments: true, filterPosts: true, filterAccounts: true,
   dedupeComments: false, inspectAccounts: true, intelAdvisories: false,
-  showBlockControls: true, autoCampaignAccounts: false,
+  showBlockControls: true, showReportControls: false, autoCampaignAccounts: false,
   platforms: { youtube: true, x: false, instagram: false, reddit: false,
     tiktok: false, facebook: false, threads: false, bluesky: false, linkedin: false, twitch: false },
   blockedAccounts: [],
@@ -97,7 +99,7 @@ export function sanitizeSettings(value: unknown): Settings {
       ? options.mode : DEFAULT_SETTINGS.mode,
     annotateFlagged: bool('annotateFlagged'), filterComments: bool('filterComments'),
     filterPosts: bool('filterPosts'), filterAccounts: bool('filterAccounts'),
-    showBlockControls: bool('showBlockControls'), autoCampaignAccounts: bool('autoCampaignAccounts'),
+    showBlockControls: bool('showBlockControls'), showReportControls: bool('showReportControls'), autoCampaignAccounts: bool('autoCampaignAccounts'),
     dedupeComments: bool('dedupeComments'), inspectAccounts: bool('inspectAccounts'),
     intelAdvisories: bool('intelAdvisories'),
     platforms: normalizedPlatforms, blockedAccounts,

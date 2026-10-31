@@ -8,7 +8,7 @@ body:
         **Remove usernames, profile links and phone numbers** (replace with `[handle]`, `[phone]`). Paste the pattern, not personal data.
   - type: dropdown
     id: platform
-    attributes: {label: Site, options: [YouTube, X / Twitter, Instagram, Reddit, TikTok, Facebook, Threads, Bluesky, LinkedIn]}
+    attributes: {label: Site, options: [YouTube, X / Twitter, Instagram, Reddit, TikTok, Facebook, Threads, Bluesky, LinkedIn, Twitch]}
     validations: {required: true}
   - type: dropdown
     id: category

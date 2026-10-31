@@ -173,7 +173,7 @@ try {
     assert.equal(invalid.ok, false);
     await first.bringToFront();
     await popup.locator('#refreshHidden').click();
-    await popup.waitForFunction(() => document.querySelectorAll('#hiddenItems button').length === 2);
+    await popup.waitForFunction(() => document.querySelectorAll('#hiddenItems .review-row').length === 2);
     await popup.locator('#hiddenItems button').first().click();
     await waitHidden(first, 1);
     assert.equal(await hiddenCount(second), 2);
@@ -186,6 +186,60 @@ try {
     assert.equal(await hiddenCount(first), 2, 'Stale popup row must leave the new document hidden');
     const fresh = await tabMessage(popup, id, { type: 'aliveinternet/hidden-items' });
     assert.ok(fresh.items.every(item => !result.items.some(previous => previous.pageItemId === item.pageItemId)));
+  });
+  await check('report flow: preview, edit, explicit open; cancel and staging send nothing', async () => {
+    const github = () => receipt.network.filter(entry => new URL(entry.url).hostname === 'github.com');
+    await first.bringToFront();
+    await popup.locator('#refreshHidden').click();
+    await popup.waitForFunction(() => document.querySelectorAll('#hiddenItems .review-row').length === 2);
+    const reportRow = () => popup.locator('#hiddenItems').getByRole('button', { name: /Prepare a report that this comment was wrongly hidden/ }).first();
+    // Preview shows redacted text only; building it contacts nothing.
+    await reportRow().click();
+    await popup.locator('#reportSection').waitFor({ state: 'visible' });
+    const previewText = await popup.locator('#reportText').inputValue();
+    assert.match(previewText, /Telegram/);
+    assert.ok(!/Synthetic author|spam-parent|spam-other|@/.test(previewText), previewText);
+    assert.equal(github().length, 0);
+    // Cancel discards without any request.
+    await popup.locator('#cancelReport').click();
+    await popup.locator('#reportSection').waitFor({ state: 'hidden' });
+    await popup.waitForTimeout(500);
+    assert.equal(github().length, 0, 'cancelling must send nothing');
+    // Edit, then the explicit click opens the prefilled URL in a new tab.
+    await reportRow().click();
+    await popup.locator('#reportSection').waitFor({ state: 'visible' });
+    await popup.locator('#reportText').fill('edited text, see https://example.org/private/path?token=SECRET and @someone');
+    assert.equal(github().length, 0, 'editing must send nothing');
+    // A tab opened by chrome.tabs.create can start navigating before Playwright's routing attaches, which
+    // would reach the real github.com. Capture the production call instead so the fixture stays offline.
+    await popup.evaluate(() => { window.__openedTabs = []; chrome.tabs.create = async options => { window.__openedTabs.push(options); return { id: 0 }; }; });
+    await popup.locator('#openReport').click();
+    await popup.waitForFunction(() => window.__openedTabs.length === 1);
+    const [openedTab] = await popup.evaluate(() => window.__openedTabs);
+    const target = new URL(openedTab.url);
+    assert.equal(target.origin + target.pathname, 'https://github.com/rishixgamer/AliveInternet/issues/new');
+    assert.equal(target.searchParams.get('template'), 'false-positive.yml');
+    assert.equal(target.searchParams.get('text'), 'edited text, see [link: example.org] and [handle]');
+    assert.equal(github().length, 0, 'the fixture never reaches github.com');
+    assert.ok(openedTab.url.length <= 6000);
+    await popup.locator('#reportSection').waitFor({ state: 'hidden' });
+    // Opt-in miss button stages a draft in page memory only; the popup collects it on open.
+    assert.equal(await first.locator('.aliveinternet-report-action', { hasText: 'Report a miss' }).count(), 0, 'off by default');
+    assert.equal((await send(popup, { kind: 'preferences', patch: { showReportControls: true } })).ok, true);
+    const miss = first.locator('[data-fixture="benign"] .aliveinternet-report-action');
+    await miss.waitFor({ timeout: 15_000 });
+    await miss.click();
+    assert.equal(github().length, 0, 'staging a draft must send nothing');
+    await popup.reload();
+    await popup.locator('#reportSection').waitFor({ state: 'visible' });
+    assert.equal(await popup.locator('#reportText').inputValue(), BENIGN);
+    await popup.locator('#cancelReport').click();
+    await popup.waitForTimeout(300);
+    assert.equal(github().length, 0, 'cancel after staging must send nothing');
+    assert.equal((await send(popup, { kind: 'preferences', patch: { showReportControls: false } })).ok, true);
+    await poll(async () => (await first.locator('.aliveinternet-report-action', { hasText: 'Report a miss' }).count()) === 0);
+    const stored = await worker.evaluate(() => chrome.storage.local.get(null));
+    assert.equal(JSON.stringify(stored).includes('Telegram'), false, 'drafts are not persisted');
   });
   await check('content edits and appended replies trigger isolated rescans', async () => {
     await first.locator('[data-fixture="spam-other"] #content-text').evaluate((el, text) => { el.textContent = text; }, BENIGN);

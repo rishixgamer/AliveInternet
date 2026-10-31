@@ -18,7 +18,7 @@ Based on the proposed rules in [v1-scope.md](v1-scope.md), which is still a draf
 
 Exceptions to the draft's "ship only `implemented` features" rule: `store-publishing`, `supply-chain-hardening` (release process, not extension code) and `scam-benchmark` (evaluation tooling that the accuracy claim depends on) ship while not yet `implemented`. `automod-export` and `npm-core-package` are `implemented` but deferred as non-claim extras (v1-scope decisions 8 and 9). Opt-in near-duplicate collapse has no catalog row; it ships as existing `dedupe.ts` behaviour, default off and outside the accuracy claim. Ship rows name existing tickets only generically; open a ticket per row when the v1.0 series is planned.
 
-The original catalog had 34 entries. Result: **11 ship, 21 defer, 2 remove**.
+The original catalog had 34 entries. Result: **11 ship, 21 defer, 2 remove**. Ticket 13 later revived `report-feedback` (the old throwing stub stayed deleted; the module was rewritten from a fresh design), giving **12 ship, 21 defer, 1 remove** (33 catalog entries).
 
 ### Ship
 
@@ -34,6 +34,7 @@ The original catalog had 34 entries. Result: **11 ship, 21 defer, 2 remove**.
 | Export / import settings and blocklists (`settings-portability`) | implemented | Broader browser usability check. |
 | Show where a link really goes (offline redirect decoding) (`link-destination-reveal`) | implemented | Offline decoding already feeds the filter. Either wire the destination UI with tests or narrow the claim to filter-only; decide before the audit ticket. |
 | "Hidden on this page" review list in the popup (`hidden-items-review`) | implemented | Broader live usability check on YouTube. |
+| Redacted "wrongly hidden / missed" report drafts (`report-feedback`) | implemented | Code in `src/feedback/report.ts` and `src/extension/popup-report.ts`. Real-browser check of the staged-draft flow; store data-disclosure classification (see [privacy.md](privacy.md)). Ticket 13 revives this with a fresh design after the triage removed the old stub. |
 | Lockfile, Dependabot, Scorecard, signed releases (`supply-chain-hardening`) | scaffolded | Scorecard workflow and release attestations (maintainer). |
 
 ### Defer
@@ -68,10 +69,9 @@ Each stays inert and default-off. `tests/deferred-features.test.mjs` builds the 
 
 | Feature (`id`) | What was removed | Reason |
 |---|---|---|
-| "Report a miss / wrongly hidden" drafts (`report-feedback`) | `src/feedback/report.ts` (throwing stubs with a placeholder repository) and its tests | No plan before M4. The GitHub issue templates stay and are used manually; any future flow starts from a fresh design with a privacy review. |
 | Creator mode (`creator-mode`) | `src/creator/review.ts` (types and a throwing stub) | No plan in v1 scope; it would need a new adapter surface. |
 
-Also removed: the inactive `PageStatsMessage` and `CheckItemRequest` message types in `src/extension/messages.ts`, the `scopeOverrides` setting (storage, settings protocol and backup preview), and the `NotImplementedError` marker class, since no stub throws it any more. Backups exported by earlier builds always carried an empty `scopeOverrides` list; importing one drops that key and restores everything else.
+Also removed (in the triage): the inactive `PageStatsMessage` and `CheckItemRequest` message types in `src/extension/messages.ts`, the `scopeOverrides` setting (storage, settings protocol and backup preview), and the `NotImplementedError` marker class, since no stub throws it any more. Backups exported by earlier builds always carried an empty `scopeOverrides` list; importing one drops that key and restores everything else.
 
 ## Distribution
 

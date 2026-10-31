@@ -9,6 +9,26 @@ export interface AppliedUi {
   isCurrent(): boolean;
 }
 
+/** Staging a report only builds an in-memory draft; the popup does the review and the explicit open. */
+function reportButton(label: string, title: string, onReport: () => boolean): HTMLButtonElement {
+  const button = document.createElement('button'); button.type = 'button';
+  button.className = 'aliveinternet-report-action'; button.textContent = label; button.title = title;
+  button.addEventListener('click', event => {
+    event.preventDefault(); event.stopPropagation();
+    // Only claim success when a draft was really staged (the item may have changed since the scan).
+    button.textContent = onReport() ? 'Draft ready: open the AliveInternet toolbar popup to review' : 'Could not prepare a draft; the item changed';
+  });
+  return button;
+}
+
+/** Opt-in, low-emphasis control for visible comments. */
+export function reportMissAction(element: HTMLElement, onReport: () => boolean): AppliedUi {
+  const controls = document.createElement('div'); controls.className = 'aliveinternet-controls';
+  controls.append(reportButton('Report a miss', 'Prepare a redacted report that this should have been caught. Nothing is sent until you review it in the AliveInternet popup.', onReport));
+  element.append(controls);
+  return { teardown: () => controls.remove(), isCurrent: () => controls.parentElement === element };
+}
+
 export function annotateContent(element: HTMLElement, verdict: Assessment): AppliedUi {
   const note = document.createElement('div');
   note.className = 'aliveinternet-flag';
@@ -72,7 +92,7 @@ export function accountAction(
 
 export function collapseContent(
   element: HTMLElement, verdict: Assessment, kind: ContentKind, onReveal: () => void,
-  accountKey?: string, onBlock?: () => void, evidence?: AccountEvidence,
+  accountKey?: string, onBlock?: () => void, evidence?: AccountEvidence, onReport?: () => boolean,
 ): AppliedUi {
   const previousDisplay = element.style.display;
   const holder = document.createElement('div'); holder.className = 'aliveinternet-collapsed';
@@ -89,6 +109,7 @@ export function collapseContent(
     block.addEventListener('click', () => { block.disabled = true; onBlock(); });
     holder.append(' ', block);
   }
+  if (onReport) holder.append(' ', reportButton('Wrongly hidden', 'Prepare a redacted report that this was hidden by mistake. Nothing is sent until you review it in the AliveInternet popup.', onReport));
   addInspectButton(holder, evidence);
   element.before(holder);
   element.style.display = 'none';
