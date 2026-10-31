@@ -1,6 +1,6 @@
 {
   "name": "@aliveinternet/core",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Local, explainable spam heuristics and reversible preference helpers; scores are not bot probabilities.",
   "type": "module",
   "license": "Apache-2.0",

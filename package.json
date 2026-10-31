@@ -1,6 +1,6 @@
 {
   "name": "aliveinternet",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "private": true,
   "author": "Rishi Haldar",
   "repository": { "type": "git", "url": "git+https://github.com/rishixgamer/AliveInternet.git" },
@@ -16,6 +16,7 @@
     "zip:extension": "wxt zip -b chrome",
     "zip:firefox": "wxt zip -b firefox",
     "zip:edge": "wxt zip -b edge",
+    "zip:all": "npm run zip:extension && npm run zip:firefox && npm run zip:edge",
     "prepare": "wxt prepare",
     "typecheck": "wxt prepare && tsc --noEmit",
     "typecheck:core": "tsc -p tsconfig.core.json",
@@ -33,9 +34,8 @@
     "check:release": "node scripts/check-release.mjs",
     "generate:icons": "node scripts/generate-icons.mjs",
     "test:live": "node scripts/test-live-youtube.mjs",
-    "check:archives": "node scripts/check-archives.mjs",
-    "check:dependencies": "node scripts/check-dependencies.mjs",
-    "check:release-evidence": "node scripts/check-release-evidence.mjs"
+    "check:release-build": "node scripts/check-release-build.mjs",
+    "check:dependencies": "node scripts/check-dependencies.mjs"
   },
   "engines": {
     "node": ">=22.16"
