@@ -34,8 +34,9 @@ extension controller or Chrome. No live-site support claim follows from them.
 
 Dependency versions are recorded in `package-lock.json`. CI now installs from
 that lockfile with `npm ci --ignore-scripts` and checks core types explicitly.
-jsdom is a development dependency only, selected for compatibility with the
-declared Node 22.16 minimum. No new permissions, storage or network path is
+jsdom is a development dependency only. The development Node minimum is 22.22.2
+(required by jsdom 30); the published `@aliveinternet/core` package keeps its
+own, lower minimum because it does not depend on jsdom. No new permissions, storage or network path is
 added to the extension. The reply-chain detector remains inert, and relationship
 fields remain unset pending live-browser verification.
 

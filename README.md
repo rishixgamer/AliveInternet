@@ -57,7 +57,7 @@ The extension works only in supported **browser** pages. A matched selector is n
 
 ## Quick start
 
-Requirements: Node.js >= 22.16, npm, Chrome/Chromium, and network access for dependencies.
+Requirements: Node.js >= 22.22.2, npm, Chrome/Chromium, and network access for dependencies.
 
 ```sh
 npm ci
