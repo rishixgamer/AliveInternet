@@ -17,6 +17,6 @@ export default defineConfig({
       // Keep stable across future releases to preserve Firefox update identity.
       gecko: { id: '{c0c9c54d-10b7-4ac9-833c-e0cca4c1e407}', strict_min_version: '128.0', data_collection_permissions: { required: ['none'] } },
     },
-    version: '0.3.0',
+    version: '0.4.0',
   },
 });

@@ -1,0 +1,45 @@
+name: Release
+# Builds the store ZIPs in CI (never locally), verifies the exact build, and
+# attaches ZIPs + SBOM + checksums to a GitHub release. Push a tag like v0.4.0.
+on:
+  push:
+    tags: ['v*']
+permissions:
+  contents: write
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Tag must match package version
+        run: test "${GITHUB_REF_NAME}" = "v$(node -p "require('./package.json').version")"
+      - run: npm ci --ignore-scripts
+      - run: npm run typecheck:core
+      - run: npm run typecheck
+      - run: npm test
+        env:
+          ALIVE_CHECK_MANIFESTS: '1'
+      - run: npm run build:all
+      - run: npm run zip:all
+      - run: npm run check:release
+      - name: Verify the exact release build and write SHA256SUMS
+        run: npm run check:release-build
+      - name: SBOM (CycloneDX)
+        run: npm sbom --sbom-format cyclonedx --omit dev --package-lock-only > .output/aliveinternet-sbom.cdx.json
+      - name: Publish GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "${GITHUB_REF_NAME}" \
+            --title "AliveInternet ${GITHUB_REF_NAME} (experimental beta, YouTube only)" \
+            --notes-file docs/RELEASE-v0.4.0.md \
+            --prerelease \
+            .output/aliveinternet-*-chrome.zip \
+            .output/aliveinternet-*-firefox.zip \
+            .output/aliveinternet-*-edge.zip \
+            .output/aliveinternet-*-sources.zip \
+            .output/aliveinternet-sbom.cdx.json \
+            .output/SHA256SUMS
