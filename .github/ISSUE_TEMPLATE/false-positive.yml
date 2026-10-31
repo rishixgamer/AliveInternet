@@ -8,7 +8,7 @@ body:
         False positives are our most serious bug. **Remove usernames, profile links and anything identifying** before submitting; we only need the text pattern.
   - type: dropdown
     id: platform
-    attributes: {label: Site, options: [YouTube, X / Twitter, Instagram, Reddit, TikTok, Facebook, Threads, Bluesky, LinkedIn]}
+    attributes: {label: Site, options: [YouTube, X / Twitter, Instagram, Reddit, TikTok, Facebook, Threads, Bluesky, LinkedIn, Twitch]}
     validations: {required: true}
   - type: textarea
     id: text

@@ -115,8 +115,9 @@ test('every catalog entry has a v1.0 disposition recorded in the docs', () => {
 });
 
 test('removed features leave no stubs behind', () => {
-  for (const id of ['report-feedback', 'creator-mode']) assert.equal(FEATURES.some(f => f.id === id), false, id);
-  for (const path of ['src/feedback/report.ts', 'src/creator/review.ts', 'src/core/scaffold.ts']) {
+  // `report-feedback` was removed in the triage and revived by ticket 13 as a rewritten feature.
+  for (const id of ['creator-mode']) assert.equal(FEATURES.some(f => f.id === id), false, id);
+  for (const path of ['src/creator/review.ts', 'src/core/scaffold.ts']) {
     assert.equal(existsSync(new URL(`../${path}`, import.meta.url)), false, path);
   }
 });

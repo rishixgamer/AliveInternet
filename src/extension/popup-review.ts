@@ -1,10 +1,12 @@
 import { browser } from 'wxt/browser';
 import { PLATFORMS } from '../core/platforms.ts';
 import type { HiddenItemRecord } from '../core/review-list.ts';
-import { HIDDEN_ITEMS_REQUEST, REVEAL_ITEM_REQUEST, REVIEW_PAGE_SIZE, isPageItemId, type HiddenItemsResponse } from './messages.ts';
+import { HIDDEN_ITEMS_REQUEST, REVEAL_ITEM_REQUEST, REPORT_DRAFT_REQUEST, REVIEW_PAGE_SIZE, isPageItemId, type HiddenItemsResponse } from './messages.ts';
+import type { ReportDraft } from '../feedback/report.ts';
+import { parseDraft } from './popup-report.ts';
 
 /** Explicit, page-local review; never stores excerpts or requests browsing history. */
-export function initializeReviewPopup(root: Document = document): () => void {
+export function initializeReviewPopup(root: Document = document, onReport?: (draft: ReportDraft) => void): () => void {
   const refresh = root.querySelector<HTMLButtonElement>('#refreshHidden')!;
   const previous = root.querySelector<HTMLButtonElement>('#previousHidden')!;
   const next = root.querySelector<HTMLButtonElement>('#nextHidden')!;
@@ -92,7 +94,24 @@ export function initializeReviewPopup(root: Document = document): () => void {
         }
       });
     });
-    row.append(excerpt, reason, reveal); list.append(row);
+    row.append(excerpt, reason, reveal);
+    if (onReport) {
+      const report = root.createElement('button'); report.type = 'button'; report.textContent = 'Report wrongly hidden';
+      report.setAttribute('aria-label', `Prepare a report that this ${item.kind} was wrongly hidden`);
+      report.addEventListener('click', () => {
+        if (disposed || report.disabled) return;
+        report.disabled = true;
+        const listEpoch = epoch;
+        void browser.tabs.sendMessage(sourceTab, { type: REPORT_DRAFT_REQUEST, pageItemId: item.pageItemId }).then((result: unknown) => {
+          report.disabled = false;
+          if (disposed || epoch !== listEpoch || tabId !== sourceTab) return;
+          const draft = result && typeof result === 'object' && (result as { ok?: unknown }).ok === true ? parseDraft((result as { draft?: unknown }).draft) : undefined;
+          if (draft) onReport(draft); else summary.textContent = 'That item changed or is no longer hidden. Refresh the list.';
+        }).catch(() => { report.disabled = false; if (!disposed) summary.textContent = 'Could not prepare the report; refresh and retry.'; });
+      });
+      row.append(' ', report);
+    }
+    list.append(row);
   }
 
   const reload = () => { void load(true); };

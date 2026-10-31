@@ -11,3 +11,13 @@ export function isPageItemId(value: unknown): value is string {
 export interface HiddenItemsRequest { type: typeof HIDDEN_ITEMS_REQUEST; offset?: number; }
 export interface HiddenItemsResponse { items: HiddenItemRecord[]; total: number; truncated: boolean; }
 export interface RevealItemRequest { type: typeof REVEAL_ITEM_REQUEST; pageItemId: string; }
+
+/**
+ * Report drafts. The content script builds a redacted draft in memory and hands it
+ * only to this extension's popup, which owns preview, editing and the explicit open.
+ * Nothing is stored or sent anywhere by these messages.
+ */
+export const REPORT_DRAFT_REQUEST = 'aliveinternet/report-draft' as const;
+export const REPORT_PENDING_REQUEST = 'aliveinternet/report-pending' as const;
+export interface ReportDraftRequest { type: typeof REPORT_DRAFT_REQUEST; pageItemId: string; }
+export interface ReportPendingRequest { type: typeof REPORT_PENDING_REQUEST; }

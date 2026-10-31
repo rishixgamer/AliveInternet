@@ -417,3 +417,71 @@ test('removing an advisory pack wins over a stale initial content-storage read',
     }, { intelAdvisories: true });
   } finally { globalThis.chrome.storage.local.get = originalGet; }
 });
+
+// ---- Report flow (ticket 13): the page only stages an in-memory, redacted draft. ----
+const popupSender = { id: 'fixture', url: 'chrome-extension://fixture/popup.html' };
+const identifying = `<ytd-comment-view-model data-fixture="rep"><a id="author-text" href="/@rep_user">Pat Display</a><div id="content-text">Pat Display here: @rep_user DM me, see https://www.youtube.com/@rep_user/videos?v=SECRET or t.me/joinchat/PRIVATE to double your investment. Guaranteed profit!</div></ytd-comment-view-model>`;
+function assertRedacted(text) {
+  for (const leaked of ['Pat Display', 'rep_user', 'SECRET', 'PRIVATE', 'joinchat', '/videos']) assert.ok(!text.includes(leaked), `leaked ${leaked}: ${text}`);
+}
+
+test('wrongly hidden button stages a redacted draft that only the popup can collect, once', async t => {
+  await withController(t, identifying, async ({ document, advance }) => {
+    await advance();
+    const button = document.querySelector('.aliveinternet-collapsed .aliveinternet-report-action');
+    assert.equal(button.textContent, 'Wrongly hidden');
+    assert.equal(requestReview({ type: 'aliveinternet/report-pending' }, popupSender).ok, false, 'nothing staged before the click');
+    button.click();
+    assert.equal(requestReview({ type: 'aliveinternet/report-pending' }, { id: 'other', url: 'https://evil.example/' }), undefined, 'page/other senders get nothing');
+    const staged = requestReview({ type: 'aliveinternet/report-pending' }, popupSender);
+    assert.equal(staged.ok, true);
+    assert.equal(staged.draft.kind, 'wrongly-hidden'); assert.equal(staged.draft.platform, 'youtube');
+    assertRedacted(JSON.stringify(staged.draft));
+    assert.match(staged.draft.text, /\[link: www\.youtube\.com\]/);
+    assert.equal(requestReview({ type: 'aliveinternet/report-pending' }, popupSender).ok, false, 'consumed on read');
+  });
+});
+
+test('popup list can request a draft for a hidden item by id; stale ids get nothing', async t => {
+  await withController(t, identifying, async ({ advance }) => {
+    await advance();
+    const { items } = requestReview({ type: 'aliveinternet/hidden-items' });
+    const ok = requestReview({ type: 'aliveinternet/report-draft', pageItemId: items[0].pageItemId }, popupSender);
+    assert.equal(ok.ok, true); assertRedacted(JSON.stringify(ok.draft));
+    const stale = requestReview({ type: 'aliveinternet/report-draft', pageItemId: '00000000-0000-4000-8000-000000000000:1' }, popupSender);
+    assert.equal(stale.ok, false);
+    assert.equal(requestReview({ type: 'aliveinternet/report-draft', pageItemId: items[0].pageItemId }, { id: 'x', url: 'https://evil.example/' }), undefined);
+  });
+});
+
+test('Report a miss is off by default, opt-in, and only on visible comments', async t => {
+  const html = comment('plain', benign) + identifying.replace('rep', 'hidden');
+  await withController(t, html, async ({ document, advance, change }) => {
+    await advance();
+    assert.equal(document.querySelector('.aliveinternet-controls .aliveinternet-report-action'), null);
+    change({ ...storedSettings, showReportControls: true });
+    await advance();
+    const buttons = document.querySelectorAll('.aliveinternet-controls .aliveinternet-report-action');
+    assert.equal(buttons.length, 1);
+    assert.equal(document.querySelector('[data-fixture="plain"]').contains(buttons[0]), true);
+    buttons[0].click();
+    const staged = requestReview({ type: 'aliveinternet/report-pending' }, popupSender);
+    assert.equal(staged.draft.kind, 'missed'); assert.equal(staged.draft.text, benign);
+  });
+});
+
+test('clicking a report button makes no extension or network request and navigation drops the draft', async t => {
+  const sent = [];
+  const realFetch = globalThis.fetch; globalThis.fetch = (...args) => { sent.push(args); throw new Error('network'); };
+  chrome.tabs = { create: (...args) => { sent.push(args); } };
+  try {
+    await withController(t, identifying, async ({ document, advance, window }) => {
+      await advance();
+      document.querySelector('.aliveinternet-report-action').click();
+      window.dispatchEvent(new window.Event('popstate'));
+      await advance();
+      assert.equal(requestReview({ type: 'aliveinternet/report-pending' }, popupSender).ok, false);
+      assert.deepEqual(sent, []);
+    });
+  } finally { globalThis.fetch = realFetch; delete chrome.tabs; }
+});

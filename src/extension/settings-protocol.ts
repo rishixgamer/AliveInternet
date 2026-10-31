@@ -8,7 +8,7 @@ export class AccountHideLimitError extends Error {
 }
 export const BOOLEAN_SETTINGS = [
   'enabled', 'annotateFlagged', 'filterComments', 'filterPosts', 'filterAccounts',
-  'showBlockControls', 'autoCampaignAccounts', 'dedupeComments', 'inspectAccounts', 'intelAdvisories',
+  'showBlockControls', 'showReportControls', 'autoCampaignAccounts', 'dedupeComments', 'inspectAccounts', 'intelAdvisories',
 ] as const satisfies readonly (keyof Settings)[];
 
 /** Only changed preferences are sent; a stale popup cannot replace the blocklist. */

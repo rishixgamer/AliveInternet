@@ -8,16 +8,28 @@
   <body>
     <main>
       <h1>AliveInternet <small>0.3 alpha</small></h1>
-      <p class="intro">On-device, reversible social feed filtering. No content is sent to a server.</p>
+      <p class="intro">On-device, reversible social feed filtering. No content is sent to a server; a problem report opens only after you review it and click.</p>
       <fieldset>
         <legend>Hidden on this page</legend>
-        <p class="hint">Review current local hides and reveal them temporarily. Excerpts stay in this extension and are never saved.</p>
+        <p class="hint">Review current local hides and reveal them temporarily. Excerpts stay in this extension and are never saved. “Report wrongly hidden” prepares a redacted draft you review before anything is opened.</p>
         <button id="refreshHidden" type="button">Refresh hidden items</button>
         <p id="hiddenSummary" class="hint" role="status">Press Refresh to review the active page.</p>
         <ol id="hiddenItems"></ol>
         <div class="button-row">
           <button id="previousHidden" type="button" disabled>Previous</button>
           <button id="nextHidden" type="button" disabled>Next</button>
+        </div>
+      </fieldset>
+      <fieldset id="reportSection" hidden>
+        <legend>Review a report before it leaves your browser</legend>
+        <p id="reportSummary" class="hint" role="status"></p>
+        <label for="reportText">Redacted text (edit or delete anything you like)</label>
+        <textarea id="reportText" rows="6" maxlength="1000" spellcheck="false"></textarea>
+        <p class="hint">Usernames, display names, @mentions, emails, phone numbers and page addresses are removed; links keep only their hostname. Quoted comment text can still identify its author if someone searches for it, so edit or delete anything you would not post publicly. Nothing is sent until you press the button below. It then opens a prefilled GitHub issue in a new tab (a <strong>public</strong> post under your GitHub account) that you still have to submit yourself. Nothing is stored by AliveInternet.</p>
+        <div class="button-row">
+          <button id="openReport" type="button">Open GitHub issue draft</button>
+          <button id="clearReportText" type="button">Delete text</button>
+          <button id="cancelReport" type="button">Cancel</button>
         </div>
       </fieldset>
       <label class="toggle"><input id="enabled" type="checkbox" /> Enable AliveInternet</label>
@@ -29,6 +41,7 @@
         <label class="toggle"><input id="filterAccounts" type="checkbox" /> Locally blocked accounts</label>
         <label class="toggle"><input id="showBlockControls" type="checkbox" /> Show local account-hide buttons</label>
         <label class="toggle"><input id="inspectAccounts" type="checkbox" /> Show visible-page account evidence</label>
+        <label class="toggle"><input id="showReportControls" type="checkbox" /> Show a small “Report a miss” button on visible comments</label>
         <label class="toggle"><input id="dedupeComments" type="checkbox" /> Collapse near-duplicate long comments (opt-in)</label>
       </fieldset>
 

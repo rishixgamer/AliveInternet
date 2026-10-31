@@ -25,7 +25,7 @@ Per-feature v1.0 ship/defer/remove decisions are in [feature-groundwork](feature
 | Chrome / Firefox / Edge store listings + builds | Three MV3 builds, progressive permissions, stable Firefox ID and icons implemented; unpublished | Firefox/Edge execution, listing assets and store review |
 | Toolbar badge count + shareable monthly stats card | Counts-only helpers implemented, background/popup wiring pending | Stats handling in settings-only background; counts-only storage review |
 | Community rule lists + language rule packs | Parser/matcher implemented, import UI pending (`src/rules/`, `rules/`, spec) | Local import UI; signed subscriptions later |
-| Report a miss / wrongly hidden | Removed for v1.0 (stub deleted; issue templates remain, manual) | New design and privacy review if revived |
+| Report a miss / wrongly hidden | Implemented (ticket 13): redacted, popup-previewed draft opened as a GitHub issue only on explicit click | Real-browser check; store data-disclosure classification |
 | Public scam-comment benchmark | Scaffolded (`benchmark/`, `src/research/dataset.ts`) | Permissioned labelled data |
 | Reply-chain, impersonation, copied-comment, profile-bait, generic-filler analyzers | Logic + tests done, unwired (`src/detectors/`, in-progress) | Adapter thread/owner data; benchmark; wire via policy |
 | Obfuscation normalization (look-alikes, spaced letters, handles) | Implemented (`src/core/obfuscation.ts`, fed into filter.ts) | Browser false-positive spot-checks |
