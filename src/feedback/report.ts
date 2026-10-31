@@ -41,7 +41,8 @@ export interface ReportDraft {
 
 const LONE_SURROGATE = /[\ud800-\udbff](?![\udc00-\udfff])|(?<![\ud800-\udbff])[\udc00-\udfff]/g;
 // eslint-disable-next-line no-control-regex
-const CONTROL = /[\u0000-\u0008\u000b\u000c\u000e-\u001f\u007f]/g;
+// Includes U+E000/U+E001, which redactText uses internally as link placeholders.
+const CONTROL = /[\u0000-\u0008\u000b\u000c\u000e-\u001f\u007f\ue000\ue001]/g;
 const SCHEME_URL = /\b[a-z][a-z0-9+.-]*:\/\/[^\s<>"'`)\]]+/gi;
 const BARE_URL = /(?<![\w@.-])(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z]{2,}(?::\d+)?(?:[/?#][^\s<>"'`)\]]*)/gi;
 const EMAIL = /[\w.+-]+@[\w-]+(?:\.[\w-]+)+/g;
@@ -78,7 +79,7 @@ export function redactText(value: string, identities: readonly (string | undefin
   text = text.replace(SCHEME_URL, protect).replace(BARE_URL, protect);
   for (const identity of identities) {
     const id = identity?.trim().replace(/^@/, '');
-    if (id && id.length >= 2) text = text.replace(new RegExp(escapeRegExp(id), 'gi'), '[handle]');
+    if (id && id.length >= 2) text = text.replace(new RegExp(`(?<![\\p{L}\\p{N}_])${escapeRegExp(id)}(?![\\p{L}\\p{N}_])`, 'giu'), '[handle]');
   }
   text = text.replace(EMAIL, '[email]').replace(MENTION, '[handle]').replace(PHONE, '[phone]');
   return text.replace(/(\d+)/g, (_, n: string) => `[link: ${hosts[Number(n)]}]`);

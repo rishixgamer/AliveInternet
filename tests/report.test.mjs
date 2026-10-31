@@ -77,3 +77,14 @@ test('issue URL is bounded and truncation never splits an escape or code point',
   assert.ok(!text.includes('�'));
   decodeURIComponent(href.split('text=')[1].split('&')[0]);
 });
+
+test('short identities only match whole words, so ordinary words are not mangled', () => {
+  const draft = buildDraft({ ...base, accountKey: '@ab', author: 'Al', text: 'I am ab, a table is stable. Al said al.' });
+  assert.equal(draft.text, 'I am [handle], a table is stable. [handle] said [handle].');
+});
+
+test('text containing the internal placeholder characters cannot forge a link', () => {
+  const draft = buildDraft({ ...base, text: 'before 5 after 0' });
+  assert.ok(!draft.text.includes('undefined'), draft.text);
+  assert.ok(!/[]/.test(draft.text));
+});
