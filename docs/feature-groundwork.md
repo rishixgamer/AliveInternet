@@ -14,7 +14,9 @@ until each has a benchmark result. Consent, backup/restore and hidden-review UI 
 
 ## v1.0 disposition (catalog triage, ticket 11)
 
-Based on the proposed rules in [v1-scope.md](v1-scope.md), which is still a draft until the maintainer and dataset custodian sign it. If sign-off changes the feature list, update the `v1` field in `src/core/features.ts` and this section together; `tests/features-implemented.test.mjs` checks they agree.
+Based on the proposed rules in [v1-scope.md](v1-scope.md), which is still a draft until the maintainer and dataset custodian sign it. If sign-off changes the feature list, update the `v1` field in `src/core/features.ts` and this section together; `tests/scaffold.test.mjs` checks they agree.
+
+Exceptions to the draft's "ship only `implemented` features" rule: `store-publishing`, `supply-chain-hardening` (release process, not extension code) and `scam-benchmark` (evaluation tooling that the accuracy claim depends on) ship while not yet `implemented`. `automod-export` and `npm-core-package` are `implemented` but deferred as non-claim extras (v1-scope decisions 8 and 9). Opt-in near-duplicate collapse has no catalog row; it ships as existing `dedupe.ts` behaviour, default off and outside the accuracy claim. Ship rows name existing tickets only generically; open a ticket per row when the v1.0 series is planned.
 
 The original catalog had 34 entries. Result: **11 ship, 21 defer, 2 remove**.
 
