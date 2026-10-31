@@ -13,8 +13,9 @@ const MAILBOX_METHODS = ['umass-gmail-inbox', 'umass-it-trace', 'replacement-add
 // Field names that must never appear. `testToken` is the public delivery-test marker, not a credential.
 const CREDENTIAL_KEY = /(password|passwd|passphrase|secret|api[-_]?key|cookie|credential|authorization|bearer|private[-_]?key|session[-_]?id|access[-_]?token|refresh[-_]?token|^token$)/i;
 const CREDENTIAL_VALUE = /(-----BEGIN [A-Z ]*PRIVATE KEY-----|\bBearer\s+[A-Za-z0-9._~+/-]{20,}|\beyJ[A-Za-z0-9_-]{8,}\.[A-Za-z0-9_-]{8,}\.[A-Za-z0-9_-]{8,}|\b(?:sk|ghp|gho|github_pat|xox[bp])[-_][A-Za-z0-9_-]{20,})/;
+const insideValidation = p => typeof p === 'string' && p.startsWith('docs/validation/') && !p.split('/').includes('..');
 const sha256 = bytes => createHash('sha256').update(bytes).digest('hex');
-const validDate = value => typeof value === 'string' && /^\d{4}-\d{2}-\d{2}(T[\d:.]+Z?)?$/.test(value) && !Number.isNaN(Date.parse(value));
+const validDate = value => typeof value === 'string' && /^\d{4}-\d{2}-\d{2}(T[\d:.]+(Z|[+-]\d{2}:\d{2})?)?$/.test(value) && !Number.isNaN(Date.parse(value));
 
 export function verifyClosure({ publisher, evidence, firefoxManifest, readFile: readRaw, requireClosed = false }) {
   const errors = [];
@@ -38,7 +39,7 @@ export function verifyClosure({ publisher, evidence, firefoxManifest, readFile: 
     if (!Array.isArray(section.evidence) || section.evidence.length === 0) return fail(gate, 'evidence list is empty');
     for (const item of section.evidence) {
       const p = item?.path;
-      if (typeof p !== 'string' || !p.startsWith('docs/validation/') || p.split('/').includes('..')) { fail(gate, `evidence path must be inside docs/validation/: ${p}`); continue; }
+      if (!insideValidation(p)) { fail(gate, `evidence path must be inside docs/validation/: ${p}`); continue; }
       const bytes = readFile(p);
       if (!bytes) { fail(gate, `evidence file missing: ${p}`); continue; }
       if (!HEX64.test(item.sha256 ?? '') || sha256(bytes) !== item.sha256) fail(gate, `evidence hash mismatch: ${p}`);
@@ -61,7 +62,7 @@ export function verifyClosure({ publisher, evidence, firefoxManifest, readFile: 
       if (m.receiptMethod === 'replacement-address-test' && typeof m.testReceipt !== 'string') fail('mailbox', 'replacement-address-test requires testReceipt');
       const receiptPath = m.testReceipt ?? publisher.privacy.mailboxTestReceipt;
       let receipt;
-      try { receipt = JSON.parse(receiptPath?.startsWith('docs/validation/') ? readFile(receiptPath) : undefined); } catch { receipt = undefined; }
+      try { receipt = JSON.parse(insideValidation(receiptPath) ? readFile(receiptPath) : undefined); } catch { receipt = undefined; }
       if (!receipt) fail('mailbox', 'sent-test receipt missing, unreadable or outside docs/validation/');
       else {
         if (receipt.recipient !== m.contact) fail('mailbox', 'sent-test receipt recipient differs from the verified contact');

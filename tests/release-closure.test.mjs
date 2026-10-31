@@ -153,6 +153,24 @@ test('inspectedAt must be a real date on every gate, including signedXpi', () =>
   }
 });
 
+test('ISO timestamps with a numeric offset are accepted for inspectedAt', () => {
+  for (const when of ['2026-11-01T10:00:00+00:00', '2026-11-01T10:00:00-05:00', '2026-11-01T10:00:00.123Z']) {
+    const s = closed(); s.evidence.stores.chrome.inspectedAt = when;
+    assert.deepEqual(run(s).errors, [], when);
+  }
+});
+
+test('the sent-test receipt path cannot traverse out of docs/validation', () => {
+  const s = closed();
+  s.files['package.json'] = JSON.stringify({ recipient: 'owner@example.test', testTokenSha256: sha(TOKEN) });
+  s.evidence.mailbox.testReceipt = 'docs/validation/../../package.json';
+  assert.match(run(s).errors.join('\n'), /sent-test receipt/);
+  const t = closed();
+  t.files['package.json'] = s.files['package.json'];
+  t.publisher.privacy.mailboxTestReceipt = 'docs/validation/../package.json';
+  assert.match(run(t).errors.join('\n'), /sent-test receipt/);
+});
+
 test('a replacement address is checked against its own sent-test receipt', () => {
   const NEW = 'ALIVE-PRIVACY-20261105-0A1B2C3D';
   const s = closed();
