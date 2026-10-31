@@ -1,7 +1,10 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
-import { verifyClosure } from '../scripts/lib/release-closure.mjs';
+import { mkdtempSync, mkdirSync, writeFileSync, rmSync } from 'node:fs';
+import os from 'node:os';
+import path from 'node:path';
+import { verifyClosure, verifyClosureFromDisk, EVIDENCE_PATH } from '../scripts/lib/release-closure.mjs';
 
 const sha = text => createHash('sha256').update(text).digest('hex');
 const TOKEN = 'ALIVE-PRIVACY-20261013-7C6285A6';
@@ -17,7 +20,7 @@ function repo(extra = {}) {
     'docs/validation/owner-gates/edge.png': 'png2',
     'docs/validation/owner-gates/amo.png': 'png3',
     'docs/validation/owner-gates/xpi.txt': 'xpi receipt',
-    'docs/validation/mailbox-test.json': JSON.stringify({ testTokenSha256: sha(TOKEN) }),
+    'docs/validation/mailbox-test.json': JSON.stringify({ recipient: 'owner@example.test', testTokenSha256: sha(TOKEN) }),
     ...extra,
   };
 }
@@ -49,7 +52,7 @@ function closed() {
       firefox: { inspectedAt: '2026-11-01', emailConfirmed: true, agreementReviewed: true, evidence: [ref(f, 'docs/validation/owner-gates/amo.png')] },
     },
     signedXpi: {
-      candidateSha256: sha('candidate'), signedXpiSha256: sha('signed'), addonId: '{id}', version: '1.0.0',
+      inspectedAt: '2026-11-01', candidateSha256: sha('candidate'), signedXpiSha256: sha('signed'), addonId: '{id}', version: '1.0.0',
       unsignedEntriesIdentical: true, differingEntries: ['META-INF/mozilla.rsa', 'META-INF/mozilla.sf'],
       install: { browser: 'Firefox', browserVersion: '150.0', channel: 'release', freshProfile: true, signatureEnforcement: true, restarted: true, enabledAfterRestart: true },
       smoke: { popupOffOn: true, reversibleRestore: true, localAccountHideUnhide: true, optionalSitesUngranted: true },
@@ -143,9 +146,53 @@ test('signed XPI evidence must prove identity, byte equality and a normal instal
   mutate(x => { delete x.smoke; }, /smoke/);
 });
 
+test('inspectedAt must be a real date on every gate, including signedXpi', () => {
+  for (const mutate of [e => { e.signedXpi.inspectedAt = undefined; }, e => { e.mailbox.inspectedAt = '2026-99-99garbage'; }, e => { e.stores.chrome.inspectedAt = 'yesterday'; }]) {
+    const s = closed(); mutate(s.evidence);
+    assert.match(run(s).errors.join('\n'), /inspectedAt/);
+  }
+});
+
+test('a replacement address is checked against its own sent-test receipt', () => {
+  const NEW = 'ALIVE-PRIVACY-20261105-0A1B2C3D';
+  const s = closed();
+  s.publisher.privacy.contact = 'new@example.test';
+  s.files['site/privacy/index.html'] = '<p>Contact new@example.test</p>';
+  s.files['docs/privacy-policy.md'] = 'Contact new@example.test';
+  s.publisher.privacy.policySha256 = sha(s.files['site/privacy/index.html']);
+  s.files['docs/validation/owner-gates/new-test.json'] = JSON.stringify({ recipient: 'new@example.test', testTokenSha256: sha(NEW) });
+  Object.assign(s.evidence.mailbox, { contact: 'new@example.test', testToken: NEW, receiptMethod: 'replacement-address-test' });
+  assert.match(run(s).errors.join('\n'), /requires testReceipt/);
+  s.evidence.mailbox.testReceipt = 'docs/validation/owner-gates/new-test.json';
+  assert.deepEqual(run(s).errors.filter(e => !/requires testReceipt/.test(e)), []);
+  s.files['docs/validation/owner-gates/new-test.json'] = JSON.stringify({ recipient: 'other@example.test', testTokenSha256: sha(NEW) });
+  assert.match(run(s).errors.join('\n'), /recipient/);
+});
+
 test('evidence must not carry credentials', () => {
   const s = closed(); s.evidence.stores.chrome.apiKey = 'x';
   assert.match(run(s).errors.join('\n'), /credential/i);
   const t = closed(); t.evidence.signedXpi.install.sessionCookie = 'x';
   assert.match(run(t).errors.join('\n'), /credential/i);
+  const u = closed(); u.evidence.stores.edge.token = 'x';
+  assert.match(run(u).errors.join('\n'), /credential/i);
+  const v = closed(); v.evidence.stores.edge.notes = 'ghp_' + 'a'.repeat(30);
+  assert.match(run(v).errors.join('\n'), /credential-like value/);
+  const w = closed(); w.evidence.stores.edge.notes = '-----BEGIN PRIVATE KEY-----';
+  assert.match(run(w).errors.join('\n'), /credential-like value/);
+  assert.deepEqual(run(closed()).errors, []); // testToken is the public marker, not a credential
+});
+
+test('verifyClosureFromDisk: missing evidence is open, malformed evidence names the file, --require-closed fails', () => {
+  const root = mkdtempSync(path.join(os.tmpdir(), 'closure-'));
+  try {
+    const s = open();
+    const put = (p, text) => { mkdirSync(path.dirname(path.join(root, p)), { recursive: true }); writeFileSync(path.join(root, p), text); };
+    put('release/publisher.json', JSON.stringify(s.publisher));
+    put('.output/firefox-mv3/manifest.json', JSON.stringify(s.firefoxManifest));
+    assert.deepEqual(verifyClosureFromDisk(root).errors, []);
+    assert.equal(verifyClosureFromDisk(root, { requireClosed: true }).errors.length, 5);
+    put(EVIDENCE_PATH, '{ not json');
+    assert.deepEqual(verifyClosureFromDisk(root).errors, [`evidence: ${EVIDENCE_PATH} is not valid JSON`]);
+  } finally { rmSync(root, { recursive: true, force: true }); }
 });
