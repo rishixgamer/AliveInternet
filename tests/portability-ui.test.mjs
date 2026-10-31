@@ -313,3 +313,17 @@ test('backups from earlier builds that carry the removed scopeOverrides key stil
   }
   assert.throws(() => parseSettingsImport({ settings: { notASetting: true } }), /unknown/);
 });
+
+test('backups exported before showReportControls existed still restore with the default', () => {
+  const { showReportControls: _, ...older } = { ...structuredClone(DEFAULT_SETTINGS), enabled: false, blockedAccounts: ['youtube:@kept'] };
+  const backup = { format: 'aliveinternet-settings', version: 1, exportedAt: '2026-10-20T00:00:00.000Z', settings: older };
+  for (const mode of ['merge-blocklist', 'replace-all']) {
+    const parsed = parseSettingsImport(JSON.stringify(backup), mode);
+    assert.equal(parsed.showReportControls, false);
+    assert.equal(parsed.enabled, false);
+    assert.deepEqual(parsed.blockedAccounts, ['youtube:@kept']);
+  }
+  // Other omissions still make a replace-all backup incomplete.
+  const { enabled: __, ...broken } = older;
+  assert.throws(() => parseSettingsImport({ settings: broken }, 'replace-all'), /complete/);
+});

@@ -485,3 +485,16 @@ test('clicking a report button makes no extension or network request and navigat
     });
   } finally { globalThis.fetch = realFetch; delete chrome.tabs; }
 });
+
+test('a failed staging attempt keeps any earlier draft and does not claim success', async t => {
+  await withController(t, identifying, async ({ document, advance }) => {
+    await advance();
+    const button = document.querySelector('.aliveinternet-collapsed .aliveinternet-report-action');
+    button.click();
+    const element = document.querySelector('[data-fixture="rep"] #content-text');
+    element.textContent = 'edited by the site after the scan';
+    button.click();
+    assert.match(button.textContent, /Could not prepare/, 'failed staging must not show the success label');
+    assert.equal(requestReview({ type: 'aliveinternet/report-pending' }, popupSender).ok, true, 'earlier draft survives');
+  });
+});

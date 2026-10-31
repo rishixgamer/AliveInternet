@@ -88,3 +88,8 @@ test('text containing the internal placeholder characters cannot forge a link', 
   assert.ok(!draft.text.includes('undefined'), draft.text);
   assert.ok(!/[]/.test(draft.text));
 });
+
+test('hyphenated and dotted @mentions are fully redacted, keeping sentence punctuation', () => {
+  const draft = buildDraft({ ...base, text: 'cc @some-channel, @a.b-c and @x. Also @-ignored' });
+  assert.equal(draft.text, 'cc [handle], [handle] and [handle]. Also @-ignored');
+});

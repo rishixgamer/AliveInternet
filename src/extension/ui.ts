@@ -10,18 +10,19 @@ export interface AppliedUi {
 }
 
 /** Staging a report only builds an in-memory draft; the popup does the review and the explicit open. */
-function reportButton(label: string, title: string, onReport: () => void): HTMLButtonElement {
+function reportButton(label: string, title: string, onReport: () => boolean): HTMLButtonElement {
   const button = document.createElement('button'); button.type = 'button';
   button.className = 'aliveinternet-report-action'; button.textContent = label; button.title = title;
   button.addEventListener('click', event => {
-    event.preventDefault(); event.stopPropagation(); onReport();
-    button.textContent = 'Draft ready: open the AliveInternet toolbar popup to review';
+    event.preventDefault(); event.stopPropagation();
+    // Only claim success when a draft was really staged (the item may have changed since the scan).
+    button.textContent = onReport() ? 'Draft ready: open the AliveInternet toolbar popup to review' : 'Could not prepare a draft; the item changed';
   });
   return button;
 }
 
 /** Opt-in, low-emphasis control for visible comments. */
-export function reportMissAction(element: HTMLElement, onReport: () => void): AppliedUi {
+export function reportMissAction(element: HTMLElement, onReport: () => boolean): AppliedUi {
   const controls = document.createElement('div'); controls.className = 'aliveinternet-controls';
   controls.append(reportButton('Report a miss', 'Prepare a redacted report that this should have been caught. Nothing is sent until you review it in the AliveInternet popup.', onReport));
   element.append(controls);
@@ -91,7 +92,7 @@ export function accountAction(
 
 export function collapseContent(
   element: HTMLElement, verdict: Assessment, kind: ContentKind, onReveal: () => void,
-  accountKey?: string, onBlock?: () => void, evidence?: AccountEvidence, onReport?: () => void,
+  accountKey?: string, onBlock?: () => void, evidence?: AccountEvidence, onReport?: () => boolean,
 ): AppliedUi {
   const previousDisplay = element.style.display;
   const holder = document.createElement('div'); holder.className = 'aliveinternet-collapsed';

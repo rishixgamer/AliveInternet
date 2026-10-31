@@ -46,7 +46,7 @@ const CONTROL = /[\u0000-\u0008\u000b\u000c\u000e-\u001f\u007f\ue000\ue001]/g;
 const SCHEME_URL = /\b[a-z][a-z0-9+.-]*:\/\/[^\s<>"'`)\]]+/gi;
 const BARE_URL = /(?<![\w@.-])(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z]{2,}(?::\d+)?(?:[/?#][^\s<>"'`)\]]*)/gi;
 const EMAIL = /[\w.+-]+@[\w-]+(?:\.[\w-]+)+/g;
-const MENTION = /(?<![\w])@[\w.]+/g;
+const MENTION = /(?<![\w])@\w(?:[\w.-]*\w)?/g;
 const PHONE = /(?<![\w])\+?\d[\d\s().-]{7,}\d(?!\w)/g;
 
 const escapeRegExp = (value: string) => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');

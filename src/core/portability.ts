@@ -29,6 +29,12 @@ export function exportSettings(settings: Settings, now: Date = new Date()): Sett
   }
   return backup;
 }
+/**
+ * Settings added after backups were first exported. Older complete backups lack them and
+ * restore with the default; extend this list (never shrink it) when adding a setting.
+ */
+const OPTIONAL_BACKUP_KEYS: readonly string[] = ['showReportControls'];
+
 /** Validate untrusted input and return an independent, canonical snapshot. */
 export function parseSettingsImport(raw: unknown, mode: ImportMode = 'merge-blocklist'): Settings {
   if (mode !== 'merge-blocklist' && mode !== 'replace-all') throw new Error('Invalid import mode');
@@ -57,7 +63,7 @@ export function parseSettingsImport(raw: unknown, mode: ImportMode = 'merge-bloc
   }
   // Replacements must be complete backups; partial list imports cannot silently
   // erase unrelated preferences by resetting omitted fields to defaults.
-  if (mode === 'replace-all' && Object.keys(DEFAULT_SETTINGS).some(key => !Object.hasOwn(fields, key))) {
+  if (mode === 'replace-all' && Object.keys(DEFAULT_SETTINGS).some(key => !OPTIONAL_BACKUP_KEYS.includes(key) && !Object.hasOwn(fields, key))) {
     throw new Error('Replace all requires a complete settings backup');
   }
   for (const [key, value] of Object.entries(fields)) {

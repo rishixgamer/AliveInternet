@@ -50,6 +50,14 @@ export function startPlatformController(platform: Platform): () => void {
     return undefined;
   }
 
+  /** Replace the staged draft only if a new one could be built; reports whether staging worked. */
+  function stage(kind: ReportKind, element: HTMLElement, reason: string): boolean {
+    const draft = draftFor(kind, element, reason);
+    if (!draft) return false;
+    pendingReport = draft;
+    return true;
+  }
+
   function draftFor(kind: ReportKind, element: HTMLElement, reason: string): ReportDraft | undefined {
     const state = managed.get(element);
     const item = state && currentItem(element, state.fingerprint);
@@ -164,7 +172,7 @@ export function startPlatformController(platform: Platform): () => void {
           revealed.add(item.fingerprint);
           managed.delete(item.element);
         }, showAction ? item.accountKey : undefined, showAction ? action : undefined, inspector,
-        () => { pendingReport = draftFor('wrongly-hidden', item.element, reason.reason); }));
+        () => stage('wrongly-hidden', item.element, reason.reason)));
       } else {
         if (actionResult.annotate) {
           ui.push(annotateContent(item.element, verdict));
@@ -176,7 +184,7 @@ export function startPlatformController(platform: Platform): () => void {
             reason: `User-imported advisory pack “${indicator.source}” matched ${indicator.indicator.kind} ${indicator.observedValue}. Not a verified bot claim. Review provenance: ${indicator.indicator.evidenceUrl}`,
           }));
         }
-        if (showReport) ui.push(reportMissAction(item.element, () => { pendingReport = draftFor('missed', item.element, ''); }));
+        if (showReport) ui.push(reportMissAction(item.element, () => stage('missed', item.element, '')));
         if ((showAction || showInspector) && item.accountKey)
           ui.push(accountAction(item.element, item.accountKey, showAction ? action : undefined, inspector));
       }
