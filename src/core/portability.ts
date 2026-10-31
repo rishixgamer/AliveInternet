@@ -49,7 +49,9 @@ export function parseSettingsImport(raw: unknown, mode: ImportMode = 'merge-bloc
   const payload = (parsed && typeof parsed === 'object' && 'settings' in (parsed as Record<string, unknown>)
     ? (parsed as { settings: unknown }).settings : parsed);
   if (!payload || typeof payload !== 'object' || Array.isArray(payload)) throw new Error('Invalid settings payload');
-  const fields = payload as Record<string, unknown>;
+  // Backups from earlier builds always carried `scopeOverrides`, a setting that was
+  // removed before 1.0. Drop it so those backups still restore.
+  const { scopeOverrides: _legacyScopeOverrides, ...fields } = payload as Record<string, unknown>;
   if (!Object.keys(fields).length || Object.keys(fields).some(key => !Object.hasOwn(DEFAULT_SETTINGS, key))) {
     throw new Error('Empty or unknown settings fields');
   }
@@ -73,7 +75,7 @@ export function parseSettingsImport(raw: unknown, mode: ImportMode = 'merge-bloc
     }
   }
   parseSettingsLists(fields);
-  return sanitizeSettings(payload);
+  return sanitizeSettings(fields);
 }
 
 export function importSettings(current: Settings, raw: unknown, mode: ImportMode = 'merge-blocklist'): Settings {

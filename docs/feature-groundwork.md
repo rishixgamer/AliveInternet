@@ -71,7 +71,7 @@ Each stays inert and default-off. `tests/deferred-features.test.mjs` builds the 
 | "Report a miss / wrongly hidden" drafts (`report-feedback`) | `src/feedback/report.ts` (throwing stubs with a placeholder repository) and its tests | No plan before M4. The GitHub issue templates stay and are used manually; any future flow starts from a fresh design with a privacy review. |
 | Creator mode (`creator-mode`) | `src/creator/review.ts` (types and a throwing stub) | No plan in v1 scope; it would need a new adapter surface. |
 
-Also removed: the inactive `PageStatsMessage` and `CheckItemRequest` message types in `src/extension/messages.ts`, the `scopeOverrides` setting (storage, settings protocol and backup preview), and the `NotImplementedError` marker class, since no stub throws it any more. Backups exported by earlier builds are unaffected unless they contain `scopeOverrides`, which no UI could set; such a file is now rejected as having unknown fields.
+Also removed: the inactive `PageStatsMessage` and `CheckItemRequest` message types in `src/extension/messages.ts`, the `scopeOverrides` setting (storage, settings protocol and backup preview), and the `NotImplementedError` marker class, since no stub throws it any more. Backups exported by earlier builds always carried an empty `scopeOverrides` list; importing one drops that key and restores everything else.
 
 ## Distribution
 

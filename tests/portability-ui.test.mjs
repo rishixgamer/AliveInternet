@@ -300,3 +300,16 @@ test('settings protocol and storage sanitizer no longer carry per-channel overri
   assert.ok(!('scopeOverrides' in sanitizeSettings({ scopeOverrides: [{ scopeId: 'youtube:@owner', mode: 'off' }] })));
   assert.ok(!('scopeOverrides' in DEFAULT_SETTINGS));
 });
+
+test('backups from earlier builds that carry the removed scopeOverrides key still import', () => {
+  const { scopeOverrides: _, ...modern } = { ...structuredClone(DEFAULT_SETTINGS), blockedAccounts: ['youtube:@kept'] };
+  for (const legacy of [[], [{ scopeId: 'youtube:@owner', mode: 'off' }]]) {
+    const old = { format: 'aliveinternet-settings', version: 1, exportedAt: '2026-10-20T00:00:00.000Z', settings: { ...modern, scopeOverrides: legacy } };
+    for (const mode of ['merge-blocklist', 'replace-all']) {
+      const parsed = parseSettingsImport(JSON.stringify(old), mode);
+      assert.deepEqual(parsed.blockedAccounts, ['youtube:@kept']);
+      assert.ok(!('scopeOverrides' in parsed));
+    }
+  }
+  assert.throws(() => parseSettingsImport({ settings: { notASetting: true } }), /unknown/);
+});

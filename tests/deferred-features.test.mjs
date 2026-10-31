@@ -42,10 +42,11 @@ after(() => { if (outDir) rmSync(outDir, { recursive: true, force: true }); });
 // Strings a deferred feature would put in the bundle if it became reachable:
 // message types, storage keys and extension APIs that existed in source at some
 // point. Keyed by catalog id; add entries when a deferred feature gains one.
+// `scopeOverrides` (per-channel-strictness) is deliberately absent: the import parser names it
+// only to discard it from old backups; tests/portability-ui.test.mjs proves it is never stored.
 const DEFERRED_RUNTIME_MARKERS = {
   'toolbar-badge-count': ['aliveinternet/page-stats', 'setBadgeText'],
   'check-this-comment': ['aliveinternet/check-item', 'contextMenus'],
-  'per-channel-strictness': ['scopeOverrides'],
 };
 
 test('the built extension includes shipping modules, so the scan is meaningful', () => {
