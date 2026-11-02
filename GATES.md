@@ -39,7 +39,7 @@ Scope: locally usable release paths and honest validation, preserving research s
   CHECK: node scripts/check-release.mjs && echo G10_OK
   EXPECT: /G10_OK/
   EVIDENCE: release packages verified | G10_OK
-- [x] G11: Local browser ZIP archives contain the exact verified unpacked production bytes.
-  CHECK: node scripts/check-archives.mjs && echo G11_OK
+- [ ] G11: Browser ZIP archives contain the exact unpacked production bytes, versions agree, and access is YouTube-only (check requires `npm run build:all && npm run zip:all` first).
+  CHECK: node scripts/check-release-build.mjs && echo G11_OK
   EXPECT: /G11_OK/
-  EVIDENCE: browser archives verified against unpacked builds | G11_OK
+  EVIDENCE: pending: rerun in CI for the v0.4.0 build
